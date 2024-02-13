@@ -1,4 +1,5 @@
 import Header from "./components/Header";
+import SideBar from "./components/Sidebar";
 import AppRoutes from "./routes/AppRoutes";
 import * as stylex from "@stylexjs/stylex";
 
@@ -9,7 +10,7 @@ const styles = stylex.create({
   },
   pageContainer: {
     width: "100%",
-    margin: "25px 34px",
+    // margin: "25px 34px",
   },
 });
 
@@ -19,6 +20,7 @@ function App() {
       <Header />
       <div {...stylex.props(styles.bodyContainer)}>
         <div {...stylex.props(styles.pageContainer)}>
+          <SideBar />
           <AppRoutes />
         </div>
       </div>
