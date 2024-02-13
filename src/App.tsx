@@ -1,27 +1,17 @@
 import Header from "./components/Header";
 import SideBar from "./components/Sidebar";
 import AppRoutes from "./routes/AppRoutes";
-import * as stylex from "@stylexjs/stylex";
-
-const styles = stylex.create({
-  bodyContainer: {
-    display: "flex",
-    backgroundColor: "#ecd9fb30",
-  },
-  pageContainer: {
-    width: "100%",
-    // margin: "25px 34px",
-  },
-});
 
 function App() {
   return (
     <>
       <Header />
-      <div {...stylex.props(styles.bodyContainer)}>
-        <div {...stylex.props(styles.pageContainer)}>
+      <div>
+        <div className="flex">
           <SideBar />
-          <AppRoutes />
+          <div className="w-full m-25px 34px bg-skin-shade50">
+            <AppRoutes />
+          </div>
         </div>
       </div>
     </>

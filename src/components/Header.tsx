@@ -1,38 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
-import * as stylex from "@stylexjs/stylex";
 import { Avatar } from "@mui/material";
 import { getInitials, stringToColor } from "../utils/getInitials";
-
-const styles = stylex.create({
-  header: {
-    backgroundColor: "white",
-    boxShadow: "1px 1px 3px #80808052",
-    gap: "20px",
-    padding: "8px 4px",
-    height: "45px",
-    position: "sticky",
-    top: 0,
-    zIndex: 1,
-    display: "flex",
-    justifyContent: "end",
-    alignItems: "center",
-  },
-  divider: {
-    width: "1px",
-    height: "100%",
-    backgroundColor: "#d7d7d7",
-    margin: " 0 10px",
-  },
-  userProfile: {
-    display: "flex",
-    gap: "12px",
-  },
-
-  userRole: {
-    fontSize: "12px",
-  },
-});
 
 const notificationIcon = <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>;
 
@@ -51,13 +20,13 @@ const Header = () => {
 
   return (
     <>
-      <div {...stylex.props(styles.header)}>
+      <div className="bg-white shadow-md gap-20px p-8px 4px h-45px sticky top-0 z-10 flex justify-end items-center">
         <div>
           <span onClick={handleNotification}>{notificationIcon}</span>
         </div>
 
-        <div {...stylex.props(styles.divider)}></div>
-        <div {...stylex.props(styles.userProfile)}>
+        <div className="w-1 h-full bg-gray-300 m-0 10px"></div>
+        <div className="flex gap-12">
           <Avatar {...stringAvatar("Osei", "Bonsu")} />
           <div>
             <div>Mr. Osei Bonsu</div>

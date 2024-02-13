@@ -7,10 +7,9 @@ import {
   faRightFromBracket,
   faShareFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { AppPages } from "../routes/appPages";
-import * as stylex from "@stylexjs/stylex";
 
 const dashboardIcon = <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>;
 const users = <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>;
@@ -54,88 +53,46 @@ const menuItems = [
   },
 ];
 
-const styles = stylex.create({
-  sideContainer: {
-    backgroundColor: "white",
-    width: " 215px",
-    height: " calc(100vh - 45px)",
-    position: "sticky",
-    color: "white",
-    transition: "0.4s",
-    bottom: 0,
-    top: "45px",
-  },
-  sideNavContainer: {},
-  navUpper: {
-    display: "grid",
-    overflow: "hidden",
-  },
-  navHeading: {},
-  navBrand: {},
-  navMenu: {},
-  menuItem: {
-    height: "45px",
-    width: "12em",
-    display: "flex",
-    alignItems: "center",
-    color: "white",
-    textDecoration: "none",
-    margin: "auto 6px",
-    borderRadius: "30px",
-    position: "relative",
-  },
-  navFooter: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    padding: "0px 8px",
-    backgroundColor: "blue",
-    display: "flex",
-    alignContent: "flex-start",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: "4px",
-  },
-  navDetails: {},
-  navFooterInfo: {
-    display: "flex",
-    alignItems: "flex-start",
-    flexDirection: "column",
-  },
-  activeMenuItme: {},
-});
-
 const SideBar = () => {
   //states
   const logout = async () => {};
 
+  const location = useLocation();
+
   return (
-    <>
-      <div {...stylex.props(styles.sideContainer)}>
-        <div {...stylex.props(styles.sideNavContainer)}>
-          <div {...stylex.props(styles.navUpper)}>
-            <div {...stylex.props(styles.navHeading)}>
-              <div {...stylex.props(styles.navBrand)}>
-                <h4>Roll Kall</h4>
-              </div>
-            </div>
-            <div {...stylex.props(styles.navMenu)}>
-              {menuItems.map(({ title, icon, id, link }) => {
-                return (
-                  <Link to={link} key={id}>
-                    <span>{icon}</span>
-                    <p>{title}</p>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+    <div className="">
+      <div className=" w-52 sticky h-[calc(100vh-48px)] bg-white px-1 pe-5 transition ease-in duration-400 ">
+        <div>
           <div>
-            <span onClick={logout}>{logoutIcon}</span>
+            <h4>Roll Kall</h4>
+          </div>
+
+          <div className="">
+            {menuItems.map(({ title, icon, id, link }) => {
+              return (
+                <div
+                  key={id}
+                  className={`text-skin-base p-2 ml-4  rounded-xl  transition !duration-400 ease-in ${
+                    location.pathname == link &&
+                    "opacity-80 bg-skin-active !text-primary-color font-semibold"
+                  }`}
+                >
+                  <Link to={link} key={id} className="flex">
+                    <span className="pe-1">{icon}</span>
+                    <p className="title">{title}</p>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
+        <div className="">
+          <span onClick={logout} className="">
+            {logoutIcon}
+          </span>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
