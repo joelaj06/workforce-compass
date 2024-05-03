@@ -17,7 +17,7 @@ function App() {
               <div className="sticky z-20 w-full top-0">
                 <Header />
               </div>
-              <div className="p-5">
+              <div className="p-5 bg-gray-100">
                 <AppRoutes />
               </div>
             </div>
