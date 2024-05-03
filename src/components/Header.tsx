@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "@mui/material";
 import { getInitials, stringToColor } from "../utils/getInitials";
 
@@ -10,6 +10,9 @@ const Header = () => {
     return {
       sx: {
         bgcolor: stringToColor(firstname, lastname),
+        height: "30px",
+        width: "30px",
+        fontSize: "10px",
       },
       children: getInitials(firstname, lastname),
     };
@@ -20,17 +23,29 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-white shadow-md gap-20px p-8px 4px h-45px sticky top-0 z-10 flex justify-end items-center">
-        <div>
-          <span onClick={handleNotification}>{notificationIcon}</span>
-        </div>
-
-        <div className="w-1 h-full bg-gray-300 m-0 10px"></div>
-        <div className="flex gap-12">
-          <Avatar {...stringAvatar("Osei", "Bonsu")} />
-          <div>
-            <div>Mr. Osei Bonsu</div>
-            <span>HR Admin</span>
+      <div className="bg-white p-1 w-full h-14 shadow-sm content-center">
+        <div className="flex items-center justify-end px-5 gap-2">
+          <div className="cursor-pointer" onClick={handleNotification}>
+            <Avatar
+              sx={{
+                height: "30px",
+                width: "30px",
+                fontSize: "12px",
+                backgroundColor: "#f0f0f0",
+                color: "var(--primary-color)",
+              }}
+            >
+              {" "}
+              {notificationIcon}
+            </Avatar>
+          </div>
+          <div className="text-xl px-1">|</div>
+          <div className="w-1 h-full bg-gray-300 m-0 10px"></div>
+          <div className="flex gap-1 items-center">
+            <Avatar {...stringAvatar("Osei", "Bonsu")} />
+            <div>
+              <div>obosei@gmail.com</div>
+            </div>
           </div>
         </div>
       </div>

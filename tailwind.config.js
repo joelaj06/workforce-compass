@@ -17,6 +17,7 @@ export default {
       },
       colors: {
         "primary-color": "var(--primary-color)",
+        primary: "var(--text-muted-color)",
       },
       backgroundColor: {
         skin: {

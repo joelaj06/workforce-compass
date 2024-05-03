@@ -24,3 +24,8 @@
         --primary-color-shadeA70:  #08ffff ;
     }
 }
+
+*{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

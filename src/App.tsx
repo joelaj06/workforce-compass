@@ -5,12 +5,22 @@ import AppRoutes from "./routes/AppRoutes";
 function App() {
   return (
     <>
-      <Header />
-      <div>
-        <div className="flex">
-          <SideBar />
-          <div className="w-full m-25px 34px bg-skin-shade50">
-            <AppRoutes />
+      <div className="min-w-full h-screen max-h-screen">
+        <div className="w-full h-full flex">
+          <div className="w-1/5 h-screen max-h-screen">
+            <div className="w-full h-screen">
+              <SideBar />
+            </div>
+          </div>
+          <div className="w-4/5 h-screen relative overflow-y-auto hide-scrollbar">
+            <div className="w-full min-h-full text-gray-500 relative ">
+              <div className="sticky z-20 w-full top-0">
+                <Header />
+              </div>
+              <div className="p-5">
+                <AppRoutes />
+              </div>
+            </div>
           </div>
         </div>
       </div>

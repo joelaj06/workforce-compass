@@ -60,11 +60,11 @@ const SideBar = () => {
   const location = useLocation();
 
   return (
-    <div className="">
-      <div className=" w-52 sticky h-[calc(100vh-48px)] bg-white px-1 pe-5 transition ease-in duration-400 ">
+    <div className="w-full h-full bg-white  text-primary shadow-md">
+      <div className=" transition ease-in duration-400 ">
         <div>
-          <div>
-            <h4>Roll Kall</h4>
+          <div className="h-14 content-center p-3">
+            <p>Work Compass</p>
           </div>
 
           <div className="">
@@ -72,13 +72,12 @@ const SideBar = () => {
               return (
                 <div
                   key={id}
-                  className={`text-skin-base p-2 ml-4  rounded-xl  transition !duration-400 ease-in ${
-                    location.pathname == link &&
-                    "opacity-80 bg-skin-active !text-primary-color font-semibold"
+                  className={`p-2  ml-2 mb-2 hover:bg-gray-300 rounded-s-full  transition duration-400 ease-in ${
+                    location.pathname == link && "bg-skin-active font-semibold"
                   }`}
                 >
                   <Link to={link} key={id} className="flex">
-                    <span className="pe-1">{icon}</span>
+                    <span className="px-3">{icon}</span>
                     <p className="title">{title}</p>
                   </Link>
                 </div>
