@@ -1,8 +1,8 @@
-import { User } from "../../Employees/common/employee";
+import { IUser } from "../../Employees/common/employee";
 
 export interface ICurrentCheckIn {
   id: number;
-  user: User;
+  user: IUser;
   check_in: string;
   check_out: string;
   is_late: boolean;

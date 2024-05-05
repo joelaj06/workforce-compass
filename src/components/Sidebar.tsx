@@ -29,7 +29,7 @@ const menuItems = [
   },
   {
     id: 2,
-    title: "Employees",
+    title: "Users",
     icon: users,
     link: AppPages.employees,
   },
@@ -73,12 +73,13 @@ const SideBar = () => {
                 <div
                   key={id}
                   className={`p-2  ml-2 mb-2 hover:bg-gray-300 rounded-s-full  transition duration-400 ease-in ${
-                    location.pathname == link && "bg-skin-active font-semibold"
+                    location.pathname == link &&
+                    "bg-primary-color font-semibold text-white shadow-custom"
                   }`}
                 >
                   <Link to={link} key={id} className="flex">
                     <span className="px-3">{icon}</span>
-                    <p className="title">{title}</p>
+                    <p className="">{title}</p>
                   </Link>
                 </div>
               );

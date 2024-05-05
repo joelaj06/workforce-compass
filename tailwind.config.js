@@ -15,6 +15,9 @@ export default {
         "4xl": "2.441rem",
         "5xl": "3.052rem",
       },
+      boxShadow: {
+        custom: " 1px 1px 3px gray",
+      },
       colors: {
         "primary-color": "var(--primary-color)",
         primary: "var(--text-muted-color)",
