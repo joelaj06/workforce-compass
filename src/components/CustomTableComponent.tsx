@@ -66,10 +66,10 @@ const CustomTableComponent = <T extends object>({
                           key={header.id}
                           colSpan={header.colSpan}
                           className={` pl-2 px-1 text-start py-3 text-sm  font-bold text-primary   ${
-                            idx == 0 && "rounded-l-xl"
+                            idx == 0 && "rounded-l-lg"
                           } ${
                             idx == headerGroup.headers.length - 1 &&
-                            "rounded-r-xl"
+                            "rounded-r-lg"
                           }
                           `}
                         >
@@ -92,7 +92,7 @@ const CustomTableComponent = <T extends object>({
                     >
                       {row.getVisibleCells().map((cell) => (
                         <td
-                          className=" pl-2 text-start whitespace-nowrap  py-4 text-sm font-light"
+                          className=" pl-2 text-start whitespace-nowrap  py-2 text-sm font-light"
                           key={cell.id}
                         >
                           {flexRender(
