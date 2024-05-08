@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { IUser, dummyUsers } from "./common/employee";
-import CustomTableComponent from "../../components/CustomTableComponent";
+import { IUser, dummyUsers } from "../common/employee";
+import CustomTableComponent from "../../../components/CustomTableComponent";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";

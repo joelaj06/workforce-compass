@@ -18,8 +18,10 @@ type CustomButtonProps = {
   onClick?: (functionToExecute: unknown) => void;
   btnWidth?: "small" | "medium" | "fullWidth" | string;
   btnHeight?: "small" | "medium" | "fullWidth" | string;
-  type?: "outlined" | "filled" | "textOnly";
+  variantType?: "outlined" | "filled" | "textOnly";
+  type?: "submit" | "reset" | "button";
   disabled?: boolean;
+
   disableOnClick?: boolean;
   className?: string;
   borderRadius?: string;
@@ -40,7 +42,7 @@ const ButtonComponent = ({
   btnHeight,
   textTransform,
   onClick,
-  type,
+  variantType,
   onKeyDown,
   textSize,
   btnWidth,
@@ -49,6 +51,7 @@ const ButtonComponent = ({
   className,
   children,
   borderRadius,
+  type,
 }: CustomButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -110,11 +113,11 @@ const ButtonComponent = ({
       : btnHeight || "50px";
 
   const variant =
-    type === "outlined"
+    variantType === "outlined"
       ? "outlined"
-      : type === "filled"
+      : variantType === "filled"
       ? "contained"
-      : type === "textOnly"
+      : variantType === "textOnly"
       ? "text"
       : "outlined";
 
@@ -133,6 +136,7 @@ const ButtonComponent = ({
     <>
       <Button
         onKeyDown={onKeyDown}
+        type={type}
         sx={{
           backgroundColor: disabled ? "var(--color-tertiary)" : buttonColor,
           color: btnTextColor,

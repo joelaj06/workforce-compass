@@ -69,13 +69,14 @@ const SideBar = () => {
 
           <div className="">
             {menuItems.map(({ title, icon, id, link }) => {
+              const isActive = location.pathname == link;
               return (
                 <div
                   key={id}
-                  className={`p-2  ml-2 mb-2 hover:bg-gray-300 rounded-s-full  transition duration-400 ease-in ${
-                    location.pathname == link &&
+                  className={`p-2  ml-2 mb-2 rounded-s-full  transition duration-400 ease-in ${
+                    isActive &&
                     "bg-primary-color font-semibold text-white shadow-custom"
-                  }`}
+                  } ${isActive ? " hover:bg-[#086d6d]" : " hover:bg-gray-300"}`}
                 >
                   <Link to={link} key={id} className="flex">
                     <span className="px-3">{icon}</span>

@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Divider, IconButton } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -48,17 +48,21 @@ export default function DialogComponent({
         fullWidth
         open={isOpen}
       >
-        <DialogTitle className="bg-background text-primary flex items-center justify-between">
-          <p className="text-xl">{title}</p>
+        <DialogTitle className="bg-background text-primary flex  items-center justify-between">
+          <p className="text-sm font-bold">{title}</p>
           <IconButton
             onClick={handleClose}
-            style={{ backgroundColor: "red", color: "white" }}
+            sx={{ fontSize: "18px" }}
+            style={{ color: "white", fontSize: "18px" }}
           >
-            <Close fontSize="small" />
+            <Close sx={{ fontSize: "18px", color: "gray" }} />
           </IconButton>
         </DialogTitle>
-
-        <DialogContent className="shadow-lg bg-background p-3">
+        <Divider />
+        <DialogContent
+          sx={{ padding: "0px" }}
+          className="shadow-lg bg-background p-0"
+        >
           {content}
         </DialogContent>
 
