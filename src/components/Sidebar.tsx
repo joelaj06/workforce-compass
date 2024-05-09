@@ -10,6 +10,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 import { AppPages } from "../routes/appPages";
+import { useState } from "react";
 
 const dashboardIcon = <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>;
 const users = <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>;
@@ -58,6 +59,11 @@ const SideBar = () => {
   const logout = async () => {};
 
   const location = useLocation();
+  const [selectedMenu, setSelectedMenu] = useState(() => {
+    if (location && location.pathname) {
+      return location.pathname;
+    }
+  });
 
   return (
     <div className="w-full h-full bg-white  text-primary shadow-md">
@@ -69,7 +75,7 @@ const SideBar = () => {
 
           <div className="">
             {menuItems.map(({ title, icon, id, link }) => {
-              const isActive = location.pathname == link;
+              const isActive = selectedMenu == link;
               return (
                 <div
                   key={id}
@@ -78,7 +84,12 @@ const SideBar = () => {
                     "bg-primary-color font-semibold text-white shadow-custom"
                   } ${isActive ? " hover:bg-[#086d6d]" : " hover:bg-gray-300"}`}
                 >
-                  <Link to={link} key={id} className="flex">
+                  <Link
+                    to={link}
+                    key={id}
+                    className="flex"
+                    onClick={() => setSelectedMenu(link)}
+                  >
                     <span className="px-3">{icon}</span>
                     <p className="">{title}</p>
                   </Link>

@@ -5,12 +5,15 @@ import CustomTableComponent from "../../../components/CustomTableComponent";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Avatar, IconButton, Tooltip } from "@mui/material";
 import AlertDialogComponent from "../../../components/AlertDialogComponent";
+import { useNavigate } from "react-router-dom";
+import { AppPages } from "../../../routes/appPages";
 
 const EmployeesTable = () => {
   const data = useMemo<IUser[]>(() => dummyUsers, []);
+  const navigate = useNavigate();
   const columns = useMemo<ColumnDef<IUser>[]>(
     () => [
       {
@@ -60,7 +63,7 @@ const EmployeesTable = () => {
       {
         header: "Actions",
         accessorKey: "",
-        cell: () => (
+        cell: ({ row }) => (
           <div className="flex flex-row gap-1">
             <AlertDialogComponent
               title={"Delete User"}
@@ -75,14 +78,18 @@ const EmployeesTable = () => {
                 <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
             </AlertDialogComponent>
-            <IconButton>
-              <EditRoundedIcon sx={{ fontSize: "16px" }} />
+            <IconButton
+              onClick={() =>
+                navigate(AppPages.employeeDetails(row.original.id.toString()))
+              }
+            >
+              <MoreVertIcon sx={{ fontSize: "16px" }} />
             </IconButton>
           </div>
         ),
       },
     ],
-    []
+    [navigate]
   );
   return (
     <>

@@ -6,12 +6,14 @@ import Employees from "../pages/Employees/components/Employees";
 import Leaves from "../pages/Leaves/Leaves";
 import Notifications from "../pages/Notification/Notifications";
 import Settings from "../pages/Settings/Settings";
+import UserDetails from "../pages/EmployeeDetails";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path={AppPages.index} element={<Dashboard />} />
       <Route path={AppPages.employees} element={<Employees />} />
+      <Route path={AppPages.employeeDetails(":id")} element={<UserDetails />} />
       <Route path={AppPages.leaves} element={<Leaves />} />
       <Route path={AppPages.notifications} element={<Notifications />} />
       <Route path={AppPages.settings} element={<Settings />} />

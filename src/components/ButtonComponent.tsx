@@ -6,7 +6,7 @@ type CustomButtonProps = {
   children: React.ReactNode;
   iconOnLeft?: React.ReactNode;
   iconOnRight?: React.ReactNode;
-  bgColor?: "primary" | "secondary" | "tertiary" | string;
+  bgColor?: "primary" | "secondary" | "tertiary" | "danger" | string;
   hoverBgColor?: "primary" | "secondary" | "tertiary" | string;
   hoverBorderColor?: "primary" | "secondary" | "tertiary" | string;
   hoverTextColor?: "primary" | "secondary" | "tertiary" | string;
@@ -57,10 +57,23 @@ const ButtonComponent = ({
 }: CustomButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
+  //TODO optimize nested if statements
   const buttonColor =
-    bgColor === "primary" ? "#0a8686" : bgColor ? bgColor : "none";
+    bgColor === "primary"
+      ? "#0a8686"
+      : bgColor == "danger"
+      ? "#ee2222"
+      : bgColor
+      ? bgColor
+      : "none";
 
-  const hoverBgColors = hoverBgColor || "#086d6d";
+  // const buttonColor1 = {
+  //   primary: "#0a8686",
+  //   danger: "#ee2222",
+  // };
+
+  const hoverBgColors =
+    bgColor == "danger" ? "#d11e1e" : hoverBgColor || "#086d6d";
 
   const hoverBorderColors =
     hoverBorderColor === "primary"

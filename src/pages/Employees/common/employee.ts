@@ -1,5 +1,5 @@
 export interface IUser {
-  id: number;
+  id: number | string;
   first_name: string;
   last_name: string;
   image?: string;
@@ -9,6 +9,7 @@ export interface IUser {
   phone: string;
   location: string;
   email: string;
+  address?: string;
 }
 
 export const dummyUsers: IUser[] = [
@@ -22,6 +23,7 @@ export const dummyUsers: IUser[] = [
     job_title: "CEO",
     phone: "123-456-7890",
     location: "New York, NY",
+    address: "New York, NY",
     email: " john@example.com ",
   },
   {
@@ -34,6 +36,7 @@ export const dummyUsers: IUser[] = [
     job_title: "CEO",
     phone: "123-456-7890",
     location: "New York, NY",
+    address: "New York, NY",
     email: " jane@example.com ",
   },
   {
@@ -46,6 +49,7 @@ export const dummyUsers: IUser[] = [
     job_title: "CEO",
     phone: "123-456-7890",
     location: "New York, NY",
+    address: "New York, NY",
     email: " millicent@example.com ",
   },
   {
@@ -58,6 +62,7 @@ export const dummyUsers: IUser[] = [
     job_title: "CEO",
     phone: "123-456-7890",
     location: "New York, NY",
+    address: "New York, NY",
     email: " jane@example.com ",
   },
   {
@@ -70,6 +75,7 @@ export const dummyUsers: IUser[] = [
     job_title: "CEO",
     phone: "123-456-7890",
     location: "New York, NY",
+    address: "New York, NY",
     email: " jane@example.com ",
   },
 ];
