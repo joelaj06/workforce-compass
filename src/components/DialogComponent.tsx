@@ -67,7 +67,7 @@ export default function DialogComponent({
         </DialogContent>
 
         {actions ? (
-          <DialogActions className="bg-primary">{actions}</DialogActions>
+          <DialogActions className="bg-white">{actions}</DialogActions>
         ) : null}
       </Dialog>
     </div>

@@ -20,6 +20,7 @@ type CustomButtonProps = {
   btnHeight?: "small" | "medium" | "fullWidth" | string;
   variantType?: "outlined" | "filled" | "textOnly";
   type?: "submit" | "reset" | "button";
+  minWidth?: string;
   disabled?: boolean;
 
   disableOnClick?: boolean;
@@ -51,6 +52,7 @@ const ButtonComponent = ({
   className,
   children,
   borderRadius,
+  minWidth,
   type,
 }: CustomButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
@@ -147,7 +149,7 @@ const ButtonComponent = ({
           borderWidth: borderWidth,
           p: "10px",
           borderColor: btnBorderColor,
-          minWidth: "200px",
+          minWidth: minWidth ?? "200px",
           width: btnWidths,
           height: btnHeights,
           ":hover": {

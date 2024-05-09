@@ -6,7 +6,8 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton, Tooltip } from "@mui/material";
+import AlertDialogComponent from "../../../components/AlertDialogComponent";
 
 const EmployeesTable = () => {
   const data = useMemo<IUser[]>(() => dummyUsers, []);
@@ -45,10 +46,14 @@ const EmployeesTable = () => {
       {
         header: "Contact Info",
         accessorKey: "email",
-        cell: () => (
+        cell: ({ row }) => (
           <div className="flex flex-row gap-1">
-            <LocalPhoneIcon sx={{ fontSize: "16px" }} />
-            <EmailOutlinedIcon sx={{ fontSize: "16px" }} />
+            <Tooltip title={row.original.phone}>
+              <LocalPhoneIcon sx={{ fontSize: "16px" }} />
+            </Tooltip>
+            <Tooltip title={row.original.email}>
+              <EmailOutlinedIcon sx={{ fontSize: "16px" }} />
+            </Tooltip>
           </div>
         ),
       },
@@ -57,8 +62,22 @@ const EmployeesTable = () => {
         accessorKey: "",
         cell: () => (
           <div className="flex flex-row gap-1">
-            <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
-            <EditRoundedIcon sx={{ fontSize: "16px" }} />
+            <AlertDialogComponent
+              title={"Delete User"}
+              content={
+                <p className="text-center">
+                  Are you sure you want to delete this account?
+                </p>
+              }
+            >
+              <IconButton>
+                {" "}
+                <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
+              </IconButton>
+            </AlertDialogComponent>
+            <IconButton>
+              <EditRoundedIcon sx={{ fontSize: "16px" }} />
+            </IconButton>
           </div>
         ),
       },
