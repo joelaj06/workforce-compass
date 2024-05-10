@@ -26,8 +26,8 @@ const DropDownComponent = ({
         borderRadius: 0,
         colors: {
           ...theme.colors,
-          primary25: "#ffe8cc",
-          primary: "#ff8c00",
+          primary25: "#adadaa",
+          primary: "#444444",
         },
       })}
       styles={{
@@ -37,17 +37,37 @@ const DropDownComponent = ({
           fontSize: "12px",
 
           "&:active": {
-            backgroundColor: "#ff8c00",
+            backgroundColor: "#0a8686",
           },
+        }),
+
+        menu: (base) => ({
+          ...base,
+          backgroundColor: "white",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          borderRadius: "5px",
+        }),
+        container: (base) => ({
+          ...base,
+          fontSize: "10px",
+        }),
+        placeholder: (base) => ({
+          ...base,
+          fontSize: "12px",
+        }),
+        singleValue: (base) => ({
+          ...base,
+          fontSize: "12px",
         }),
         control: (baseStyles) => ({
           ...baseStyles,
           borderRadius: "10px",
           borderColor: "var(--color-primary)",
-          fontSize: "12px",
+          fontSize: "10px",
           color: "var(--color-primary)",
           backgroundColor: "var(--color-primary-shade3)",
           width: width ?? "100%",
+          height: "20px",
         }),
       }}
       options={options}

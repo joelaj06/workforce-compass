@@ -52,7 +52,7 @@ const TabsComponent = ({ children, defaultActiveTab }: TabsComponentProps) => {
         {children.map((child, index) => (
           <div
             key={child.props.label}
-            className={`${activeTab === index ? "block" : "hidden"} mt-5`}
+            className={`${activeTab === index ? "block" : "hidden"} mt-3`}
           >
             {activeTab === index && child.props.children}
           </div>

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { IUser, dummyUsers } from "../../Employees/common/employee";
 import TabsComponent, { Tab } from "../../../components/TabComponent";
 import UserAttendanceRecords from "./UserAttendanceRecords";
+import LeaveQuota from "./LeaveQuota";
+import UserInfo from "./UserInfo";
 
 const UserDetails = () => {
   const defaultUser: IUser = {
@@ -42,8 +44,12 @@ const UserDetails = () => {
             <Tab label={"Attendance"}>
               <UserAttendanceRecords />
             </Tab>
-            <Tab label={"Leave Quota"}>Leave Quota</Tab>
-            <Tab label={"User Info"}>User Info</Tab>
+            <Tab label={"Leave Quota"}>
+              <LeaveQuota />
+            </Tab>
+            <Tab label={"User Info"}>
+              <UserInfo user={user} />
+            </Tab>
           </TabsComponent>
         </div>
       </div>
