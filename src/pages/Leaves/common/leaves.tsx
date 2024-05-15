@@ -5,10 +5,14 @@ export interface ILeaves {
   user: IUser;
   status: "Pending" | "Declined" | "Approved";
   notes: string;
+  from_date?: string;
+  to_date?: string;
+  days?: string;
   updatedAt: string;
   date: string;
   createdAt: string;
   title: string;
+  approved_by?: string;
 }
 
 export const dummyLeaves: ILeaves[] = [
@@ -33,6 +37,10 @@ export const dummyLeaves: ILeaves[] = [
     updatedAt: "2021-09-01T00:00:00.000Z",
     date: "2021-09-01T00:00:00.000Z",
     createdAt: "2021-09-01T00:00:00.000Z",
+    from_date: "2021-09-01T00:00:00.000Z",
+    to_date: "2021-09-01T00:00:00.000Z",
+    days: "1",
+    approved_by: "John Doe",
   },
   {
     _id: "34432222222222",
@@ -55,6 +63,10 @@ export const dummyLeaves: ILeaves[] = [
     updatedAt: "2021-09-01T00:00:00.000Z",
     date: "2021-09-01T00:00:00.000Z",
     createdAt: "2021-09-01T00:00:00.000Z",
+    from_date: "2021-09-01T00:00:00.000Z",
+    to_date: "2021-09-01T00:00:00.000Z",
+    days: "1",
+    approved_by: "John Doe",
   },
   {
     _id: "34432222222222",
@@ -77,5 +89,9 @@ export const dummyLeaves: ILeaves[] = [
     updatedAt: "2021-09-01T00:00:00.000Z",
     date: "2021-09-01T00:00:00.000Z",
     createdAt: "2021-09-01T00:00:00.000Z",
+    from_date: "2021-09-01T00:00:00.000Z",
+    to_date: "2021-09-01T00:00:00.000Z",
+    days: "1",
+    approved_by: "John Doe",
   },
 ];

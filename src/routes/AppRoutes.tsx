@@ -3,7 +3,7 @@ import { AppPages } from "./appPages";
 import Dashboard from "../pages/Dashboard/component/Dashboard";
 import NotFound from "../pages/Auth/ErrorHandler/NotFound";
 import Employees from "../pages/Employees/components/Employees";
-import Leaves from "../pages/Leaves/Leaves";
+import Leaves from "../pages/Leaves/components/Leaves";
 import Notifications from "../pages/Notification/Notifications";
 import Settings from "../pages/Settings/Settings";
 import UserDetails from "../pages/EmployeeDetails";
