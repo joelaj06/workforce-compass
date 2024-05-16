@@ -10,6 +10,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { Avatar, IconButton, Tooltip } from "@mui/material";
 import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import classNames from "classnames";
+import { DialogComponent } from "../../../components";
+import LeaveDetails from "./LeaveDetails";
 
 const LeavesTable = () => {
   const data = useMemo<ILeaves[]>(() => dummyLeaves, []);
@@ -87,7 +89,7 @@ const LeavesTable = () => {
       {
         header: "Actions",
         accessorKey: "",
-        cell: () => (
+        cell: ({ row }) => (
           <div className="flex flex-row gap-1">
             <AlertDialogComponent
               title={"Delete User"}
@@ -102,9 +104,14 @@ const LeavesTable = () => {
                 <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
             </AlertDialogComponent>
-            <IconButton onClick={() => {}}>
-              <EditRoundedIcon sx={{ fontSize: "16px" }} />
-            </IconButton>
+            <DialogComponent
+              title={`${row.original.user.first_name} ${row.original.user.last_name}`}
+              content={<LeaveDetails leave={row.original} />}
+            >
+              <IconButton onClick={() => {}}>
+                <EditRoundedIcon sx={{ fontSize: "16px" }} />
+              </IconButton>
+            </DialogComponent>
           </div>
         ),
       },
@@ -113,11 +120,13 @@ const LeavesTable = () => {
   );
   return (
     <div>
-      <CustomTableComponent
-        data={data}
-        columns={columns}
-        hidePagination={true}
-      />
+      <div className="bg-white rounded-xl shadow-sm flex-grow">
+        <div className="p-3">
+          <div>
+            <CustomTableComponent data={data} columns={columns} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -15,6 +15,12 @@ export interface ILeaves {
   approved_by?: string;
 }
 
+export const leaveOptions = [
+  { value: "Approved", label: "Approved" },
+  { value: "Declined", label: "Declined" },
+  { value: "Pending", label: "Pending" },
+];
+
 export const dummyLeaves: ILeaves[] = [
   {
     _id: "34432222222222",
