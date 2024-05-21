@@ -37,14 +37,14 @@ const menuItems = [
   {
     id: 3,
     title: "Leaves",
-    icon: teams,
+    icon: leaves,
     link: AppPages.leaves,
   },
   {
     id: 4,
-    title: "Notifications",
-    icon: leaves,
-    link: AppPages.notifications,
+    title: "Teams",
+    icon: teams,
+    link: AppPages.teams,
   },
   {
     id: 5,

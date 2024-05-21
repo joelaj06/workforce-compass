@@ -7,6 +7,7 @@ export const pages = {
   leaves: "/leaves",
   notifications: "/notifications",
   settings: "/settings",
+  teams: "/teams",
 };
 
 export const AppPages = Object.freeze(pages);
