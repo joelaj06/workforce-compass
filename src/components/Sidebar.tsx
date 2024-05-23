@@ -4,22 +4,26 @@ import {
   faUsers,
   faPeopleGroup,
   faGear,
-  faRightFromBracket,
+  // faRightFromBracket,
   faShareFromSquare,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
+//import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 
 import { AppPages } from "../routes/appPages";
 import { useState } from "react";
 
-const dashboardIcon = <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>;
+const dashboardIcon = <FontAwesomeIcon icon={faHouse}></FontAwesomeIcon>;
+const reportsIcon = <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>;
 const users = <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>;
 const teams = <FontAwesomeIcon icon={faPeopleGroup}></FontAwesomeIcon>;
 const leaves = <FontAwesomeIcon icon={faShareFromSquare}></FontAwesomeIcon>;
 const settings = <FontAwesomeIcon icon={faGear}></FontAwesomeIcon>;
-const logoutIcon = (
-  <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon>
-);
+
+// const logoutIcon = (
+//   <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon>
+// );
 
 const menuItems = [
   {
@@ -48,6 +52,12 @@ const menuItems = [
   },
   {
     id: 5,
+    title: "Reports",
+    icon: reportsIcon,
+    link: AppPages.reports,
+  },
+  {
+    id: 6,
     title: "Settings",
     icon: settings,
     link: AppPages.settings,
@@ -56,7 +66,7 @@ const menuItems = [
 
 const SideBar = () => {
   //states
-  const logout = async () => {};
+  // const logout = async () => {};
 
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState(() => {
@@ -98,11 +108,11 @@ const SideBar = () => {
             })}
           </div>
         </div>
-        <div className="">
+        {/* <div className="">
           <span onClick={logout} className="">
             {logoutIcon}
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

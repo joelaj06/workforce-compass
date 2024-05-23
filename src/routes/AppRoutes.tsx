@@ -8,6 +8,7 @@ import Notifications from "../pages/Notification/Notifications";
 import Settings from "../pages/Settings/Settings";
 import UserDetails from "../pages/EmployeeDetails";
 import Teams from "../pages/Teams/components/Teams";
+import Reports from "../pages/Reports/components/Reports";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
       <Route path={AppPages.settings} element={<Settings />} />
       <Route path={AppPages.notFound} element={<NotFound />} />
       <Route path={AppPages.teams} element={<Teams />} />
+      <Route path={AppPages.reports} element={<Reports />} />
     </Routes>
   );
 };

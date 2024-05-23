@@ -34,6 +34,7 @@
         --primary-color-shadeA20:  #55ffff ;
         --primary-color-shadeA40:  #22ffff ;
         --primary-color-shadeA70:  #08ffff ;
+        --background-color: #85c3c319;
     }
 }
 
@@ -44,6 +45,6 @@
 }
 
 body{
-    background-color: #85c3c319;
+    background-color: var(--background-color);
     
 }

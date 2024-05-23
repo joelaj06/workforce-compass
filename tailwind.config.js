@@ -20,6 +20,7 @@ export default {
       },
       colors: {
         "primary-color": "var(--primary-color)",
+        background: "var(--background-color)",
         primary: "var(--text-muted-color)",
       },
       backgroundColor: {
