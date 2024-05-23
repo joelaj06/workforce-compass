@@ -3,6 +3,7 @@ import { IUser } from "../../Employees/common/employee";
 export interface ITeam {
   _id: string;
   name: string;
+  team_leader?: string;
   members: IUser[];
   createdAt?: string;
   status: "active" | "inactive";

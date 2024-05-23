@@ -2,15 +2,29 @@ import { Avatar, IconButton } from "@mui/material";
 import { ITeam } from "../common/teams";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DialogComponent } from "../../../components";
+import AddTeamMemberForm from "./AddTeamMemberForm";
 
 interface TeamCardProps {
   team: ITeam;
 }
-
+//TODO implement team leader
 const TeamCard = ({ team }: TeamCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMemberId, setHoveredMemberId] = useState<number | null>(null);
+
+  const [closeDialog, setCloseDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (closeDialog) {
+      setCloseDialog(false);
+    }
+  }, [closeDialog]);
+
+  const handleCloseDialog = () => {
+    setCloseDialog(true);
+  };
   return (
     <div className="w-1/4">
       <div
@@ -23,15 +37,21 @@ const TeamCard = ({ team }: TeamCardProps) => {
         </div>
         <div className="text-end transition-all">
           {isHovered && hoveredMemberId == null && (
-            <IconButton>
-              <AddRoundedIcon
-                sx={{
-                  color: "var(--primary-color-shade800)",
-                  width: "20px",
-                  height: "20px",
-                }}
-              />
-            </IconButton>
+            <DialogComponent
+              title="Add Member"
+              content={<AddTeamMemberForm isSubmitted={handleCloseDialog} />}
+              closeDialog={closeDialog}
+            >
+              <IconButton>
+                <AddRoundedIcon
+                  sx={{
+                    color: "var(--primary-color-shade800)",
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+              </IconButton>
+            </DialogComponent>
           )}
         </div>
       </div>

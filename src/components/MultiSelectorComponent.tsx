@@ -1,25 +1,22 @@
-import { ReactNode } from "react";
-import Select, { SingleValue } from "react-select";
-interface DropDownComponentProps {
+import Select, { MultiValue } from "react-select";
+import { DropDownOption } from "./DropDownComponent";
+
+interface MultiSelectorComponentProps {
   label: string;
   options: DropDownOption[];
-  onChanged: (value: SingleValue<DropDownOption>) => void;
+  onChanged: (value: MultiValue<DropDownOption>) => void;
   width?: string;
 }
 
-export interface DropDownOption {
-  value: string | number;
-  label: string | ReactNode;
-}
-
-const DropDownComponent = ({
+const MultiSelectorComponent = ({
   label,
   options,
   onChanged,
   width,
-}: DropDownComponentProps) => {
+}: MultiSelectorComponentProps) => {
   return (
     <Select
+      isMulti={true}
       onChange={(val) => onChanged(val)}
       theme={(theme) => ({
         ...theme,
@@ -76,4 +73,4 @@ const DropDownComponent = ({
   );
 };
 
-export default DropDownComponent;
+export default MultiSelectorComponent;
