@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Figtree", "sans-serif"],
+        sans: ["Poppins", "sans-serif"],
       },
       fontSize: {
         sm: "0.8rem",

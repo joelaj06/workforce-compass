@@ -22,7 +22,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-ChartJS.defaults.font.family = "FigTree";
+ChartJS.defaults.font.family = "Poppins";
 
 const options: ChartOptions<"bar"> = {
   responsive: true,

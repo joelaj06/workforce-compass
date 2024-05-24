@@ -5,7 +5,7 @@ import NotFound from "../pages/Auth/ErrorHandler/NotFound";
 import Employees from "../pages/Employees/components/Employees";
 import Leaves from "../pages/Leaves/components/Leaves";
 import Notifications from "../pages/Notification/Notifications";
-import Settings from "../pages/Settings/Settings";
+import Settings from "../pages/Settings/components/Settings";
 import UserDetails from "../pages/EmployeeDetails";
 import Teams from "../pages/Teams/components/Teams";
 import Reports from "../pages/Reports/components/Reports";

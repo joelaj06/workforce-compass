@@ -50,13 +50,13 @@ const UserSummaryCard = ({ user }: UserSummaryCardProps) => {
       </div>
       <ButtonComponent
         btnHeight="small"
-        minWidth="100px"
+        minWidth="fit-content"
         btnWidth="105px"
         bgColor="danger"
         variantType="outlined"
         onClick={() => {}}
       >
-        Block Account
+        <span className="capitalize text-xs">Block Account</span>
       </ButtonComponent>
     </div>
   );
