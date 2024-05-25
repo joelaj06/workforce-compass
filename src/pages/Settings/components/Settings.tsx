@@ -3,6 +3,9 @@ import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import LeaveSettings from "./LeaveSettings";
+import OfficeDetails from "./OfficeDetails";
+import OfficeTimings from "./OfficeTimings";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -23,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ py: 3 }}>
           <>{children}</>
         </Box>
       )}
@@ -51,7 +54,7 @@ const Settings = () => {
       <div className="flex flex-row justify-between mb-4">
         <div className="text-lg font-bold text-black">Reports</div>
       </div>
-      <div className="bg-white rounded-md">
+      <div className="bg-white rounded-sm shadow-sm">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -70,13 +73,13 @@ const Settings = () => {
       </div>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        Item One
+        <OfficeDetails />
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        Item Two
+        <OfficeTimings />
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        Item Three
+        <LeaveSettings />
       </TabPanel>
     </>
   );
