@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -6,9 +5,11 @@ import Box from "@mui/material/Box";
 import LeaveSettings from "./LeaveSettings";
 import OfficeDetails from "./OfficeDetails";
 import OfficeTimings from "./OfficeTimings";
+import { settingsTab } from "../common/settings";
+import { ReactNode, SyntheticEvent, useMemo, useState } from "react";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   dir?: string;
   index: number;
   value: number;
@@ -35,19 +36,14 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const Settings = () => {
+  const tabs = useMemo(() => settingsTab, []);
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
     console.log(event);
   };
-
-  const tabs = [
-    { label: "Office Details", value: 0 },
-    { label: "Office Timings", value: 1 },
-    { label: "Leaves", value: 2 },
-  ];
 
   return (
     <>
