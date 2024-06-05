@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { ButtonComponent, DialogComponent } from "../../../components";
-import CustomInputField from "../../../components/CustomInputField";
-import AddEmployeeForm from "./AddEmployeeForm";
-import EmployeesTable from "./EmployeeTable";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import AddTaskForm from "./AddTaskForm";
 
-const Employees = () => {
+const Tasks = () => {
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
 
   useEffect(() => {
@@ -21,17 +18,11 @@ const Employees = () => {
   return (
     <>
       <div className="flex flex-row justify-between mb-4">
-        <div className="text-lg font-bold text-black">Users</div>
+        <div className="text-lg font-bold text-black">Tasks</div>
         <div className="flex flex-row gap-2 items-center">
-          <CustomInputField
-            placeholder="Search"
-            variantSize={"small"}
-            backgroundColor="white"
-            suffixIcon={<SearchRoundedIcon sx={{ fontSize: "20px" }} />}
-          />
           <DialogComponent
-            title="Add Employee"
-            content={<AddEmployeeForm isSubmitted={handleCloseDialog} />}
+            title="Create Task"
+            content={<AddTaskForm isSubmitted={handleCloseDialog} />}
             closeDialog={closeDialog}
           >
             <ButtonComponent
@@ -39,14 +30,13 @@ const Employees = () => {
               iconOnLeft={<AddRoundedIcon />}
               bgColor="primary"
             >
-              <span className="capitalize text-sm">Add User</span>
+              <span className="capitalize text-sm">New Task</span>
             </ButtonComponent>
           </DialogComponent>
         </div>
       </div>
-      <EmployeesTable />
     </>
   );
 };
 
-export default Employees;
+export default Tasks;

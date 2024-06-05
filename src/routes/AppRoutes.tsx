@@ -9,6 +9,7 @@ import Settings from "../pages/Settings/components/Settings";
 import UserDetails from "../pages/EmployeeDetails";
 import Teams from "../pages/Teams/components/Teams";
 import Reports from "../pages/Reports/components/Reports";
+import Tasks from "../pages/Tasks/components/Tasks";
 
 const AppRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
       <Route path={AppPages.notFound} element={<NotFound />} />
       <Route path={AppPages.teams} element={<Teams />} />
       <Route path={AppPages.reports} element={<Reports />} />
+      <Route path={AppPages.tasks} element={<Tasks />} />
     </Routes>
   );
 };

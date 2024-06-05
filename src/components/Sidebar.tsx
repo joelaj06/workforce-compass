@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 //import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 import { AppPages } from "../routes/appPages";
 import { useState } from "react";
@@ -52,12 +53,18 @@ const menuItems = [
   },
   {
     id: 5,
+    title: "Tasks",
+    icon: <AssignmentIcon />,
+    link: AppPages.tasks,
+  },
+  {
+    id: 6,
     title: "Reports",
     icon: reportsIcon,
     link: AppPages.reports,
   },
   {
-    id: 6,
+    id: 7,
     title: "Settings",
     icon: settings,
     link: AppPages.settings,

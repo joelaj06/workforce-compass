@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { cn } from "../utils";
 import { VariantProps, cva } from "class-variance-authority";
-import { InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import {
   DeepMap,
@@ -53,6 +53,9 @@ interface CustomInputFiledProps<T extends Record<string, unknown>>
   name?: Path<T>;
   rules?: RegisterOptions;
   errors?: Partial<DeepMap<T, FieldError>>;
+  multipleLines?: boolean;
+  rows?: number;
+  cols?: number;
 }
 
 const CustomInputField = <T extends Record<string, unknown>>({
@@ -69,6 +72,9 @@ const CustomInputField = <T extends Record<string, unknown>>({
   name,
   rules,
   errors,
+  multipleLines,
+  rows,
+  cols,
   ...props
 }: CustomInputFiledProps<T>) => {
   const hasError = errors && (name! in errors! ? true : false);
@@ -91,17 +97,33 @@ const CustomInputField = <T extends Record<string, unknown>>({
         }}
       >
         {prefixIcon && prefixIcon}
-        <input
-          className={classNames(
-            cn(inputVariance({ intent, variantSize, className })),
-            {
-              "transition-colors  focus:outline-none focus:ring-2 focus:ring-opacity-50 border-red-600 hover:border-red-600 focus:border-red-600 focus:ring-red-600":
-                hasError!,
-            }
-          )}
-          {...props}
-          {...(register && register(name!, rules))}
-        ></input>
+        {multipleLines ? (
+          <textarea
+            className={classNames(
+              cn(inputVariance({ intent, variantSize, className })),
+              {
+                "transition-colors  focus:outline-none focus:ring-2 focus:ring-opacity-50 border-red-600 hover:border-red-600 focus:border-red-600 focus:ring-red-600":
+                  hasError!,
+              }
+            )}
+            rows={rows}
+            cols={cols}
+            {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            {...(register && register(name!, rules))}
+          ></textarea>
+        ) : (
+          <input
+            className={classNames(
+              cn(inputVariance({ intent, variantSize, className })),
+              {
+                "transition-colors  focus:outline-none focus:ring-2 focus:ring-opacity-50 border-red-600 hover:border-red-600 focus:border-red-600 focus:ring-red-600":
+                  hasError!,
+              }
+            )}
+            {...props}
+            {...(register && register(name!, rules))}
+          ></input>
+        )}
         {suffixIcon && suffixIcon}
       </Box>
       {hasError && (
