@@ -56,6 +56,7 @@ interface CustomInputFiledProps<T extends Record<string, unknown>>
   multipleLines?: boolean;
   rows?: number;
   cols?: number;
+  hideBorder?: boolean;
 }
 
 const CustomInputField = <T extends Record<string, unknown>>({
@@ -75,6 +76,7 @@ const CustomInputField = <T extends Record<string, unknown>>({
   multipleLines,
   rows,
   cols,
+  hideBorder,
   ...props
 }: CustomInputFiledProps<T>) => {
   const hasError = errors && (name! in errors! ? true : false);
@@ -89,7 +91,7 @@ const CustomInputField = <T extends Record<string, unknown>>({
           width: width,
           display: "flex",
           justifyContent: "space-between",
-          border: "1px solid #e9e9e9",
+          border: hideBorder ? "1px solid transparent" : "1px solid #e9e9e9",
           borderColor: classNames({ red: hasError }),
           alignItems: "center",
           borderRadius: "8px",

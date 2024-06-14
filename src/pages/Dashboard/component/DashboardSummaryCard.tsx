@@ -8,7 +8,7 @@ const DashboardSummaryCard = ({
   total: number;
 }) => {
   return (
-    <div className="bg-white rounded-lg p-2 shadow-md flex flex-col">
+    <div className="bg-white rounded-lg p-2 shadow-md flex-grow flex flex-col">
       <div className="flex justify-between items-center">
         <div>
           <div className="text-xs">Total</div>

@@ -4,10 +4,12 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import AddTaskForm from "./AddTaskForm";
 import { ITask, dummyTasks } from "../common/task";
 import TaskCard from "./TaskCard";
+import TaskDetails from "./TaskDetails";
 
 const Tasks = () => {
   const tasks: ITask[] = useMemo(() => dummyTasks, []);
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
     if (closeDialog) {
@@ -41,7 +43,19 @@ const Tasks = () => {
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <DialogComponent
+              title={title}
+              content={
+                <TaskDetails
+                  updateTitle={setTitle}
+                  task={task}
+                  isSubmitted={handleCloseDialog}
+                />
+              }
+              closeDialog={closeDialog}
+            >
+              <TaskCard key={task.id} task={task} />
+            </DialogComponent>
           ))}
         </div>
       </div>

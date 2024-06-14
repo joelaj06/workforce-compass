@@ -48,7 +48,7 @@ export default function DialogComponent({
         fullWidth
         open={isOpen}
       >
-        <DialogTitle className="bg-background text-primary flex  items-center justify-between">
+        <DialogTitle className="bg-white text-primary flex  items-center justify-between">
           <p className="text-sm font-bold">{title}</p>
           <IconButton
             onClick={handleClose}
@@ -61,7 +61,7 @@ export default function DialogComponent({
         <Divider />
         <DialogContent
           sx={{ padding: "0px" }}
-          className="shadow-lg bg-background p-0"
+          className="shadow-lg bg-white p-0"
         >
           {content}
         </DialogContent>

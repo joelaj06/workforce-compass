@@ -21,9 +21,9 @@ const AddTeamForm = ({ isSubmitted }: AddTeamFormProps) => {
   return (
     <div className="px-3 flex flex-col gap-3">
       <CustomInputField
-        name="first_name"
+        name="name"
         type="text"
-        label="First Name"
+        label="Team Name"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setTeamName(e.target.value)
         }

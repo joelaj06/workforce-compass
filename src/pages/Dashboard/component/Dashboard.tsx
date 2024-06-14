@@ -4,15 +4,13 @@ import DashboardSummaryCardsComponent from "./DashboardSummaryCardsComponent";
 
 const Dashboard = () => {
   return (
-    <div className="flex gap-4">
-      <div className="">
+    <div className="flex flex-col gap-4">
+      <DashboardSummaryCardsComponent />
+      <div className="flex flex-row gap-4">
         <DashboardChartsComponent />
-      </div>
-      <div className="w-1/4 flex-grow">
-        <DashboardPresentUsersComponent />
-      </div>
-      <div className="w-1/6 ">
-        <DashboardSummaryCardsComponent />
+        <div className="w-1/4 flex-grow">
+          <DashboardPresentUsersComponent />
+        </div>
       </div>
     </div>
   );
