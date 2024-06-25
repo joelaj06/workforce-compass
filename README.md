@@ -1,2 +1,2 @@
 # workforce-compass
-An HR management tool designed to provide an easy, friendly and highly customizable interface to every customer.
+A geofence attendance system to provide an easy, friendly and highly customizable interface for tracking deskless or on site workers remotely.
