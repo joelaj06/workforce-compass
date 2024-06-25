@@ -31,7 +31,7 @@ const menuItems = [
     id: 1,
     title: "Dashboard",
     icon: dashboardIcon,
-    link: AppPages.index,
+    link: AppPages.dashboard,
   },
   {
     id: 2,

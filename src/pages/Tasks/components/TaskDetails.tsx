@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { convertDateToString } from "../../../utils/dateTime";
 
 interface TaskDetailsProps {
-  // isSubmitted: (value: boolean) => void;
+  isSubmitted: (value: boolean) => void;
   task: ITask;
   updateTitle: (val: string) => void;
 }
@@ -20,10 +20,12 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     updateTitle(e.target.value);
+    setComments([]);
   };
 
   useEffect(() => {
     updateTitle(task.title);
+    setComment("");
   }, []);
 
   return (

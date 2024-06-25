@@ -10,6 +10,7 @@ export interface IUser {
   location: string;
   email: string;
   address?: string;
+  token?: string;
 }
 
 export const dummyUsers: IUser[] = [

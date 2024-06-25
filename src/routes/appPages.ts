@@ -10,6 +10,7 @@ export const pages = {
   teams: "/teams",
   reports: "/reports",
   tasks: "/tasks",
+  dashboard: "/dashboard",
 };
 
 export const AppPages = Object.freeze(pages);

@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material";
 import Header from "./components/Header";
 import SideBar from "./components/Sidebar";
-import AppRoutes from "./routes/AppRoutes";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const theme = createTheme({
@@ -30,7 +30,7 @@ function App() {
                   <Header />
                 </div>
                 <div className="p-5">
-                  <AppRoutes />
+                  <Outlet />
                 </div>
               </div>
             </div>
