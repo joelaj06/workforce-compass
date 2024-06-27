@@ -2,10 +2,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "@mui/material";
 import { getInitials, stringToColor } from "../utils/getInitials";
+import { useLazyGetUserQuery } from "./login/common/authentication-api";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { AppDispatch } from "../app/store";
+import { setActiveUser } from "../pages/Employees/common/user-slice";
+import { IUser } from "../pages/Employees/common/employee";
 
 const notificationIcon = <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>;
 
 const Header = () => {
+  //hooks
+  const [getUser] = useLazyGetUserQuery();
+  const dispatch: AppDispatch = useDispatch();
+
+  // state variables
+  const [currentUser, setCurrentUser] = useState<IUser>();
+
   function stringAvatar(firstname: string, lastname: string) {
     return {
       sx: {
@@ -20,6 +33,19 @@ const Header = () => {
   const handleNotification = () => {
     console.log("Notification");
   };
+
+  const fetchUser = async () => {
+    const res = await getUser();
+    if (res && res.data) {
+      setCurrentUser(res.data);
+      dispatch(setActiveUser(res.data));
+    }
+  };
+
+  //functions
+  useEffect(() => {
+    fetchUser();
+  }, [getUser]);
 
   return (
     <>
@@ -42,9 +68,21 @@ const Header = () => {
           <div className="text-xl px-1">|</div>
           <div className="w-1 h-full bg-gray-300 m-0 10px"></div>
           <div className="flex gap-1 items-center">
-            <Avatar {...stringAvatar("Osei", "Bonsu")} />
+            {currentUser?.image ? (
+              <Avatar
+                src={currentUser?.image}
+                sx={{ width: "30px", height: "30px" }}
+              />
+            ) : (
+              <Avatar
+                {...stringAvatar(
+                  currentUser?.first_name ?? "",
+                  currentUser?.last_name ?? ""
+                )}
+              />
+            )}
             <div>
-              <div>obosei@gmail.com</div>
+              <div className="text-sm">{currentUser?.email ?? ""}</div>
             </div>
           </div>
         </div>

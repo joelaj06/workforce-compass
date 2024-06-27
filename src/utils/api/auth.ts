@@ -21,4 +21,16 @@ const storeAccessToken = (authResponse: ILoginResponse) => {
   localStorage.setItem("accessToken", token);
 };
 
-export { isAuthenticated, storeAccessToken, isAccessTokenExpired };
+const getApiHeaders = () => {
+  const token = localStorage.getItem("accessToken");
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+};
+
+export {
+  isAuthenticated,
+  storeAccessToken,
+  isAccessTokenExpired,
+  getApiHeaders,
+};

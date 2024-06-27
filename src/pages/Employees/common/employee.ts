@@ -1,3 +1,6 @@
+export interface ILoggedInUser {
+  user: IUser;
+}
 export interface IUser {
   id: number | string;
   first_name: string;
