@@ -36,7 +36,7 @@ export const dummyTasks: ITask[] = [
     description:
       "Develop a comprehensive project plan for the new product launch.",
     assignee: {
-      id: "user-001",
+      _id: "user-001",
       first_name: "Alice",
       last_name: "Johnson",
       role: "Project Manager",
@@ -47,7 +47,7 @@ export const dummyTasks: ITask[] = [
       email: "alice.johnson@example.com",
     },
     reviewer: {
-      id: "user-002",
+      _id: "user-002",
       first_name: "Bob",
       last_name: "Smith",
       role: "Director",
@@ -66,7 +66,7 @@ export const dummyTasks: ITask[] = [
         comment:
           "Initial draft looks good. Let's add more details on the timeline.",
         user: {
-          id: "user-002",
+          _id: "user-002",
           first_name: "Bob",
           last_name: "Smith",
           role: "Director",
@@ -90,7 +90,7 @@ export const dummyTasks: ITask[] = [
     title: "Design website layout",
     description: "Create the layout for the new company website.",
     assignee: {
-      id: "user-003",
+      _id: "user-003",
       first_name: "Charlie",
       last_name: "Davis",
       role: "Designer",
@@ -101,7 +101,7 @@ export const dummyTasks: ITask[] = [
       email: "charlie.davis@example.com",
     },
     reviewer: {
-      id: "user-004",
+      _id: "user-004",
       first_name: "Dana",
       last_name: "Lee",
       role: "Creative Director",
@@ -127,7 +127,7 @@ export const dummyTasks: ITask[] = [
     title: "Develop mobile app",
     description: "Start development on the new mobile app for iOS and Android.",
     assignee: {
-      id: "user-005",
+      _id: "user-005",
       first_name: "Eve",
       last_name: "Martinez",
       role: "Developer",
@@ -138,7 +138,7 @@ export const dummyTasks: ITask[] = [
       email: "eve.martinez@example.com",
     },
     reviewer: {
-      id: "user-006",
+      _id: "user-006",
       first_name: "Frank",
       last_name: "Wong",
       role: "CTO",
@@ -164,7 +164,7 @@ export const dummyTasks: ITask[] = [
     description:
       "Research market trends and customer preferences for the new product.",
     assignee: {
-      id: "user-007",
+      _id: "user-007",
       first_name: "Grace",
       last_name: "Harris",
       role: "Analyst",
@@ -175,7 +175,7 @@ export const dummyTasks: ITask[] = [
       email: "grace.harris@example.com",
     },
     reviewer: {
-      id: "user-008",
+      _id: "user-008",
       first_name: "Hank",
       last_name: "Nguyen",
       role: "Marketing Manager",
@@ -193,7 +193,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-002",
         comment: "Found some interesting trends in the competitor analysis.",
         user: {
-          id: "user-007",
+          _id: "user-007",
           first_name: "Grace",
           last_name: "Harris",
           role: "Analyst",
@@ -217,7 +217,7 @@ export const dummyTasks: ITask[] = [
     title: "Prepare financial report",
     description: "Compile the financial report for Q2 2024.",
     assignee: {
-      id: "user-009",
+      _id: "user-009",
       first_name: "Ivy",
       last_name: "Kim",
       role: "Accountant",
@@ -228,7 +228,7 @@ export const dummyTasks: ITask[] = [
       email: "ivy.kim@example.com",
     },
     reviewer: {
-      id: "user-010",
+      _id: "user-010",
       first_name: "Jack",
       last_name: "Brown",
       role: "CFO",
@@ -246,7 +246,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-003",
         comment: "Please verify the expense numbers for accuracy.",
         user: {
-          id: "user-010",
+          _id: "user-010",
           first_name: "Jack",
           last_name: "Brown",
           role: "CFO",
@@ -270,7 +270,7 @@ export const dummyTasks: ITask[] = [
     title: "Organize team building event",
     description: "Plan and organize a team building event for the sales team.",
     assignee: {
-      id: "user-011",
+      _id: "user-011",
       first_name: "Karen",
       last_name: "Evans",
       role: "HR Specialist",
@@ -281,7 +281,7 @@ export const dummyTasks: ITask[] = [
       email: "karen.evans@example.com",
     },
     reviewer: {
-      id: "user-012",
+      _id: "user-012",
       first_name: "Leo",
       last_name: "Garcia",
       role: "HR Manager",
@@ -299,7 +299,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-004",
         comment: "The event was a great success! Thanks for organizing.",
         user: {
-          id: "user-012",
+          _id: "user-012",
           first_name: "Leo",
           last_name: "Garcia",
           role: "HR Manager",
@@ -323,7 +323,7 @@ export const dummyTasks: ITask[] = [
     title: "Set up new office",
     description: "Coordinate the setup of the new office space in Miami.",
     assignee: {
-      id: "user-013",
+      _id: "user-013",
       first_name: "Mia",
       last_name: "Lewis",
       role: "Facilities Manager",
@@ -334,7 +334,7 @@ export const dummyTasks: ITask[] = [
       email: "mia.lewis@example.com",
     },
     reviewer: {
-      id: "user-014",
+      _id: "user-014",
       first_name: "Noah",
       last_name: "Perez",
       role: "Operations Manager",
@@ -352,7 +352,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-005",
         comment: "Furniture will be delivered next week.",
         user: {
-          id: "user-013",
+          _id: "user-013",
           first_name: "Mia",
           last_name: "Lewis",
           role: "Facilities Manager",
@@ -376,7 +376,7 @@ export const dummyTasks: ITask[] = [
     title: "Develop marketing campaign",
     description: "Create and launch a marketing campaign for the new product.",
     assignee: {
-      id: "user-015",
+      _id: "user-015",
       first_name: "Olivia",
       last_name: "Green",
       role: "Marketing Specialist",
@@ -387,7 +387,7 @@ export const dummyTasks: ITask[] = [
       email: "olivia.green@example.com",
     },
     reviewer: {
-      id: "user-016",
+      _id: "user-016",
       first_name: "Paul",
       last_name: "Adams",
       role: "Marketing Director",
@@ -413,7 +413,7 @@ export const dummyTasks: ITask[] = [
     title: "Upgrade server infrastructure",
     description: "Plan and execute the upgrade of the server infrastructure.",
     assignee: {
-      id: "user-017",
+      _id: "user-017",
       first_name: "Quinn",
       last_name: "Miller",
       role: "System Administrator",
@@ -424,7 +424,7 @@ export const dummyTasks: ITask[] = [
       email: "quinn.miller@example.com",
     },
     reviewer: {
-      id: "user-018",
+      _id: "user-018",
       first_name: "Rachel",
       last_name: "Taylor",
       role: "IT Manager",
@@ -442,7 +442,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-006",
         comment: "Testing the new servers before deployment.",
         user: {
-          id: "user-017",
+          _id: "user-017",
           first_name: "Quinn",
           last_name: "Miller",
           role: "System Administrator",
@@ -466,7 +466,7 @@ export const dummyTasks: ITask[] = [
     title: "Prepare financial report",
     description: "Compile the financial report for Q2 2024.",
     assignee: {
-      id: "user-009",
+      _id: "user-009",
       first_name: "Ivy",
       last_name: "Kim",
       role: "Accountant",
@@ -478,7 +478,7 @@ export const dummyTasks: ITask[] = [
       image: "https://randomuser.me/api/portraits/women/5.jpg",
     },
     reviewer: {
-      id: "user-010",
+      _id: "user-010",
       first_name: "Jack",
       last_name: "Brown",
       role: "CFO",
@@ -497,7 +497,7 @@ export const dummyTasks: ITask[] = [
         id: "comment-003",
         comment: "Please verify the expense numbers for accuracy.",
         user: {
-          id: "user-010",
+          _id: "user-010",
           first_name: "Jack",
           last_name: "Brown",
           role: "CFO",
@@ -523,7 +523,7 @@ export const dummyTasks: ITask[] = [
     description:
       "Plan and organize the annual team building event for the company.",
     assignee: {
-      id: "user-011",
+      _id: "user-011",
       first_name: "Karen",
       last_name: "Thomas",
       role: "HR",
@@ -535,7 +535,7 @@ export const dummyTasks: ITask[] = [
       image: "https://randomuser.me/api/portraits/women/6.jpg",
     },
     reviewer: {
-      id: "user-012",
+      _id: "user-012",
       first_name: "Leo",
       last_name: "Martin",
       role: "CEO",

@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { ILeaves, leaveOptions } from "../common/leaves";
+import { ILeave, leaveOptions } from "../common/leaves";
 import DropDownComponent from "../../../components/DropDownComponent";
 import { ButtonComponent } from "../../../components";
 
 interface LeaveDetailsProps {
-  leave: ILeaves;
+  leave: ILeave;
 }
 
 const LeaveDetails = ({ leave }: LeaveDetailsProps) => {

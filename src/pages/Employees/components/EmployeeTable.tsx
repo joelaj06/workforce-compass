@@ -91,7 +91,7 @@ const EmployeesTable = ({
             </AlertDialogComponent>
             <IconButton
               onClick={() =>
-                navigate(AppPages.employeeDetails(row.original.id.toString()))
+                navigate(AppPages.employeeDetails(row.original._id.toString()))
               }
             >
               <MoreVertIcon sx={{ fontSize: "16px" }} />

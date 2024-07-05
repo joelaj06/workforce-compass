@@ -3,13 +3,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import CustomTableComponent from "../../../components/CustomTableComponent";
 import { convertDateToString } from "../../../utils/dateTime";
-import { ILeaves, dummyLeaves } from "../../Leaves/common/leaves";
+import { ILeave } from "../../Leaves/common/leaves";
 import { Tooltip } from "@mui/material";
 import DropDownComponent from "../../../components/DropDownComponent";
 
-const UserLeaveQuotaTable = () => {
-  const data = useMemo<ILeaves[]>(() => dummyLeaves, []);
-
+interface UserLeaveQuotaTableProps {
+  leaves: ILeave[];
+}
+const UserLeaveQuotaTable = ({ leaves }: UserLeaveQuotaTableProps) => {
   const options = useMemo(
     () => [
       { value: "Approved", label: "Approved" },
@@ -19,12 +20,14 @@ const UserLeaveQuotaTable = () => {
     []
   );
 
-  const columns = useMemo<ColumnDef<ILeaves>[]>(
+  const columns = useMemo<ColumnDef<ILeave>[]>(
     () => [
       {
         header: "Title",
         accessorKey: "title",
-        cell: (row) => row.getValue() as string,
+        cell: ({ row }) => (
+          <span className="text-sm">{row.original.title || "Not Set"}</span>
+        ),
       },
 
       {
@@ -71,7 +74,7 @@ const UserLeaveQuotaTable = () => {
   return (
     <div>
       <CustomTableComponent
-        data={data}
+        data={leaves}
         columns={columns}
         hidePagination={true}
       />

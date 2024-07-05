@@ -2,7 +2,7 @@ export interface ILoggedInUser {
   user: IUser;
 }
 export interface IUser {
-  id: number | string;
+  _id: number | string;
   first_name: string;
   last_name: string;
   image?: string;
@@ -17,11 +17,13 @@ export interface IUser {
 }
 
 export interface IRequestParams {
-  pageIndex: number;
-  pageSize: number;
+  pageIndex?: number;
+  pageSize?: number;
   query?: string;
   startDate?: string;
   endDate?: string;
+  userId?: string;
+  status?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -37,7 +39,7 @@ export interface XPagination {
 
 export const dummyUsers: IUser[] = [
   {
-    id: 1,
+    _id: 1,
     first_name: "John",
     last_name: "Doe",
     image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -50,7 +52,7 @@ export const dummyUsers: IUser[] = [
     email: " john@example.com ",
   },
   {
-    id: 2,
+    _id: 2,
     first_name: "Jane",
     last_name: "Doe",
     image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -63,7 +65,7 @@ export const dummyUsers: IUser[] = [
     email: " jane@example.com ",
   },
   {
-    id: 3,
+    _id: 3,
     first_name: "Millicent",
     last_name: "Adkins",
     image: "https://randomuser.me/api/portraits/women/2.jpg",
@@ -76,7 +78,7 @@ export const dummyUsers: IUser[] = [
     email: " millicent@example.com ",
   },
   {
-    id: 4,
+    _id: 4,
     first_name: "Ellen",
     last_name: "White",
     image: "https://randomuser.me/api/portraits/women/3.jpg",
@@ -89,7 +91,7 @@ export const dummyUsers: IUser[] = [
     email: " jane@example.com ",
   },
   {
-    id: 5,
+    _id: 5,
     first_name: "Jane",
     last_name: "Doe",
     image: "https://randomuser.me/api/portraits/women/4.jpg",

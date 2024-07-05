@@ -58,7 +58,7 @@ const TeamCard = ({ team }: TeamCardProps) => {
       <div className="flex flex-col gap-[2px]">
         {team.members.map((member, index) => (
           <div
-            key={member.id}
+            key={member._id}
             className="bg-white border border-gray-300 px-2 text-sm rounded flex justify-between items-center h-10 "
             onMouseEnter={() => {
               setIsHovered(true);

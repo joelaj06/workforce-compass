@@ -10,7 +10,7 @@ import { IUser } from "../common/employee";
 import { useLazyGetUsersQuery } from "../common/users-api";
 import { showToast } from "../../../utils/ui/notifications";
 import { usePagination } from "../../../utils/helper";
-import { CircularProgress } from "@mui/material";
+import LoadingBox from "../../../components/LoadingBox";
 
 const Employees = () => {
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
@@ -89,25 +89,25 @@ const Employees = () => {
               )
             }
           />
-          <DialogComponent
-            title="Add Employee"
-            content={<AddEmployeeForm isSubmitted={handleCloseDialog} />}
-            closeDialog={closeDialog}
-          >
-            <ButtonComponent
-              btnHeight="small"
-              iconOnLeft={<AddRoundedIcon />}
-              bgColor="primary"
+          <div className="hidden">
+            <DialogComponent
+              title="Add Employee"
+              content={<AddEmployeeForm isSubmitted={handleCloseDialog} />}
+              closeDialog={closeDialog}
             >
-              <span className="capitalize text-sm">Add User</span>
-            </ButtonComponent>
-          </DialogComponent>
+              <ButtonComponent
+                btnHeight="small"
+                iconOnLeft={<AddRoundedIcon />}
+                bgColor="primary"
+              >
+                <span className="capitalize text-sm">Add User</span>
+              </ButtonComponent>
+            </DialogComponent>
+          </div>
         </div>
       </div>
       {usersIsFetching || usersIsLoading ? (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
-        </div>
+        <LoadingBox />
       ) : (
         <EmployeesTable
           usersData={users}

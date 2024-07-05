@@ -6,14 +6,14 @@ export interface IAttendanceDate {
   _id: string;
 }
 
-export interface IAverageAttendanceData {
+export interface IUserAttendanceSummary {
   avgWorkingHrs: number;
   avgCheckout: number;
   avgCheckIn: number;
   totalLeave: number;
 }
 
-export const dummyAverageAttendanceData: IAverageAttendanceData = {
+export const dummyAverageAttendanceData: IUserAttendanceSummary = {
   avgWorkingHrs: 1254,
   avgCheckout: 1110,
   avgCheckIn: 1021,

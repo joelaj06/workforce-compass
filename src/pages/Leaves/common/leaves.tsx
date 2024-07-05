@@ -1,6 +1,6 @@
 import { IUser } from "../../Employees/common/employee";
 
-export interface ILeaves {
+export interface ILeave {
   _id: string;
   user: IUser;
   status: "Pending" | "Declined" | "Approved";
@@ -21,11 +21,11 @@ export const leaveOptions = [
   { value: "Pending", label: "Pending" },
 ];
 
-export const dummyLeaves: ILeaves[] = [
+export const dummyLeaves: ILeave[] = [
   {
     _id: "34432222222222",
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -51,7 +51,7 @@ export const dummyLeaves: ILeaves[] = [
   {
     _id: "34432222222222",
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -77,7 +77,7 @@ export const dummyLeaves: ILeaves[] = [
   {
     _id: "34432222222222",
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",

@@ -34,7 +34,7 @@ const UserSummaryCard = ({ user }: UserSummaryCardProps) => {
           <Avatar src={user.image} sx={{ width: "100px", height: "100px" }} />
         </div>
         <div className="text-sm self-center text-black font-bold">{`${user.first_name} ${user.last_name}`}</div>
-        <p className="text-xs self-center">Job Role</p>
+        <p className="text-xs self-center">{user.job_title || "Job Not Set"}</p>
         <InfoCard
           icon={<MailOutlinedIcon sx={{ fontSize: "16px" }} />}
           value={user.email}

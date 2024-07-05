@@ -29,7 +29,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 1,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -47,7 +47,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 2,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "Jane",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -65,7 +65,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 3,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -83,7 +83,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 4,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "Jane",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -101,7 +101,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 5,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -119,7 +119,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 6,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "Jane",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -137,7 +137,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 7,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -155,7 +155,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 8,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "Jane",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -173,7 +173,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 9,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "John",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -191,7 +191,7 @@ export const dummyCurrentCheckIn: ICurrentCheckIn[] = [
   {
     id: 10,
     user: {
-      id: 1,
+      _id: 1,
       first_name: "Jane",
       last_name: "Doe",
       image: "https://randomuser.me/api/portraits/women/1.jpg",

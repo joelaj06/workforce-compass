@@ -69,7 +69,7 @@ const AddTaskForm = ({ isSubmitted }: AddTaskFormProps) => {
               label={"Select User"}
               options={users.map((user) => ({
                 label: `${user.first_name} ${user.last_name}`,
-                value: user.id,
+                value: user._id,
               }))}
               onChanged={(val) => {
                 setAssigneeId(val != null ? val.value.toString() : "");
@@ -83,7 +83,7 @@ const AddTaskForm = ({ isSubmitted }: AddTaskFormProps) => {
               label={"Select User"}
               options={users.map((user) => ({
                 label: `${user.first_name} ${user.last_name}`,
-                value: user.id,
+                value: user._id,
               }))}
               onChanged={(val) => {
                 setReviewerId(val != null ? val.value.toString() : "");

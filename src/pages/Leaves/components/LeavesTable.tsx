@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import CustomTableComponent from "../../../components/CustomTableComponent";
 import { convertDateToString } from "../../../utils/dateTime";
-import { ILeaves, dummyLeaves } from "../common/leaves";
+import { ILeave, dummyLeaves } from "../common/leaves";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
@@ -14,9 +14,9 @@ import { DialogComponent } from "../../../components";
 import LeaveDetails from "./LeaveDetails";
 
 const LeavesTable = () => {
-  const data = useMemo<ILeaves[]>(() => dummyLeaves, []);
+  const data = useMemo<ILeave[]>(() => dummyLeaves, []);
 
-  const columns = useMemo<ColumnDef<ILeaves>[]>(
+  const columns = useMemo<ColumnDef<ILeave>[]>(
     () => [
       {
         header: "Name",

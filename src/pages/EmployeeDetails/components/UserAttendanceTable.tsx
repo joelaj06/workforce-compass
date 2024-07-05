@@ -1,17 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import CustomTableComponent from "../../../components/CustomTableComponent";
-import {
-  IAttendanceDate,
-  dummyAttendanceDates,
-} from "../common/employee_details";
+import { IAttendanceDate } from "../common/employee_details";
 import { getWorkingHours } from "../../../utils/helper";
 import { convertDateToString } from "../../../utils/dateTime";
 import { Tooltip } from "@mui/material";
 
-const UserAttendanceTable = () => {
-  const data = useMemo<IAttendanceDate[]>(() => dummyAttendanceDates, []);
-
+interface UserAttendanceTableProps {
+  attendanceData: IAttendanceDate[];
+}
+const UserAttendanceTable = ({ attendanceData }: UserAttendanceTableProps) => {
   const columns = useMemo<ColumnDef<IAttendanceDate>[]>(
     () => [
       {
@@ -57,7 +55,7 @@ const UserAttendanceTable = () => {
   return (
     <div>
       <CustomTableComponent
-        data={data}
+        data={attendanceData}
         columns={columns}
         hidePagination={true}
       />

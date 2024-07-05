@@ -3,7 +3,7 @@ import { ILoggedInUser, IUser } from "./employee";
 
 const initialState: ILoggedInUser = {
   user: {
-    id: "",
+    _id: "",
     first_name: "",
     last_name: "",
     image: "",

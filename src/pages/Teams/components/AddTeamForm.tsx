@@ -32,7 +32,7 @@ const AddTeamForm = ({ isSubmitted }: AddTeamFormProps) => {
         label={"Select team members"}
         options={users.map((user) => ({
           label: `${user.first_name} ${user.last_name}`,
-          value: user.id,
+          value: user._id,
         }))}
         onChanged={(val) => setTeamMembers(val.map((x) => x.value.toString()))}
         //width="60%"

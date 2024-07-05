@@ -17,7 +17,7 @@ export const dummyTeams: ITeam[] = [
     name: "Team 1",
     members: [
       {
-        id: 1,
+        _id: 1,
         first_name: "John",
         last_name: "Doe",
         image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -30,7 +30,7 @@ export const dummyTeams: ITeam[] = [
         address: "address",
       },
       {
-        id: 2,
+        _id: 2,
         first_name: "Jane",
         last_name: "Doe",
         image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -43,7 +43,7 @@ export const dummyTeams: ITeam[] = [
         address: "address",
       },
       {
-        id: 3,
+        _id: 3,
         first_name: "Millicent",
         last_name: "Adkins",
         image: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -64,7 +64,7 @@ export const dummyTeams: ITeam[] = [
     name: "Team 2",
     members: [
       {
-        id: 1,
+        _id: 1,
         first_name: "John",
         last_name: "Doe",
         image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -77,7 +77,7 @@ export const dummyTeams: ITeam[] = [
         address: "address",
       },
       {
-        id: 2,
+        _id: 2,
         first_name: "Jane",
         last_name: "Doe",
         image: "https://randomuser.me/api/portraits/women/1.jpg",

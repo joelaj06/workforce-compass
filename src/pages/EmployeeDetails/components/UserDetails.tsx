@@ -1,15 +1,19 @@
 import { useParams } from "react-router-dom";
 import UserSummaryCard from "./UserSummaryCard";
-import { useEffect, useMemo, useState } from "react";
-import { IUser, dummyUsers } from "../../Employees/common/employee";
+import { useEffect, useState } from "react";
+import { IUser } from "../../Employees/common/employee";
 import TabsComponent, { Tab } from "../../../components/TabComponent";
 import UserAttendanceRecords from "./UserAttendanceRecords";
 import LeaveQuota from "./LeaveQuota";
 import UserInfo from "./UserInfo";
+import { useLazyGetUserDetailsQuery } from "../../Employees/common/users-api";
+import { showToast } from "../../../utils/ui/notifications";
+import { IErrorData } from "../../../components/login/common/auth";
+import LoadingBox from "../../../components/LoadingBox";
 
 const UserDetails = () => {
   const defaultUser: IUser = {
-    id: 0,
+    _id: 0,
     first_name: "",
     last_name: "",
     email: "",
@@ -21,31 +25,38 @@ const UserDetails = () => {
   };
 
   const { id } = useParams();
-  const users = useMemo(() => dummyUsers, []);
   const [user, setUser] = useState<IUser>(defaultUser);
+  const [getUser, { isLoading: isLoadingUser }] = useLazyGetUserDetailsQuery();
+
+  const getUserDetails = async () => {
+    if (id === undefined) return;
+    const res = await getUser(id);
+
+    if (res && res.data) setUser(res.data);
+    else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
 
   useEffect(() => {
     if (id === undefined) return;
-    const getUser = () => {
-      const user = users.find((user) => user.id === parseInt(id));
-      if (user) setUser(user);
-    };
-    getUser();
-  }, [id, users]);
+    getUserDetails();
+  }, [id]);
 
   return (
     <>
       <div className="flex flex-row gap-2 ">
         <div className="w-1/4">
-          <UserSummaryCard user={user} />
+          {isLoadingUser ? <LoadingBox /> : <UserSummaryCard user={user} />}
         </div>
         <div className="w-3/4">
           <TabsComponent defaultActiveTab={0}>
             <Tab label={"Attendance"}>
-              <UserAttendanceRecords />
+              <UserAttendanceRecords userId={id ?? ""} />
             </Tab>
             <Tab label={"Leave Quota"}>
-              <LeaveQuota />
+              <LeaveQuota userId={id ?? ""} />
             </Tab>
             <Tab label={"User Info"}>
               <UserInfo user={user} />
