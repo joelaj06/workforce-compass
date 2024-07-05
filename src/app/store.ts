@@ -13,6 +13,8 @@ import { authenticationApi } from "../components/login/common/authentication-api
 import { setupListeners } from "@reduxjs/toolkit/query";
 import storage from "redux-persist/lib/storage";
 import { userReducer } from "../pages/Employees/common/user-slice";
+import { dashboardApi } from "../pages/Dashboard/common/dashboard-api";
+import { usersApi } from "../pages/Employees/common/users-api";
 
 const persistConfig = {
   key: "root",
@@ -25,13 +27,19 @@ export const store = configureStore({
   reducer: {
     user: persistedUser,
     [authenticationApi.reducerPath]: authenticationApi.reducer,
+    [dashboardApi.reducerPath]: dashboardApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authenticationApi.middleware);
+    }).concat(
+      authenticationApi.middleware,
+      dashboardApi.middleware,
+      usersApi.middleware
+    );
   },
 });
 

@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
+import { useGetAverageCheckInOfTheWeekQuery } from "../common/dashboard-api";
 
 ChartJS.register(
   CategoryScale,
@@ -62,31 +63,26 @@ const options: ChartOptions<"line"> = {
   },
 };
 
-const labels: string[] = [
-  "23-04-2024",
-  "24-04-2024",
-  "25-04-2024",
-  "26-04-2024",
-  "27-04-2024",
-  "28-04-2024",
-  "29-04-2024",
-];
-const avgCheckInData: number[] = [1200, 4500, 8700, 6448, 1000, 7888, 3000];
-
-const data: ChartData<"line"> = {
-  labels,
-  datasets: [
-    {
-      label: "Avg Check In",
-      data: avgCheckInData,
-      borderColor: "#0a8686",
-      backgroundColor: "rgba(10,134,134,0.5)",
-      borderWidth: 1,
-    },
-  ],
-};
-
 const DashboardAvgCheckInChart = () => {
+  const { data: avgCheckInOfTheWeekData } =
+    useGetAverageCheckInOfTheWeekQuery();
+
+  const data: ChartData<"line"> = {
+    labels: avgCheckInOfTheWeekData?.dates || [],
+    datasets: [
+      {
+        label: "Avg Check Out",
+        data: avgCheckInOfTheWeekData?.avgTimes || [],
+        borderColor: "#0a8686",
+        backgroundColor: "rgba(10,134,134,0.5)",
+        borderWidth: 1,
+      },
+    ],
+  };
+  console.log(avgCheckInOfTheWeekData);
+
+  console.log(data);
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 max-h-80 min-w-[500px] max-w-[500px]">
       <Line data={data} options={options} />

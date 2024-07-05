@@ -1,11 +1,28 @@
 import { IUser } from "../../Employees/common/employee";
 
+export interface IDashboardSummary {
+  total_users: number;
+  total_teams: number;
+  total_present: number;
+  total_offices: number;
+}
 export interface ICurrentCheckIn {
   id: number;
   user: IUser;
   check_in: string;
   check_out: string;
   is_late: boolean;
+}
+
+export interface IAverageCheck {
+  dates: string[];
+  avgTimes: number[];
+}
+
+export interface IOnTimeWeeklyCheckIn {
+  dates: string[];
+  onTime: number[];
+  late: number[];
 }
 
 export const dummyCurrentCheckIn: ICurrentCheckIn[] = [

@@ -7,6 +7,8 @@ import {
 } from "@tanstack/react-table";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import { Dispatch, SetStateAction } from "react";
+import NoResultsFound from "../pages/Auth/ErrorHandler/NoResultFound";
 
 interface CustomTableProps<T extends object> {
   data: T[];
@@ -14,21 +16,23 @@ interface CustomTableProps<T extends object> {
   loading?: boolean;
   pageCount?: number;
   pagination?: PaginationState;
-  onPaginationChange?: () => void;
+  onPaginationChange?: Dispatch<SetStateAction<PaginationState>>;
   hidePagination?: boolean;
 }
 
 export type PaginationState = {
   pageIndex: number;
   pageSize: number;
+  pageCount?: number;
+  totalPages?: number;
+  totalCount?: number;
 };
 
 const CustomTableComponent = <T extends object>({
   data,
   columns,
   onPaginationChange,
-  // pagination,
-  pageCount,
+  pagination,
   hidePagination,
 }: CustomTableProps<T>) => {
   const table = useReactTable({
@@ -39,13 +43,10 @@ const CustomTableComponent = <T extends object>({
     onPaginationChange,
     manualPagination: true,
     state: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: 10,
-      },
+      pagination,
     },
-    pageCount: pageCount,
-    rowCount: 10,
+    pageCount: pagination?.pageCount,
+    rowCount: pagination?.totalCount,
   });
 
   return (
@@ -85,68 +86,86 @@ const CustomTableComponent = <T extends object>({
                   ))}
                 </thead>
                 <tbody>
-                  {table.getRowModel().rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="border-b border-solid border-gray-300 bg-white"
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          className=" pl-2 text-start whitespace-nowrap  py-2 text-sm font-light"
-                          key={cell.id}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      ))}
+                  {data.length > 0 ? (
+                    table.getRowModel().rows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className="border-b border-solid border-gray-300 bg-white"
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <td
+                            className=" pl-2 text-start whitespace-nowrap  py-2 text-sm font-light"
+                            key={cell.id}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={10}>
+                        <NoResultsFound />
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
         {/* pagination */}
-        <div>
-          <div className={`flex justify-between ${hidePagination && "hidden"}`}>
-            <div>
-              <span>{`Page ${
-                table.getState().pagination.pageIndex + 1
-              } of ${table.getPageCount()}`}</span>
-            </div>
-            <div className="flex  justify-start">
-              <div className="flex flex-row gap-2 ">
-                <button
-                  className="p-0 w-9 h-9 border rounded-md border-primary-color text-primary hover:border-primary-color"
-                  disabled={!table.getCanPreviousPage()}
-                  onClick={table.previousPage}
-                >
-                  <ArrowBackIosRoundedIcon
-                    style={{ fontSize: "12px", color: "var(--primary-color)" }}
-                  />
-                </button>
-                <button
-                  className="p-0 w-9 h-9 text-xs rounded-md text-white border border-primary-color
+        {data.length > 0 && (
+          <div>
+            <div
+              className={`flex justify-between ${hidePagination && "hidden"}`}
+            >
+              <div>
+                <span>{`Page ${
+                  table.getState().pagination.pageIndex + 1
+                } of ${table.getPageCount()}`}</span>
+              </div>
+              <div className="flex  justify-start">
+                <div className="flex flex-row gap-2 ">
+                  <button
+                    className="p-0 w-9 h-9 border rounded-md border-primary-color text-primary hover:border-primary-color"
+                    disabled={!table.getCanPreviousPage()}
+                    onClick={table.previousPage}
+                  >
+                    <ArrowBackIosRoundedIcon
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--primary-color)",
+                      }}
+                    />
+                  </button>
+                  <button
+                    className="p-0 w-9 h-9 text-xs rounded-md text-white border border-primary-color
                 hover:border-gray-400 bg-primary-color"
-                >
-                  {table.getState().pagination.pageIndex + 1}
-                </button>
+                  >
+                    {table.getState().pagination.pageIndex + 1}
+                  </button>
 
-                <button
-                  className="p-0 w-9 h-9 border-[2px] rounded-md border-primary-color text-primary hover:border-primary-color"
-                  disabled={!table.getCanNextPage()}
-                  onClick={table.nextPage}
-                >
-                  <ArrowForwardIosRoundedIcon
-                    style={{ fontSize: "12px", color: "var(--primary-color)" }}
-                  />
-                </button>
+                  <button
+                    className="p-0 w-9 h-9 border-[2px] rounded-md border-primary-color text-primary hover:border-primary-color"
+                    disabled={!table.getCanNextPage()}
+                    onClick={table.nextPage}
+                  >
+                    <ArrowForwardIosRoundedIcon
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--primary-color)",
+                      }}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

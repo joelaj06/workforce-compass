@@ -1,7 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
-import { IUser, dummyUsers } from "../common/employee";
-import CustomTableComponent from "../../../components/CustomTableComponent";
+import { Dispatch, SetStateAction, useMemo } from "react";
+import { IUser } from "../common/employee";
+import CustomTableComponent, {
+  PaginationState,
+} from "../../../components/CustomTableComponent";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
@@ -11,8 +13,17 @@ import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import { useNavigate } from "react-router-dom";
 import { AppPages } from "../../../routes/appPages";
 
-const EmployeesTable = () => {
-  const data = useMemo<IUser[]>(() => dummyUsers, []);
+interface EmployeesTableProps {
+  usersData: IUser[];
+  onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
+  pagination: PaginationState;
+}
+const EmployeesTable = ({
+  usersData,
+  onPaginationChange,
+  pagination,
+}: EmployeesTableProps) => {
+  // const data = useMemo<IUser[]>(() => dummyUsers, []);
   const navigate = useNavigate();
   const columns = useMemo<ColumnDef<IUser>[]>(
     () => [
@@ -96,7 +107,12 @@ const EmployeesTable = () => {
       <div className="bg-white rounded-xl shadow-sm flex-grow">
         <div className="p-3">
           <div>
-            <CustomTableComponent data={data} columns={columns} />
+            <CustomTableComponent
+              data={usersData}
+              columns={columns}
+              pagination={pagination}
+              onPaginationChange={onPaginationChange}
+            />
           </div>
         </div>
       </div>

@@ -16,6 +16,25 @@ export interface IUser {
   token?: string;
 }
 
+export interface IRequestParams {
+  pageIndex: number;
+  pageSize: number;
+  query?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface PaginatedResponse<T> {
+  contents: T;
+  pagination: XPagination;
+}
+
+export interface XPagination {
+  totalPages: number;
+  pageCount: number;
+  totalCount?: number;
+}
+
 export const dummyUsers: IUser[] = [
   {
     id: 1,
