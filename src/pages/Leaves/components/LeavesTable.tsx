@@ -6,11 +6,9 @@ import CustomTableComponent, {
 } from "../../../components/CustomTableComponent";
 import { convertDateToString } from "../../../utils/dateTime";
 import { ILeave } from "../common/leaves";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 import { Avatar, IconButton, Tooltip } from "@mui/material";
-import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import classNames from "classnames";
 import { DialogComponent } from "../../../components";
 import LeaveDetails from "./LeaveDetails";
@@ -115,7 +113,7 @@ const LeavesTable = ({
         accessorKey: "",
         cell: ({ row }) => (
           <div className="flex flex-row gap-1">
-            <AlertDialogComponent
+            {/* <AlertDialogComponent
               title={"Delete User"}
               content={
                 <p className="text-center">
@@ -127,7 +125,7 @@ const LeavesTable = ({
                 {" "}
                 <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
-            </AlertDialogComponent>
+            </AlertDialogComponent> */}
             <DialogComponent
               closeDialog={closeDialog}
               title={`${row.original.user.first_name} ${row.original.user.last_name}`}

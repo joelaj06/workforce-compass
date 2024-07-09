@@ -1,10 +1,17 @@
 import { Avatar, IconButton } from "@mui/material";
-import { ITeam } from "../common/teams";
+import { ITeam, ITeamRequestPayload } from "../common/teams";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useEffect, useState } from "react";
 import { DialogComponent } from "../../../components";
 import AddTeamMemberForm from "./AddTeamMemberForm";
+import {
+  useDeleteTeamMutation,
+  useUpdateTeamMutation,
+} from "../common/teams-api";
+import { showToast } from "../../../utils/ui/notifications";
+import AlertDialogComponent from "../../../components/AlertDialogComponent";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 
 interface TeamCardProps {
   team: ITeam;
@@ -13,8 +20,60 @@ interface TeamCardProps {
 const TeamCard = ({ team }: TeamCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMemberId, setHoveredMemberId] = useState<number | null>(null);
-
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
+
+  const [updateTeam] = useUpdateTeamMutation();
+  const [deleteTeam] = useDeleteTeamMutation();
+
+  const onTeamUpdated = async (team: ITeamRequestPayload) => {
+    try {
+      const res = await updateTeam(team).unwrap();
+      if (res) {
+        showToast({ message: "Team created successfully", type: "success" });
+        setCloseDialog(true);
+      } else {
+        showToast({ message: "Failed to update team", type: "error" });
+      }
+    } catch (error) {
+      if (error) showToast({ message: "Failed to update team", type: "error" });
+    }
+  };
+
+  const onDeleteTeam = async (teamId: string) => {
+    try {
+      const res = await deleteTeam(teamId).unwrap();
+      if (res) {
+        showToast({ message: "Team deleted successfully", type: "success" });
+        setCloseDialog(true);
+      } else {
+        showToast({ message: "Failed to delete team", type: "error" });
+      }
+    } catch (error) {
+      if (error) showToast({ message: "Failed to delete team", type: "error" });
+    }
+  };
+
+  const removeTeamMember = (team: ITeam, memberId: string) => {
+    const newTeam: ITeamRequestPayload = {
+      ...team,
+      id: team._id,
+      members: team.members
+        .filter((member) => member._id !== memberId)
+        .map((member) => member._id.toString()),
+    };
+    onTeamUpdated(newTeam);
+  };
+
+  const addNewTeamMember = (team: ITeam, memberId: string) => {
+    const oldMembers = team.members.map((member) => member._id.toString());
+    const newTeam: ITeamRequestPayload = {
+      ...team,
+      id: team._id,
+      members: [...oldMembers, memberId],
+    };
+    // console.log(newTeam);
+    onTeamUpdated(newTeam);
+  };
 
   useEffect(() => {
     if (closeDialog) {
@@ -37,21 +96,45 @@ const TeamCard = ({ team }: TeamCardProps) => {
         </div>
         <div className="text-end transition-all">
           {isHovered && hoveredMemberId == null && (
-            <DialogComponent
-              title="Add Member"
-              content={<AddTeamMemberForm isSubmitted={handleCloseDialog} />}
-              closeDialog={closeDialog}
-            >
-              <IconButton>
-                <AddRoundedIcon
-                  sx={{
-                    color: "var(--primary-color-shade800)",
-                    width: "20px",
-                    height: "20px",
-                  }}
-                />
-              </IconButton>
-            </DialogComponent>
+            <div className="flex flex-row gap-2 items-center ">
+              <DialogComponent
+                title="Add Member"
+                content={
+                  <AddTeamMemberForm
+                    isSubmitted={handleCloseDialog}
+                    setNewMember={(val: string) => addNewTeamMember(team, val)}
+                  />
+                }
+                closeDialog={closeDialog}
+              >
+                <IconButton>
+                  <AddRoundedIcon
+                    sx={{
+                      color: "var(--primary-color-shade800)",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </IconButton>
+              </DialogComponent>
+              <AlertDialogComponent
+                title={"Delete User"}
+                close={closeDialog}
+                onRightButtonClicked={() => onDeleteTeam(team._id)}
+                content={
+                  <p className="text-center">
+                    Are you sure you want to delete this account?
+                  </p>
+                }
+              >
+                <IconButton>
+                  {" "}
+                  <DeleteOutlineRoundedIcon
+                    sx={{ fontSize: "16px", color: "red" }}
+                  />
+                </IconButton>
+              </AlertDialogComponent>
+            </div>
           )}
         </div>
       </div>
@@ -80,11 +163,24 @@ const TeamCard = ({ team }: TeamCardProps) => {
             </div>
             <div className="">
               {isHovered && index === hoveredMemberId && (
-                <IconButton>
-                  <CloseRoundedIcon
-                    sx={{ color: "red", width: "20px", height: "20px" }}
-                  />
-                </IconButton>
+                <AlertDialogComponent
+                  title={"Delete User"}
+                  close={closeDialog}
+                  content={
+                    <p className="text-center">
+                      Are you sure you want to remove this member?
+                    </p>
+                  }
+                  onRightButtonClicked={() =>
+                    removeTeamMember(team, member._id.toString())
+                  }
+                >
+                  <IconButton>
+                    <CloseRoundedIcon
+                      sx={{ color: "red", width: "20px", height: "20px" }}
+                    />
+                  </IconButton>
+                </AlertDialogComponent>
               )}
             </div>
           </div>

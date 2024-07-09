@@ -8,6 +8,7 @@ interface AlertDialogComponentProps {
   children: ReactNode;
   leftActionTitle?: string;
   rightActionTitle?: string;
+  close?: boolean;
   onRightButtonClicked?: () => void;
 }
 const AlertDialogComponent = ({
@@ -15,7 +16,8 @@ const AlertDialogComponent = ({
   title,
   content,
   leftActionTitle = "Cancel",
-  rightActionTitle = "Ok",
+  rightActionTitle = "Yes",
+  close,
   onRightButtonClicked,
 }: AlertDialogComponentProps) => {
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
@@ -55,7 +57,7 @@ const AlertDialogComponent = ({
         title={title}
         content={content}
         actions={<Actions />}
-        closeDialog={closeDialog}
+        closeDialog={closeDialog || close}
       >
         {children}
       </DialogComponent>

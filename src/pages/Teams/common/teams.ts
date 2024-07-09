@@ -11,6 +11,16 @@ export interface ITeam {
   code?: string;
 }
 
+export interface ITeamRequestPayload {
+  id?: string;
+  name: string;
+  team_leader?: string;
+  members: string[];
+  status?: "active" | "inactive";
+  notes?: string;
+  code?: string;
+}
+
 export const dummyTeams: ITeam[] = [
   {
     _id: "22222222222222",

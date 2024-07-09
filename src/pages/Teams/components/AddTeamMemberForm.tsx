@@ -1,31 +1,51 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ButtonComponent } from "../../../components";
-import DropDownComponent from "../../../components/DropDownComponent";
-import { dummyUsers } from "../../Employees/common/employee";
+import { DropDownOption } from "../../../components/DropDownComponent";
+import { useLazyGetUsersQuery } from "../../Employees/common/users-api";
+import { IErrorData } from "../../../components/login/common/auth";
+import { showToast } from "../../../utils/ui/notifications";
+import AsyncDropDownComponent from "../../../components/AsyncDropDownComponent";
 
 interface AddTeamMemberFormProps {
   isSubmitted: (value: boolean) => void;
+  setNewMember: (memberId: string) => void;
 }
-const AddTeamMemberForm = ({ isSubmitted }: AddTeamMemberFormProps) => {
-  const users = useMemo(() => dummyUsers, []);
+const AddTeamMemberForm = ({
+  isSubmitted,
+  setNewMember,
+}: AddTeamMemberFormProps) => {
   const [memberId, setMemberId] = useState<string>("");
+
+  const [getAllUsers] = useLazyGetUsersQuery();
+
+  const fetchUsers = async (query: string): Promise<DropDownOption[]> => {
+    const res = await getAllUsers({ pageIndex: 1, pageSize: 5, query: query });
+    if (res && res.data) {
+      return res.data.contents.map(
+        (user) =>
+          ({
+            label: `${user.first_name} ${user.last_name}`,
+            value: user._id,
+          } as DropDownOption)
+      );
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+      return Promise.reject(error.data.message);
+    }
+  };
 
   const submitTeamData = () => {
     isSubmitted(true);
-    console.log(memberId);
+    setNewMember(memberId);
   };
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <DropDownComponent
-        label={"Select User"}
-        options={users.map((user) => ({
-          label: `${user.first_name} ${user.last_name}`,
-          value: user._id,
-        }))}
-        onChanged={(val) => {
-          setMemberId(val != null ? val.value.toString() : "");
-        }}
+      <AsyncDropDownComponent
+        label={"Select team members"}
+        options={fetchUsers}
+        onChanged={(val) => setMemberId(val?.value as string)}
         //width="60%"
       />
       <div className="flex flex-row justify-end">
