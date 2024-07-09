@@ -1,9 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { useMemo } from "react";
-import CustomTableComponent from "../../../components/CustomTableComponent";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import CustomTableComponent, {
+  PaginationState,
+} from "../../../components/CustomTableComponent";
 import { convertDateToString } from "../../../utils/dateTime";
-import { ILeave, dummyLeaves } from "../common/leaves";
+import { ILeave } from "../common/leaves";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
@@ -13,8 +15,27 @@ import classNames from "classnames";
 import { DialogComponent } from "../../../components";
 import LeaveDetails from "./LeaveDetails";
 
-const LeavesTable = () => {
-  const data = useMemo<ILeave[]>(() => dummyLeaves, []);
+interface LeavesTableProps {
+  leavesData: ILeave[];
+  onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
+  pagination: PaginationState;
+}
+const LeavesTable = ({
+  leavesData,
+  onPaginationChange,
+  pagination,
+}: LeavesTableProps) => {
+  const [closeDialog, setCloseDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (closeDialog) {
+      setCloseDialog(false);
+    }
+  }, [closeDialog]);
+
+  const handleCloseDialog = () => {
+    setCloseDialog(true);
+  };
 
   const columns = useMemo<ColumnDef<ILeave>[]>(
     () => [
@@ -73,14 +94,17 @@ const LeavesTable = () => {
         accessorKey: "status",
         cell: ({ row }) => (
           <div
-            className={classNames("text-xs rounded-2xl p-[2px] text-center", {
-              "border bg-orange-500  border-orange-600 bg-opacity-10 text-orange-600":
-                row.original.status == "Pending",
-              "border border-green-800 text-green-800 bg-opacity-10 bg-green-500":
-                row.original.status == "Approved",
-              "border bg-red-500 text-red-600 bg-opacity-10 border-red-600":
-                row.original.status == "Declined",
-            })}
+            className={classNames(
+              "text-xs rounded-2xl p-[2px] text-center capitalize truncate",
+              {
+                "border bg-orange-500  border-orange-600 bg-opacity-10 text-orange-600":
+                  row.original.status.toLowerCase() == "pending",
+                "border border-green-800 text-green-800 bg-opacity-10 bg-green-500":
+                  row.original.status.toLowerCase() == "approved",
+                "border bg-red-500 text-red-600 bg-opacity-10 border-red-600":
+                  row.original.status.toLowerCase() == "declined",
+              }
+            )}
           >
             {row.original.status}
           </div>
@@ -105,8 +129,14 @@ const LeavesTable = () => {
               </IconButton>
             </AlertDialogComponent>
             <DialogComponent
+              closeDialog={closeDialog}
               title={`${row.original.user.first_name} ${row.original.user.last_name}`}
-              content={<LeaveDetails leave={row.original} />}
+              content={
+                <LeaveDetails
+                  onClose={handleCloseDialog}
+                  leave={row.original}
+                />
+              }
             >
               <IconButton onClick={() => {}}>
                 <EditRoundedIcon sx={{ fontSize: "16px" }} />
@@ -123,7 +153,12 @@ const LeavesTable = () => {
       <div className="bg-white rounded-xl shadow-sm flex-grow">
         <div className="p-3">
           <div>
-            <CustomTableComponent data={data} columns={columns} />
+            <CustomTableComponent
+              data={leavesData}
+              columns={columns}
+              pagination={pagination}
+              onPaginationChange={onPaginationChange}
+            />
           </div>
         </div>
       </div>

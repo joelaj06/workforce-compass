@@ -15,6 +15,7 @@ import storage from "redux-persist/lib/storage";
 import { userReducer } from "../pages/Employees/common/user-slice";
 import { dashboardApi } from "../pages/Dashboard/common/dashboard-api";
 import { usersApi } from "../pages/Employees/common/users-api";
+import { leavesApi } from "../pages/Leaves/common/leaves-api";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,7 @@ export const store = configureStore({
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [leavesApi.reducerPath]: leavesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
@@ -38,7 +40,8 @@ export const store = configureStore({
     }).concat(
       authenticationApi.middleware,
       dashboardApi.middleware,
-      usersApi.middleware
+      usersApi.middleware,
+      leavesApi.middleware
     );
   },
 });

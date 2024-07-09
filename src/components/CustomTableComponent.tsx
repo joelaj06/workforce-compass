@@ -118,7 +118,7 @@ const CustomTableComponent = <T extends object>({
           </div>
         </div>
         {/* pagination */}
-        {data.length > 0 && !hidePagination && (
+        {data.length > 0 && !(table.getState().pagination == undefined) ? (
           <div>
             <div
               className={`flex justify-between ${hidePagination && "hidden"}`}
@@ -165,6 +165,8 @@ const CustomTableComponent = <T extends object>({
               </div>
             </div>
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </>

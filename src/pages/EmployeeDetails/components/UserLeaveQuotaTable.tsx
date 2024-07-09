@@ -53,7 +53,9 @@ const UserLeaveQuotaTable = ({ leaves }: UserLeaveQuotaTableProps) => {
         accessorKey: "notes",
         cell: ({ row }) => (
           <Tooltip title={row.original.notes}>
-            <span className="text-sm cursor-default">{row.original.notes}</span>
+            <span className="text-sm cursor-default truncate">
+              {row.original.notes}
+            </span>
           </Tooltip>
         ),
       },

@@ -53,15 +53,42 @@ export const usersApi = createApi({
       }),
       providesTags: ["IUserAttendanceSummary"],
     }),
-    getUserLeaves: builder.query<ILeave[], IRequestParams>({
-      query: ({ userId, endDate, startDate, status }) => ({
-        url: status
-          ? `leaves/user/${userId}?date_filter=true&start_date=${startDate}&end_date=${endDate}&status_filter=true&status=${status}`
-          : !startDate
-          ? `leaves/user/${userId}`
-          : `leaves/user/${userId}?date_filter=true&start_date=${startDate}&end_date=${endDate}&status_filter=true&status=approved`,
-        headers: getApiHeaders(),
-      }),
+    getUserLeavesWithoutPaging: builder.query<ILeave[], IRequestParams>({
+      query: ({ userId, endDate, startDate, status }) => {
+        let url = `/leaves`;
+        const params = new URLSearchParams();
+
+        if (userId) {
+          url += `/user/${userId}`;
+        }
+
+        if (startDate) {
+          params.append("date_filter", "true");
+          params.append("start_date", startDate);
+        }
+
+        if (endDate) {
+          params.append("end_date", endDate);
+        }
+
+        if (status) {
+          params.append("status_filter", "true");
+          params.append("status", status);
+        } else if (startDate) {
+          params.append("status_filter", "true");
+          params.append("status", "approved");
+        }
+
+        const queryString = params.toString();
+        if (queryString) {
+          url += `?${queryString}`;
+        }
+
+        return {
+          url,
+          headers: getApiHeaders(),
+        };
+      },
       providesTags: ["ILeaves"],
     }),
   }),
@@ -74,9 +101,9 @@ export const {
   useGetUserDetailsQuery,
   useGetUserAttendanceDateQuery,
   useGetUserAttendanceSummaryQuery,
-  useGetUserLeavesQuery,
+  useGetUserLeavesWithoutPagingQuery,
+  useLazyGetUserLeavesWithoutPagingQuery,
   useLazyGetUserDetailsQuery,
   useLazyGetUserAttendanceDateQuery,
   useLazyGetUserAttendanceSummaryQuery,
-  useLazyGetUserLeavesQuery,
 } = usersApi;

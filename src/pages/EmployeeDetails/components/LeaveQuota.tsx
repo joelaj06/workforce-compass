@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 import UserLeaveQuotaTable from "./UserLeaveQuotaTable";
-import { useLazyGetUserLeavesQuery } from "../../Employees/common/users-api";
+import { useLazyGetUserLeavesWithoutPagingQuery } from "../../Employees/common/users-api";
 import { useEffect, useState } from "react";
 import { IErrorData } from "../../../components/login/common/auth";
 import { ILeave } from "../../Leaves/common/leaves";
@@ -12,7 +12,7 @@ interface LeaveQuotaProps {
 }
 const LeaveQuota = ({ userId }: LeaveQuotaProps) => {
   const [getLeaves, { isLoading: isLeavesLoading }] =
-    useLazyGetUserLeavesQuery();
+    useLazyGetUserLeavesWithoutPagingQuery();
 
   const [leaves, setLeaves] = useState<ILeave[]>([]);
 
