@@ -17,6 +17,7 @@ import { dashboardApi } from "../pages/Dashboard/common/dashboard-api";
 import { usersApi } from "../pages/Employees/common/users-api";
 import { leavesApi } from "../pages/Leaves/common/leaves-api";
 import { teamsApi } from "../pages/Teams/common/teams-api";
+import { taskApi } from "../pages/Tasks/common/tasks-api";
 
 const persistConfig = {
   key: "root",
@@ -33,6 +34,7 @@ export const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [leavesApi.reducerPath]: leavesApi.reducer,
     [teamsApi.reducerPath]: teamsApi.reducer,
+    [taskApi.reducerPath]: taskApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
@@ -44,7 +46,8 @@ export const store = configureStore({
       dashboardApi.middleware,
       usersApi.middleware,
       leavesApi.middleware,
-      teamsApi.middleware
+      teamsApi.middleware,
+      taskApi.middleware
     );
   },
 });

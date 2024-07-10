@@ -1,8 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ButtonComponent, CustomInputField } from "../../../components";
-import { useMemo, useState } from "react";
-import { dummyUsers } from "../../Employees/common/employee";
-import DropDownComponent from "../../../components/DropDownComponent";
+import { useState } from "react";
+import { DropDownOption } from "../../../components/DropDownComponent";
+import { useLazyGetUsersQuery } from "../../Employees/common/users-api";
+import { IErrorData } from "../../../components/login/common/auth";
+import { showToast } from "../../../utils/ui/notifications";
+import AsyncDropDownComponent from "../../../components/AsyncDropDownComponent";
+import { useAddTaskMutation } from "../common/tasks-api";
+import { ITaskRequestPayload } from "../common/task";
 
 interface AddTaskFormProps {
   isSubmitted: (value: boolean) => void;
@@ -15,7 +20,9 @@ type AddTaskFormFileds = {
   reviewer: string;
 };
 const AddTaskForm = ({ isSubmitted }: AddTaskFormProps) => {
-  const users = useMemo(() => dummyUsers, []);
+  const [getAllUsers] = useLazyGetUsersQuery();
+  const [addNewTask, { isLoading }] = useAddTaskMutation();
+
   const [assignee, setAssigneeId] = useState<string>("");
   const [reviewer, setReviewerId] = useState<string>("");
   const {
@@ -24,12 +31,40 @@ const AddTaskForm = ({ isSubmitted }: AddTaskFormProps) => {
     formState: { errors, isSubmitting },
   } = useForm<AddTaskFormFileds>();
 
+  const fetchUsers = async (query: string): Promise<DropDownOption[]> => {
+    const res = await getAllUsers({ pageIndex: 1, pageSize: 5, query: query });
+    if (res && res.data) {
+      return res.data.contents.map(
+        (user) =>
+          ({
+            label: `${user.first_name} ${user.last_name}`,
+            value: user._id,
+          } as DropDownOption)
+      );
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+      return Promise.reject(error.data.message);
+    }
+  };
+
+  const addTask = async (payload: ITaskRequestPayload) => {
+    const res = await addNewTask(payload);
+    if (res && res.data) {
+      showToast({ message: "Task created successfully", type: "success" });
+      isSubmitted(true);
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
+
   const onSubmit: SubmitHandler<AddTaskFormFileds> = async (data) => {
     //set a timeout for a promise
-    const newData = { ...data, assignee, reviewer };
+    const newData: ITaskRequestPayload = { ...data, assignee, reviewer };
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(newData);
-    isSubmitted(true);
+    addTask(newData);
   };
   return (
     <div className="p-3">
@@ -65,39 +100,30 @@ const AddTaskForm = ({ isSubmitted }: AddTaskFormProps) => {
         <div className="flex gap-1 justify-between items-center py-2">
           <div className="flex-1">
             <span className="text-sm">Assignee</span>
-            <DropDownComponent
-              label={"Select User"}
-              options={users.map((user) => ({
-                label: `${user.first_name} ${user.last_name}`,
-                value: user._id,
-              }))}
-              onChanged={(val) => {
-                setAssigneeId(val != null ? val.value.toString() : "");
-              }}
-              // width="50%"
+            <AsyncDropDownComponent
+              label={"Select user"}
+              options={fetchUsers}
+              onChanged={(val) => setAssigneeId(val?.value as string)}
+              //width="60%"
             />
           </div>
           <div className="flex-1">
             <span className="text-sm">Reviewer</span>
-            <DropDownComponent
-              label={"Select User"}
-              options={users.map((user) => ({
-                label: `${user.first_name} ${user.last_name}`,
-                value: user._id,
-              }))}
-              onChanged={(val) => {
-                setReviewerId(val != null ? val.value.toString() : "");
-              }}
-              // width="50%"
+            <AsyncDropDownComponent
+              label={"Select user"}
+              options={fetchUsers}
+              onChanged={(val) => setReviewerId(val?.value as string)}
+              //width="60%"
             />
           </div>
         </div>
 
+        {/* TODO: Add location */}
         <div className="flex flex-row justify-between">Location</div>
 
         <div className="py-4 flex flex-row justify-end">
           <ButtonComponent
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             type="submit"
             btnHeight="small"
             bgColor="primary"
