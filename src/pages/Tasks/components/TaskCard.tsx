@@ -5,6 +5,7 @@ import {
   faCalendarDays,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DateTime } from "luxon";
 
 interface TaskCardProps {
   task: ITask;
@@ -29,7 +30,11 @@ const TaskCard = ({ task }: TaskCardProps) => {
         <div className="flex flex-row gap-1 justify-between items-center">
           <div className="border p-1 rounded flex flex-row gap-1">
             <FontAwesomeIcon icon={faCalendarDays} />{" "}
-            <span className="text-xs">{task.due_date ?? "Not Set"}</span>
+            <span className="text-xs">
+              {task.due_date
+                ? DateTime.fromISO(task.due_date).toLocaleString({})
+                : "Not Set"}
+            </span>
           </div>
           <div className="flex flex-row gap-1">
             <FontAwesomeIcon icon={faCommentDots} />

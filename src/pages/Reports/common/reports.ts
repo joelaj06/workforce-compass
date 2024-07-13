@@ -1,5 +1,11 @@
 import { ReportCardProps } from "../components/ReportCard";
 
+export interface IReportRequestParam {
+  date?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export const attendanceTrackingReports: ReportCardProps[] = [
   {
     id: 1,

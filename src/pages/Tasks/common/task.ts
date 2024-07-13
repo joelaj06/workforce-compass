@@ -20,8 +20,8 @@ export interface ITaskRequestPayload {
   id?: string;
   title: string;
   description: string;
-  assignee: string;
-  reviewer: string;
+  assignee?: string;
+  reviewer?: string;
   status?: string;
   start_date?: string;
   due_date?: string;

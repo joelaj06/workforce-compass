@@ -9,6 +9,7 @@ import {
 const Reports = () => {
   const attendanceTrackingReport = useMemo(() => attendanceTrackingReports, []);
   const abscentManagementReport = useMemo(() => abscentManagementReports, []);
+
   return (
     <>
       <div className="flex flex-row justify-between mb-4">
