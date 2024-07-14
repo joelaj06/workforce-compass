@@ -3,10 +3,16 @@ export interface ReportCardProps {
   id?: number;
   image: string;
   description: string;
+  onClick?: () => void;
 }
-const ReportCard = ({ title, image, description }: ReportCardProps) => {
+const ReportCard = ({
+  title,
+  image,
+  description,
+  onClick,
+}: ReportCardProps) => {
   return (
-    <div className="flex flex-col gap-1 w-1/4 cursor-pointer">
+    <div onClick={onClick} className="flex flex-col gap-1 w-1/4 cursor-pointer">
       <div className="bg-background rounded-md p-1 flex justify-center">
         <img className="w-28" src={`/assets/images/${image}`} alt="" />
       </div>

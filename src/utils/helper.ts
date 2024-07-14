@@ -50,3 +50,15 @@ export const getPaginationMetaData = (meta: FetchBaseQueryMeta | undefined) => {
   }
   return paginationState;
 };
+
+export const downloadBlobPdf = (data: Blob) => {
+  const url = window.URL.createObjectURL(
+    new Blob([data], { type: "application/pdf" })
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "report.pdf");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
