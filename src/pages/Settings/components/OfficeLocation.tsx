@@ -1,15 +1,24 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { ButtonComponent, CustomInputField } from "../../../components";
-import { Radius, locationRadiusLimit } from "../common/settings";
+import {
+  IOrganization,
+  IOrganizationRequestPayload,
+  Radius,
+  locationRadiusLimit,
+} from "../common/settings";
+import { useUpdateOrganizationMutation } from "../common/settings-api";
 
-const OfficeLocation = () => {
+interface OfficeLocationProps {
+  data: IOrganization;
+}
+const OfficeLocation = ({ data }: OfficeLocationProps) => {
+  const [updateOrganization, { isLoading }] = useUpdateOrganizationMutation();
+
   const radi = useMemo(() => locationRadiusLimit, []);
-  const [selectedRadius, setSelectedRadius] = useState<Radius>({
-    label: "",
-    radius: 0,
-    id: 0,
-  });
-  const [officeAddress, setOfficeAddress] = useState<string>("");
+  const [selectedRadius, setSelectedRadius] = useState<Radius>(data.radius);
+  const [officeAddress, setOfficeAddress] = useState<string>(
+    data.address ?? ""
+  );
   // const [position, setPosition] = useState<number[]>([51.505, -0.09]);
 
   const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +31,21 @@ const OfficeLocation = () => {
     // This might involve calling a geocoding API to get the coordinates for the entered address
     // and then updating the position state
   }, [officeAddress]);
+
+  const onOfficeUpdate = async () => {
+    const payload: IOrganizationRequestPayload = {
+      _id: data._id,
+      address: officeAddress,
+      radius: selectedRadius,
+    };
+
+    try {
+      await updateOrganization(payload);
+    } catch (error) {
+      console.error("Error updating organization:", error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-sm shadow-sm px-3 py-4">
       <div>
@@ -33,6 +57,7 @@ const OfficeLocation = () => {
           type="text"
           placeholder="⚲ Street, city, country"
           label="Office Location"
+          defaultValue={data.note}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleAddressChange(e)
           }
@@ -45,7 +70,8 @@ const OfficeLocation = () => {
               <div
                 onClick={() => setSelectedRadius(radius)}
                 className={`p-2  cursor-pointer rounded-md shadow-sm text-sm ${
-                  radius === selectedRadius
+                  radius === selectedRadius ||
+                  radius.radius == data.radius.radius
                     ? "bg-primary-color text-white"
                     : "bg-gray-200"
                 }`}
@@ -64,8 +90,10 @@ const OfficeLocation = () => {
             minWidth="fit-content"
             btnWidth="105px"
             variantType="outlined"
-            disabled={officeAddress == ""}
-            onClick={() => {}}
+            disabled={isLoading}
+            onClick={() => {
+              onOfficeUpdate();
+            }}
           >
             <span className="capitalize text-xs">Save</span>
           </ButtonComponent>

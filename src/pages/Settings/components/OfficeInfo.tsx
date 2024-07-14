@@ -3,10 +3,20 @@ import { useState, ChangeEvent } from "react";
 import { CustomInputField, ButtonComponent } from "../../../components";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import ImageIcon from "@mui/icons-material/Image";
+import { IOrganization, IOrganizationRequestPayload } from "../common/settings";
+import { useUpdateOrganizationMutation } from "../common/settings-api";
+import { showToast } from "../../../utils/ui/notifications";
+import { IErrorData } from "../../../components/login/common/auth";
 
-const OfficeInfo = () => {
-  const [selectedImage, setSelectedImage] = useState<string>("");
-  const [officeName, setOfficeName] = useState<string>("");
+interface OfficeInfoProps {
+  data: IOrganization;
+}
+const OfficeInfo = ({ data }: OfficeInfoProps) => {
+  const [updateOrganization, { isLoading }] = useUpdateOrganizationMutation();
+
+  const [selectedImage, setSelectedImage] = useState<string>(data.logo);
+  const [officeName, setOfficeName] = useState<string>(data.name);
+  const [note, setNote] = useState<string>(data.note ?? "");
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files as FileList;
@@ -20,6 +30,31 @@ const OfficeInfo = () => {
 
     reader.readAsDataURL(file[0]);
   };
+
+  const onOfficeUpdate = async () => {
+    const payload: IOrganizationRequestPayload = {
+      _id: data._id,
+      name: officeName,
+      logo: selectedImage,
+      note: note,
+    };
+
+    try {
+      const res = await updateOrganization(payload);
+      if (res && res.data) {
+        showToast({
+          message: "Organization updated successfully",
+          type: "success",
+        });
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
+    } catch (error) {
+      console.error("Error updating organization:", error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-sm shadow-sm px-3 py-4">
       <div>
@@ -31,15 +66,21 @@ const OfficeInfo = () => {
               customClass="flex-1"
               type="text"
               label="Office Name"
+              defaultValue={data.name}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setOfficeName(e.target.value)
               }
             />
             <CustomInputField
-              name="website_url"
+              name="note"
               customClass="flex-1"
               type="text"
-              label="Website URL"
+              multipleLines={true}
+              defaultValue={data.note}
+              label="Note"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setNote(e.target.value)
+              }
             />
           </div>
 
@@ -114,8 +155,8 @@ const OfficeInfo = () => {
             minWidth="fit-content"
             btnWidth="105px"
             variantType="outlined"
-            disabled={officeName == ""}
-            onClick={() => {}}
+            disabled={officeName == "" || isLoading}
+            onClick={() => onOfficeUpdate()}
           >
             <span className="capitalize text-xs">Save</span>
           </ButtonComponent>

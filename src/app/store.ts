@@ -19,6 +19,7 @@ import { leavesApi } from "../pages/Leaves/common/leaves-api";
 import { teamsApi } from "../pages/Teams/common/teams-api";
 import { taskApi } from "../pages/Tasks/common/tasks-api";
 import { reportsApi } from "../pages/Reports/common/reports-api";
+import { settingsApi } from "../pages/Settings/common/settings-api";
 
 const persistConfig = {
   key: "root",
@@ -37,6 +38,7 @@ export const store = configureStore({
     [teamsApi.reducerPath]: teamsApi.reducer,
     [taskApi.reducerPath]: taskApi.reducer,
     [reportsApi.reducerPath]: reportsApi.reducer,
+    [settingsApi.reducerPath]: settingsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
@@ -50,7 +52,8 @@ export const store = configureStore({
       leavesApi.middleware,
       teamsApi.middleware,
       taskApi.middleware,
-      reportsApi.middleware
+      reportsApi.middleware,
+      settingsApi.middleware
     );
   },
 });
