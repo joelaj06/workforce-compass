@@ -20,6 +20,7 @@ import { teamsApi } from "../pages/Teams/common/teams-api";
 import { taskApi } from "../pages/Tasks/common/tasks-api";
 import { reportsApi } from "../pages/Reports/common/reports-api";
 import { settingsApi } from "../pages/Settings/common/settings-api";
+import { chatsApi } from "../pages/chat/common/chats-api";
 
 const persistConfig = {
   key: "root",
@@ -39,6 +40,7 @@ export const store = configureStore({
     [taskApi.reducerPath]: taskApi.reducer,
     [reportsApi.reducerPath]: reportsApi.reducer,
     [settingsApi.reducerPath]: settingsApi.reducer,
+    [chatsApi.reducerPath]: chatsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
@@ -53,7 +55,8 @@ export const store = configureStore({
       teamsApi.middleware,
       taskApi.middleware,
       reportsApi.middleware,
-      settingsApi.middleware
+      settingsApi.middleware,
+      chatsApi.middleware
     );
   },
 });

@@ -12,16 +12,19 @@ import { Avatar, IconButton, Tooltip } from "@mui/material";
 import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import { useNavigate } from "react-router-dom";
 import { AppPages } from "../../../routes/appPages";
+import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
 
 interface EmployeesTableProps {
   usersData: IUser[];
   onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
   pagination: PaginationState;
+  getUser: (user: IUser) => void;
 }
 const EmployeesTable = ({
   usersData,
   onPaginationChange,
   pagination,
+  getUser,
 }: EmployeesTableProps) => {
   // const data = useMemo<IUser[]>(() => dummyUsers, []);
   const navigate = useNavigate();
@@ -95,6 +98,9 @@ const EmployeesTable = ({
               }
             >
               <MoreVertIcon sx={{ fontSize: "16px" }} />
+            </IconButton>
+            <IconButton onClick={() => getUser(row.original)}>
+              <ChatRoundedIcon sx={{ fontSize: "16px" }} />
             </IconButton>
           </div>
         ),
