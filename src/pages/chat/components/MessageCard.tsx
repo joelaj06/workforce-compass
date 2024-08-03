@@ -8,16 +8,20 @@ interface MessageCardProps {
 }
 
 const MessageCard = ({ message }: MessageCardProps) => {
+  // console.log(message);
   const currentUser: IUser = useSelector(
     (state: RootState) => state.user.user
   ) as IUser;
+
+  const isCurrentUser = message.sender?._id === currentUser.id;
+
   return (
     <div>
       <p
-        className={`text-sm p-2 rounded-lg  m-2 w-fit ${
-          message.sender?._id === currentUser._id
-            ? "bg-gray-200 float-end"
-            : " bg-primary-color text-white float-start"
+        className={`text-sm p-2 rounded-lg  w-fit ${
+          isCurrentUser
+            ? " bg-primary-color text-white float-end"
+            : "bg-gray-200 float-start"
         }`}
       >
         {message.content.message_text}

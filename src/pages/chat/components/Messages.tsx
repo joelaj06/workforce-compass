@@ -6,6 +6,7 @@ import {
   IMessage,
   IMessageRequestPayload,
   InitiateChatRequestPayload,
+  OnlineUser,
 } from "../common/chat";
 import MessageCard from "./MessageCard";
 import {
@@ -16,6 +17,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { showToast } from "../../../utils/ui/notifications";
 import LoadingBox from "../../../components/LoadingBox";
+import { socketIO } from "../../../app/socket";
 
 interface MessagesProps {
   user: IUser;
@@ -33,6 +35,9 @@ const Messages = ({ user }: MessagesProps) => {
   //state variables
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [messageInput, setMessageInput] = useState("");
+  const [socket, setSocket] = useState(socketIO);
+  const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
+  const [userStatus, setUserStatus] = useState<string>("offline");
   //  const [chatId, setChatId] = useState<string>();
 
   const initiateNewChat = async () => {
@@ -99,6 +104,44 @@ const Messages = ({ user }: MessagesProps) => {
   useEffect(() => {
     initiateNewChat();
   }, [user]);
+
+  //initialize socket
+  useEffect(() => {
+    socket.on("connection", () => {});
+    socket.on("disconnect", () => {});
+    //register user on socket
+
+    return () => {
+      socket.off("connect", () => {});
+      socket.off("disconnect", () => {});
+    };
+  }, [currentUser]);
+
+  useEffect(() => {
+    socket.emit("register", currentUser.id);
+    //listen to new messages
+    socket.on("registered-users", (data) => {
+      setOnlineUsers(data);
+      console.log(onlineUsers);
+      setUserStatus(data.includes(currentUser.id) ? "online" : "offline");
+    });
+    socket.on("receive-message", (data) => {
+      console.log(data);
+      const newMessage: IMessage = {
+        content: data.message,
+        _id: Date.now().toLocaleString(),
+        recipient: data.sender,
+        chat: data.chat_room_id,
+        sender: currentUser,
+        createdAt: data.createdAt,
+      };
+      setMessages([...messages, newMessage]);
+    });
+    return () => {
+      socket.off("registered-users");
+      socket.off("receive-message");
+    };
+  }, [socket]);
   return (
     <div className="flex flex-col h-full">
       <div className="py-1 flex flex-row gap-2 items-start">
@@ -107,13 +150,13 @@ const Messages = ({ user }: MessagesProps) => {
           <p className="text-sm">
             {user.first_name} {user.last_name}
           </p>
-          <p className="text-[8px]">Offline</p>
+          <p className="text-[8px]">{userStatus}</p>
         </div>
       </div>
       <Divider sx={{ padding: "0px 4px" }} />
 
       {/* Messages list */}
-      <div className="flex-grow flex flex-col overflow-y-auto p-2">
+      <div className="flex-grow flex flex-col overflow-y-auto pt-2">
         {isLoadingChats || isLoadingMessages ? (
           <LoadingBox />
         ) : messages.length === 0 ? (

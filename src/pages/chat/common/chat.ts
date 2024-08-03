@@ -35,3 +35,8 @@ export interface IMessageRequestPayload {
   message: IMessageContent;
   chatId: string;
 }
+
+export interface OnlineUser {
+  userId: string;
+  socketId: string;
+}
