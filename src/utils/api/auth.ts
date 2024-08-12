@@ -1,4 +1,5 @@
 import { ILoginResponse } from "../../components/login/common/auth";
+import { jwtDecode } from "jwt-decode";
 
 const isAuthenticated = () => {
   const token: string | null = localStorage.getItem("accessToken");
@@ -8,10 +9,19 @@ const isAuthenticated = () => {
   return false;
 };
 
+/**
+ * Checks if the access token has expired.
+ *
+ * @return {boolean} true if the access token has expired, false otherwise
+ */
 const isAccessTokenExpired = (): boolean => {
-  const expiryTime = localStorage.getItem("expiryTime");
+  const token: string | null = localStorage.getItem("accessToken");
+  if (!token) return true;
+  const decoded = jwtDecode(token);
+  console.log(decoded);
+  const expiryTime = decoded.exp;
   if (!expiryTime) return true;
-  return new Date().getTime() > parseInt(expiryTime, 10);
+  return Date.now() > expiryTime * 1000;
 };
 
 const storeAccessToken = (authResponse: ILoginResponse) => {

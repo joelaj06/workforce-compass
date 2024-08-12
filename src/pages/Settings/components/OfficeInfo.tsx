@@ -9,14 +9,14 @@ import { showToast } from "../../../utils/ui/notifications";
 import { IErrorData } from "../../../components/login/common/auth";
 
 interface OfficeInfoProps {
-  data: IOrganization;
+  data: IOrganization | null;
 }
 const OfficeInfo = ({ data }: OfficeInfoProps) => {
   const [updateOrganization, { isLoading }] = useUpdateOrganizationMutation();
 
-  const [selectedImage, setSelectedImage] = useState<string>(data.logo);
-  const [officeName, setOfficeName] = useState<string>(data.name);
-  const [note, setNote] = useState<string>(data.note ?? "");
+  const [selectedImage, setSelectedImage] = useState<string>(data?.logo ?? "");
+  const [officeName, setOfficeName] = useState<string>(data?.name ?? "");
+  const [note, setNote] = useState<string>(data?.note ?? "");
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files as FileList;
@@ -33,7 +33,7 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
 
   const onOfficeUpdate = async () => {
     const payload: IOrganizationRequestPayload = {
-      _id: data._id,
+      _id: data?._id ?? "",
       name: officeName,
       logo: selectedImage,
       note: note,
@@ -66,7 +66,7 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
               customClass="flex-1"
               type="text"
               label="Office Name"
-              defaultValue={data.name}
+              defaultValue={data?.name ?? ""}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setOfficeName(e.target.value)
               }
@@ -76,7 +76,7 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
               customClass="flex-1"
               type="text"
               multipleLines={true}
-              defaultValue={data.note}
+              defaultValue={data?.note ?? "No notes"}
               label="Note"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setNote(e.target.value)

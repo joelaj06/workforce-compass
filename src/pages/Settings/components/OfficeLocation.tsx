@@ -7,17 +7,20 @@ import {
   locationRadiusLimit,
 } from "../common/settings";
 import { useUpdateOrganizationMutation } from "../common/settings-api";
+import MapLocation from "../../../components/MapLocation";
 
 interface OfficeLocationProps {
-  data: IOrganization;
+  data: IOrganization | null;
 }
 const OfficeLocation = ({ data }: OfficeLocationProps) => {
   const [updateOrganization, { isLoading }] = useUpdateOrganizationMutation();
 
   const radi = useMemo(() => locationRadiusLimit, []);
-  const [selectedRadius, setSelectedRadius] = useState<Radius>(data.radius);
+  const [selectedRadius, setSelectedRadius] = useState<Radius>(
+    data?.radius ?? radi[0]
+  );
   const [officeAddress, setOfficeAddress] = useState<string>(
-    data.address ?? ""
+    data?.address ?? ""
   );
   // const [position, setPosition] = useState<number[]>([51.505, -0.09]);
 
@@ -34,7 +37,7 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
 
   const onOfficeUpdate = async () => {
     const payload: IOrganizationRequestPayload = {
-      _id: data._id,
+      _id: data?._id ?? "",
       address: officeAddress,
       radius: selectedRadius,
     };
@@ -57,21 +60,27 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
           type="text"
           placeholder="⚲ Street, city, country"
           label="Office Location"
-          defaultValue={data.note}
+          defaultValue={data?.note ?? "No notes"}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleAddressChange(e)
           }
         />
 
+        <div className="p-4">
+          {/* Here you can render the map with the officeAddress and position state */}
+          <MapLocation />
+        </div>
+
         <div>
           <p className="text-sm my-3"> Check In Limit (Radius)</p>
           <div className="flex flex-row gap-2">
-            {radi.map((radius) => (
+            {radi.map((radius, idx) => (
               <div
+                key={idx}
                 onClick={() => setSelectedRadius(radius)}
                 className={`p-2  cursor-pointer rounded-md shadow-sm text-sm ${
                   radius === selectedRadius ||
-                  radius.radius == data.radius.radius
+                  (data?.radius && radius.radius == data.radius.radius)
                     ? "bg-primary-color text-white"
                     : "bg-gray-200"
                 }`}
@@ -81,8 +90,6 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
             ))}
           </div>
         </div>
-
-        <div className="h-60"></div>
 
         <div className="flex flex-row justify-end">
           <ButtonComponent

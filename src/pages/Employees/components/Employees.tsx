@@ -12,7 +12,7 @@ import { showToast } from "../../../utils/ui/notifications";
 import { usePagination } from "../../../utils/helper";
 import LoadingBox from "../../../components/LoadingBox";
 import Messages from "../../chat/components/Messages";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+// import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Employees = () => {
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
@@ -133,14 +133,14 @@ const Employees = () => {
         {/* Chat box */}
         {openMessages && (
           <div className="bg-white rounded-lg p-2 shadow-sm w-1/4 h-[calc(100vh-100px)]">
-            <div className="flex flex-row justify-end">
+            {/* <div className="flex flex-row justify-end">
               <CloseRoundedIcon
                 onClick={() => {
                   setOpenMessages(false);
                   setSelectedUser(undefined);
                 }}
               />
-            </div>
+            </div> */}
             <Messages user={selectedUser ?? ({} as IUser)} />
           </div>
         )}

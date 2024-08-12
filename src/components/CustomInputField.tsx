@@ -1,6 +1,11 @@
 import { cn } from "../utils";
 import { VariantProps, cva } from "class-variance-authority";
-import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
+import {
+  InputHTMLAttributes,
+  LegacyRef,
+  ReactNode,
+  TextareaHTMLAttributes,
+} from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import {
   DeepMap,
@@ -57,6 +62,7 @@ interface CustomInputFiledProps<T extends Record<string, unknown>>
   rows?: number;
   cols?: number;
   hideBorder?: boolean;
+  ref?: LegacyRef<HTMLInputElement>;
 }
 
 const CustomInputField = <T extends Record<string, unknown>>({
@@ -77,6 +83,7 @@ const CustomInputField = <T extends Record<string, unknown>>({
   rows,
   cols,
   hideBorder,
+  ref,
   ...props
 }: CustomInputFiledProps<T>) => {
   const hasError = errors && (name! in errors! ? true : false);
@@ -115,6 +122,7 @@ const CustomInputField = <T extends Record<string, unknown>>({
           ></textarea>
         ) : (
           <input
+            ref={ref}
             className={classNames(
               cn(inputVariance({ intent, variantSize, className })),
               {

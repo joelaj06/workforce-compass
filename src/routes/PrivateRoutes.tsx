@@ -1,12 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import App from "../App";
-import { isAuthenticated } from "../utils/api/auth";
+import { isAccessTokenExpired, isAuthenticated } from "../utils/api/auth";
 import PublicRoutes from "./PublicRoutes";
 
 const PrivateRoutes = () => {
+  console.log(isAccessTokenExpired());
   return (
     <Routes>
-      {isAuthenticated() ? (
+      {isAuthenticated() && !isAccessTokenExpired() ? (
         <Route path="/" element={<App />}>
           <Route path="/*" element={<PublicRoutes />} />
         </Route>

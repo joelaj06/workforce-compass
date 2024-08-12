@@ -26,8 +26,8 @@ const OfficeDetails = () => {
 
   return (
     <div className="py-4 flex flex-col gap-3">
-      <OfficeInfo data={data ? data[0] : ({} as IOrganization)} />
-      <OfficeLocation data={data ? data[0] : ({} as IOrganization)} />
+      <OfficeInfo data={data ? data[0] : null} />
+      <OfficeLocation data={data ? data[0] : null} />
     </div>
   );
 };

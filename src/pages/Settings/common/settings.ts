@@ -13,7 +13,7 @@ export interface IOrganization {
   arrival_time: string;
   departure_time: string;
   motto: string;
-  logo: string;
+  logo?: string;
   radius: Radius;
   note?: string;
   address?: string;
@@ -45,6 +45,11 @@ export interface Radius {
 export const locationRadiusLimit = [
   {
     id: 1,
+    radius: 50,
+    label: "50M",
+  },
+  {
+    id: 2,
     radius: 100,
     label: "100M",
   },
@@ -57,10 +62,5 @@ export const locationRadiusLimit = [
     id: 2,
     radius: 500,
     label: "500M",
-  },
-  {
-    id: 2,
-    radius: 10000,
-    label: "1KM",
   },
 ];

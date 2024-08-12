@@ -51,7 +51,7 @@ export const chatsApi = createApi({
 
     sendMessage: builder.mutation<IMessage, IMessageRequestPayload>({
       query: (payload) => ({
-        url: `/chats/${payload.chatId}/messages`,
+        url: `/chats/${payload.chatId}/message`,
         method: "POST",
         headers: getApiHeaders(),
         body: payload,
