@@ -8,6 +8,9 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import CustomInputField from "./CustomInputField";
+import ButtonComponent from "./ButtonComponent";
+import { showToast } from "../utils/ui/notifications";
+import { ILocation } from "../pages/Settings/common/settings";
 
 const defaultContainerStyle: React.CSSProperties = {
   width: "100%",
@@ -22,6 +25,7 @@ interface MapLocationProps {
   containerStyle?: React.CSSProperties;
   center?: google.maps.LatLngLiteral;
   radius?: number;
+  onMarkerClick?: (address: ILocation) => void;
 }
 
 /**
@@ -29,8 +33,14 @@ interface MapLocationProps {
  * @param {MapLocationProps} center - The center coordinates of the map.
  * @param {React.CSSProperties} containerStyle - The style object for the map container.
  * @param {number} radius - The radius of the selected marker on the map.
+ * @param {(address: ILocation) => void} onMarkerClick - The function to be called when the marker is clicked.
  */
-const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
+const MapLocation = ({
+  center,
+  containerStyle,
+  radius,
+  onMarkerClick,
+}: MapLocationProps) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string,
@@ -84,7 +94,7 @@ const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
     }
   };
 
-  useEffect(() => {
+  const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -92,31 +102,42 @@ const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-
+          console.log(userLocation);
           setDefaultCenter(userLocation);
           setMarkerPosition(userLocation);
         },
         (error) => {
           console.error("Error getting user's location:", error);
+          showToast({ message: error.message, type: "error" });
         }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+  };
+
+  useEffect(() => {
+    getCurrentLocation();
   }, []);
 
-  const onMarkerClick = () => {
+  useEffect(() => {
+    console.log("");
+  }, [markerPosition]);
+
+  const handleOnMarkerClick = () => {
     if (markerPosition) {
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ location: markerPosition }, (results, status) => {
         if (results)
           if (status === "OK" && results[0]) {
             const address = results[0].formatted_address;
-            console.log("Location to save:", {
+            const radius: ILocation = {
               lat: markerPosition.lat,
-              lng: markerPosition.lng,
+              long: markerPosition.lng,
               address,
-            });
+            };
+            onMarkerClick?.(radius);
+
             // Here you would make an API call to save the location to your database
             // Example: saveLocationToDatabase(markerPosition.lat, markerPosition.lng, address);
           } else {
@@ -128,17 +149,31 @@ const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
 
   return isLoaded ? (
     <div className="flex flex-col gap-3">
-      <Autocomplete onLoad={onAutocompleteLoad} onPlaceChanged={onPlaceChanged}>
-        <CustomInputField
-          width="40%"
-          name="address"
-          customClass="flex-1"
-          type="text"
-          ref={inputRef}
-          placeholder="⚲ Street, city, country"
-          label="Search location..."
-        />
-      </Autocomplete>
+      <div className="flex flex-row gap-3 items-end">
+        <Autocomplete
+          onLoad={onAutocompleteLoad}
+          onPlaceChanged={onPlaceChanged}
+        >
+          <CustomInputField
+            name="address"
+            type="text"
+            ref={inputRef}
+            placeholder="⚲ Street, city, country"
+            label="Search location..."
+          />
+        </Autocomplete>
+        <ButtonComponent
+          btnHeight="small"
+          minWidth="fit-content"
+          btnWidth="105px"
+          variantType="outlined"
+          onClick={() => {
+            getCurrentLocation();
+          }}
+        >
+          <span className="capitalize text-xs">View Device Location</span>
+        </ButtonComponent>
+      </div>
       <GoogleMap
         mapContainerStyle={containerStyle ?? defaultContainerStyle}
         center={center ?? defaultCenter}
@@ -150,7 +185,7 @@ const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
         {markerPosition && (
           <Circle
             center={markerPosition}
-            radius={radius ?? 100} // Set the radius in meters
+            radius={radius ?? 50} // Set the radius in meters
             options={{
               strokeColor: "#035656",
               strokeOpacity: 1,
@@ -162,7 +197,7 @@ const MapLocation = ({ center, containerStyle, radius }: MapLocationProps) => {
         )}
         {/* Marker with click event */}
         {markerPosition && (
-          <MarkerF position={markerPosition} onClick={onMarkerClick} />
+          <MarkerF position={markerPosition} onClick={handleOnMarkerClick} />
         )}
       </GoogleMap>
     </div>

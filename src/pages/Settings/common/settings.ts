@@ -5,7 +5,7 @@ export const settingsTab = [
 ];
 
 export interface IOrganization {
-  location: Location;
+  location: ILocation;
   _id: string;
   name: string;
   description: string;
@@ -29,12 +29,14 @@ export interface IOrganizationRequestPayload {
   motto?: string;
   logo?: string;
   radius?: Radius;
+  location?: ILocation;
   address?: string;
 }
 
 export interface ILocation {
-  long: string;
-  lat: string;
+  long: number;
+  lat: number;
+  address: string;
 }
 
 export interface Radius {

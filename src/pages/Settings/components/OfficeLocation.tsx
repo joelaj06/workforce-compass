@@ -1,6 +1,7 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { ButtonComponent, CustomInputField } from "../../../components";
 import {
+  ILocation,
   IOrganization,
   IOrganizationRequestPayload,
   Radius,
@@ -8,6 +9,8 @@ import {
 } from "../common/settings";
 import { useUpdateOrganizationMutation } from "../common/settings-api";
 import MapLocation from "../../../components/MapLocation";
+import { showToast } from "../../../utils/ui/notifications";
+import { IErrorData } from "../../../components/login/common/auth";
 
 interface OfficeLocationProps {
   data: IOrganization | null;
@@ -19,33 +22,49 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
   const [selectedRadius, setSelectedRadius] = useState<Radius>(
     data?.radius ?? radi[0]
   );
-  const [officeAddress, setOfficeAddress] = useState<string>(
-    data?.address ?? ""
+  const [officeLocation, setOfficeLocation] = useState<ILocation>(
+    data?.location ?? {
+      long: 0,
+      lat: 0,
+      address: "",
+    }
   );
-  // const [position, setPosition] = useState<number[]>([51.505, -0.09]);
+  const [officeAddress, setOfficeAddress] = useState<string>(
+    officeLocation?.address ?? ""
+  );
 
   const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOfficeAddress(e.target.value);
-    // Logic to convert address to coordinates (geocoding) would go here
-    // For simplicity, we're just updating the address state
   };
-  useEffect(() => {
-    // Here you can add logic to update the map based on officeAddress
-    // This might involve calling a geocoding API to get the coordinates for the entered address
-    // and then updating the position state
-  }, [officeAddress]);
+
+  const onMarkerClick = (location: ILocation) => {
+    // Update the location and address based on the marker position
+    setOfficeLocation(location);
+    setOfficeAddress(location.address); // Update the address input field
+  };
 
   const onOfficeUpdate = async () => {
+    setOfficeLocation({ ...officeLocation, address: officeAddress });
     const payload: IOrganizationRequestPayload = {
       _id: data?._id ?? "",
-      address: officeAddress,
       radius: selectedRadius,
+      location: officeLocation,
     };
 
     try {
-      await updateOrganization(payload);
+      const res = await updateOrganization(payload);
+      if (res && res.data) {
+        showToast({
+          message: "Office location updated successfully",
+          type: "success",
+        });
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
     } catch (error) {
       console.error("Error updating organization:", error);
+      showToast({ message: "Sorry an error occured", type: "error" });
     }
   };
 
@@ -60,7 +79,7 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
           type="text"
           placeholder="⚲ Street, city, country"
           label="Office Location"
-          defaultValue={data?.note ?? "No notes"}
+          value={officeAddress}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleAddressChange(e)
           }
@@ -68,7 +87,10 @@ const OfficeLocation = ({ data }: OfficeLocationProps) => {
 
         <div className="p-4">
           {/* Here you can render the map with the officeAddress and position state */}
-          <MapLocation />
+          <MapLocation
+            radius={data?.radius.radius}
+            onMarkerClick={onMarkerClick}
+          />
         </div>
 
         <div>

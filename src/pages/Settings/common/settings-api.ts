@@ -10,7 +10,7 @@ export const settingsApi = createApi({
     baseUrl: import.meta.env.VITE_BASE_URL,
   }),
   endpoints: (builder) => ({
-    getOrganizations: builder.query<IOrganization[], void>({
+    getOrganizations: builder.query<IOrganization, void>({
       query: () => {
         const url = "/organization";
 
