@@ -4,6 +4,10 @@ export const settingsTab = [
   // { label: "Leaves", value: 2 },
 ];
 
+export interface ISettings {
+  organization: IOrganization;
+}
+
 export interface IOrganization {
   location: ILocation;
   _id: string;

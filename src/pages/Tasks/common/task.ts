@@ -1,4 +1,5 @@
 import { IUser } from "../../Employees/common/employee";
+import { ILocation } from "../../Settings/common/settings";
 
 export interface ITask {
   _id: string;
@@ -41,12 +42,6 @@ export interface ICommentRequestPayload {
   taskId: string;
   comment: string;
   user: string;
-}
-
-export interface ILocation {
-  long: string;
-  lat: string;
-  radius?: string;
 }
 
 export const dummyTasks: ITask[] = [];

@@ -42,7 +42,6 @@ const Settings = () => {
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    console.log(event);
   };
 
   return (

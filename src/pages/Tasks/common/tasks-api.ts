@@ -23,6 +23,17 @@ export const taskApi = createApi({
 
       providesTags: ["ITask"],
     }),
+    getTask: builder.query<ITask, string>({
+      query: (id) => {
+        const url = `/tasks/${id}`;
+        return {
+          url,
+          headers: getApiHeaders(),
+        };
+      },
+
+      providesTags: ["ITask"],
+    }),
 
     addTask: builder.mutation<ITask, ITaskRequestPayload>({
       query: (payload) => ({
@@ -167,4 +178,6 @@ export const {
   useDeleteTaskMutation,
   useAddCommentMutation,
   useUpdateCommentMutation,
+  useGetTaskQuery,
+  useLazyGetTaskQuery,
 } = taskApi;

@@ -8,6 +8,10 @@ import { useEffect, useState } from "react";
 import { AppDispatch } from "../app/store";
 import { setActiveUser } from "../pages/Employees/common/user-slice";
 import { IUser } from "../pages/Employees/common/employee";
+import { useLazyGetOrganizationsQuery } from "../pages/Settings/common/settings-api";
+import { IErrorData } from "./login/common/auth";
+import { showToast } from "../utils/ui/notifications";
+import { setOrganization } from "../pages/Settings/common/settings-slice";
 
 const notificationIcon = <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>;
 
@@ -15,6 +19,7 @@ const Header = () => {
   //hooks
   const [getUser] = useLazyGetUserQuery();
   const dispatch: AppDispatch = useDispatch();
+  const [getOrganization] = useLazyGetOrganizationsQuery();
 
   // state variables
   const [currentUser, setCurrentUser] = useState<IUser>();
@@ -42,10 +47,24 @@ const Header = () => {
     }
   };
 
+  const fetchOrganization = async () => {
+    const res = await getOrganization();
+    if (res && res.data) {
+      dispatch(setOrganization(res.data));
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
+
+  useEffect(() => {
+    fetchOrganization();
+  }, []);
+
   //functions
   useEffect(() => {
     fetchUser();
-  }, [getUser]);
+  }, []);
 
   return (
     <>

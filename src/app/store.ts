@@ -21,6 +21,7 @@ import { taskApi } from "../pages/Tasks/common/tasks-api";
 import { reportsApi } from "../pages/Reports/common/reports-api";
 import { settingsApi } from "../pages/Settings/common/settings-api";
 import { chatsApi } from "../pages/chat/common/chats-api";
+import { organizationReducer } from "../pages/Settings/common/settings-slice";
 
 const persistConfig = {
   key: "root",
@@ -28,10 +29,15 @@ const persistConfig = {
 };
 
 const persistedUser = persistReducer(persistConfig, userReducer);
+const persistedOrganization = persistReducer(
+  persistConfig,
+  organizationReducer
+);
 
 export const store = configureStore({
   reducer: {
     user: persistedUser,
+    organization: persistedOrganization,
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,

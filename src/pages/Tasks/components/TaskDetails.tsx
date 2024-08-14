@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { convertDateToString } from "../../../utils/dateTime";
 import {
   useAddCommentMutation,
+  useLazyGetTaskQuery,
   useUpdateTaskMutation,
 } from "../common/tasks-api";
 import { useSelector } from "react-redux";
@@ -22,6 +23,8 @@ import { IErrorData } from "../../../components/login/common/auth";
 import DatePicker from "react-datepicker";
 import { forwardRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import MapLocation from "../../../components/MapLocation";
+import { ILocation, IOrganization } from "../../Settings/common/settings";
 
 interface TaskDetailsProps {
   isSubmitted: (value: boolean) => void;
@@ -31,25 +34,71 @@ interface TaskDetailsProps {
 
 const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   const [createComment, { isLoading }] = useAddCommentMutation();
-
-  const [updateTask] = useUpdateTaskMutation();
+  const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
+  const [taskData, setTaskData] = useState<ITask>();
+  const [getTask, { isLoading: isLoadingTask }] = useLazyGetTaskQuery();
 
   const user: IUser = useSelector(
     (state: RootState) => state.user.user
   ) as IUser;
+
+  const organization: IOrganization = useSelector(
+    (state: RootState) => state.organization.organization
+  ) as IOrganization;
 
   const [title, setTitle] = useState<string>(task.title);
   const [description, setDescription] = useState<string>(task.description);
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<IComment[]>(task.comments);
   const [dueDate, setDuedate] = useState<string | undefined>(task.due_date);
+  const [address, setAddress] = useState<string>("");
 
+  const [location, setLocation] = useState<ILocation>(
+    taskData?.location ?? {
+      long: 0,
+      lat: 0,
+      address: "Not Set",
+    }
+  );
+
+  const fetchTask = async () => {
+    const res = await getTask(task._id);
+    if (res && res.data) {
+      setTaskData(res.data);
+      setLocation(res.data.location);
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     updateTitle(e.target.value);
     setComments([]);
   };
 
+  const updateTaskLocation = async () => {
+    // const newLocation: ILocation = {
+    //   ...location,
+    //   address: address,
+    // };
+
+    const payload: ITaskRequestPayload = {
+      id: task._id,
+      title: title,
+      description: description,
+      due_date: dueDate,
+      location: location,
+    };
+
+    const res = await updateTask(payload);
+    if (res && res.data) {
+      // showToast({ message: "Task updated successfully", type: "success" });
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
   const onTaskUpdate = async () => {
     const payload: ITaskRequestPayload = {
       id: task._id,
@@ -75,7 +124,6 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
     };
 
     const res = await createComment(payload);
-
     if (res && res.data) {
       setComments([...comments, res.data]);
       setComment("");
@@ -90,7 +138,9 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   };
 
   useEffect(() => {
+    fetchTask();
     updateTitle(task.title);
+    setLocation(task.location);
   }, []);
 
   useEffect(() => {
@@ -99,6 +149,14 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
 
   const now = Date.now();
   const date = dueDate ? new Date(dueDate ?? now) : null;
+
+  const onMarkerClick = (location: ILocation) => {
+    // Update the location and address based on the marker position
+    setLocation(location);
+    setAddress(location.address);
+    console.log(location, address);
+    updateTaskLocation(); // Update the address
+  };
 
   const CustomDateInput = forwardRef(
     (
@@ -146,7 +204,26 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
         </div>
         <div>
           <p className="text-sm">Location</p>
-          <div className="h-60 border rounded-xl"></div>
+
+          <div className="h-96 border rounded-xl overflow-hidden p-2">
+            <MapLocation
+              containerStyle={{
+                height: "300px",
+                borderRadius: "12px",
+                border: "1px solid var(--color-gray-200)",
+              }}
+              radius={organization.radius.radius}
+              onMarkerClick={onMarkerClick}
+              center={{
+                lat: location.lat ?? 0,
+                lng: location.long ?? 0,
+              }}
+              markerPos={{
+                lat: location.lat ?? 0,
+                lng: location.long ?? 0,
+              }}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-2">
@@ -238,6 +315,15 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
                   }
                 />
               </div>
+            </div>
+            <Divider />
+          </div>
+          <div className="flex flex-col gap-1 ">
+            <p className="text-sm font-semibold">Location</p>
+            <div className="flex flex-row gap-1 items-center">
+              <p className="text-sm">
+                {isUpdating || isLoadingTask ? "Loading..." : location.address}
+              </p>
             </div>
             <Divider />
           </div>
