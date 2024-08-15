@@ -84,24 +84,30 @@ const MapLocation = ({
   const onAutocompleteLoad = (
     autocompleteInstance: google.maps.places.Autocomplete
   ) => {
+    console.log("auto complete instance", autocompleteInstance);
     setAutocomplete(autocompleteInstance);
   };
 
   const onPlaceChanged = () => {
-    if (autocomplete !== null && autocomplete.getPlace()) {
-      const place = autocomplete.getPlace();
-      if (place.geometry && place.geometry.location) {
-        const location = place.geometry.location;
-        const position = {
-          lat: location.lat(),
-          lng: location.lng(),
-        };
-        setDefaultCenter(position);
-        setMarkerPosition(position);
-        map?.panTo(location);
+    console.log(autocomplete);
+    try {
+      if (autocomplete !== null && autocomplete.getPlace()) {
+        const place = autocomplete.getPlace();
+        if (place.geometry && place.geometry.location) {
+          const location = place.geometry.location;
+          const position = {
+            lat: location.lat(),
+            lng: location.lng(),
+          };
+          setDefaultCenter(position);
+          setMarkerPosition(position);
+          map?.panTo(location);
+        }
+      } else {
+        console.log("Autocomplete is not loaded yet or no place selected.");
       }
-    } else {
-      console.log("Autocomplete is not loaded yet or no place selected.");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -115,6 +121,7 @@ const MapLocation = ({
           };
           setDefaultCenter(userLocation);
           setMarkerPosition(userLocation);
+          map?.panTo(userLocation);
         },
         (error) => {
           console.error("Error getting user's location:", error);
@@ -195,7 +202,9 @@ const MapLocation = ({
           onPlaceChanged={onPlaceChanged}
         >
           <CustomInputField
+            customClass="min-w-[250px]"
             name="address"
+            width="100%"
             type="text"
             ref={inputRef}
             placeholder="⚲ Street, city, country"

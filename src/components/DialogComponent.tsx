@@ -1,11 +1,16 @@
 import { Close } from "@mui/icons-material";
-import { Divider, IconButton } from "@mui/material";
+import { Divider, IconButton, styled, Theme } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
 
+const StyledDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
+  "& + .pac-container": {
+    zIndex: theme.zIndex.modal + 1,
+  },
+}));
 export default function DialogComponent({
   children,
   title,
@@ -41,8 +46,8 @@ export default function DialogComponent({
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
-      <Dialog
-        className=""
+      <StyledDialog
+        sx={{}}
         fullScreen={fullWidth}
         maxWidth={maxWidth || "sm"}
         fullWidth
@@ -69,7 +74,7 @@ export default function DialogComponent({
         {actions ? (
           <DialogActions className="bg-white">{actions}</DialogActions>
         ) : null}
-      </Dialog>
+      </StyledDialog>
     </div>
   );
 }

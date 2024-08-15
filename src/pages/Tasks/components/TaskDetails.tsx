@@ -54,7 +54,7 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   const [address, setAddress] = useState<string>("");
 
   const [location, setLocation] = useState<ILocation>(
-    taskData?.location ?? {
+    taskData?.location || {
       long: 0,
       lat: 0,
       address: "Not Set",
@@ -215,12 +215,12 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
               radius={organization.radius.radius}
               onMarkerClick={onMarkerClick}
               center={{
-                lat: location.lat ?? 0,
-                lng: location.long ?? 0,
+                lat: location?.lat ?? 0,
+                lng: location?.long ?? 0,
               }}
               markerPos={{
-                lat: location.lat ?? 0,
-                lng: location.long ?? 0,
+                lat: location?.lat ?? 0,
+                lng: location?.long ?? 0,
               }}
             />
           </div>
@@ -322,7 +322,9 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
             <p className="text-sm font-semibold">Location</p>
             <div className="flex flex-row gap-1 items-center">
               <p className="text-sm">
-                {isUpdating || isLoadingTask ? "Loading..." : location.address}
+                {isUpdating || isLoadingTask
+                  ? "Loading..."
+                  : location?.address ?? "Not Set"}
               </p>
             </div>
             <Divider />
