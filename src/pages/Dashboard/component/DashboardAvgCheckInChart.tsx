@@ -13,6 +13,7 @@ import {
 
 import { Line } from "react-chartjs-2";
 import { useGetAverageCheckInOfTheWeekQuery } from "../common/dashboard-api";
+import { convertToHM } from "../../../utils";
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +37,7 @@ const options: ChartOptions<"line"> = {
     y: {
       ticks: {
         // Custom callback function to format labels
-        callback: (value: number | string) => value,
+        callback: (value: number | string) => convertToHM(value),
       },
     },
   },
@@ -71,7 +72,7 @@ const DashboardAvgCheckInChart = () => {
     labels: avgCheckInOfTheWeekData?.dates || [],
     datasets: [
       {
-        label: "Avg Check Out",
+        label: "Avg Check In",
         data: avgCheckInOfTheWeekData?.avgTimes || [],
         borderColor: "#0a8686",
         backgroundColor: "rgba(10,134,134,0.5)",

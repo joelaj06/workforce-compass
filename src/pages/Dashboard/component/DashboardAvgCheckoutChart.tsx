@@ -13,6 +13,7 @@ import {
 
 import { Line } from "react-chartjs-2";
 import { useGetAverageCheckOutOfTheWeekQuery } from "../common/dashboard-api";
+import { convertToHM } from "../../../utils";
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +37,7 @@ const options: ChartOptions<"line"> = {
     y: {
       ticks: {
         // Custom callback function to format labels
-        callback: (value: number | string) => value,
+        callback: (value: number | string) => convertToHM(value),
       },
     },
   },

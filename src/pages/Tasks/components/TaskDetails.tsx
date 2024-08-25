@@ -51,6 +51,9 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<IComment[]>(task.comments);
   const [dueDate, setDuedate] = useState<string | undefined>(task.due_date);
+  const [startDate, setStartDate] = useState<string | undefined>(
+    task.start_date
+  );
   const [address, setAddress] = useState<string>("");
 
   const [location, setLocation] = useState<ILocation>(
@@ -78,17 +81,17 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
   };
 
   const updateTaskLocation = async () => {
-    // const newLocation: ILocation = {
-    //   ...location,
-    //   address: address,
-    // };
+    const newLocation: ILocation = {
+      ...location,
+      radius: organization.radius.radius,
+    };
 
     const payload: ITaskRequestPayload = {
       id: task._id,
       title: title,
       description: description,
       due_date: dueDate,
-      location: location,
+      location: newLocation,
     };
 
     const res = await updateTask(payload);
@@ -105,6 +108,7 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
       title: title,
       description: description,
       due_date: dueDate,
+      start_date: startDate,
     };
 
     const res = await updateTask(payload);
@@ -149,6 +153,7 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
 
   const now = Date.now();
   const date = dueDate ? new Date(dueDate ?? now) : null;
+  const startNewDate = startDate ? new Date(startDate ?? now) : null;
 
   const onMarkerClick = (location: ILocation) => {
     // Update the location and address based on the marker position
@@ -212,7 +217,7 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
                 borderRadius: "12px",
                 border: "1px solid var(--color-gray-200)",
               }}
-              radius={organization.radius.radius}
+              radius={task.location?.radius ?? organization.radius.radius}
               onMarkerClick={onMarkerClick}
               center={{
                 lat: location?.lat ?? 0,
@@ -297,6 +302,24 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
               <p className="text-sm">
                 {task.assignee.first_name + " " + task.assignee.last_name}
               </p>
+            </div>
+            <Divider />
+          </div>
+          <div className="flex flex-col gap-1  ">
+            <p className="text-sm font-semibold">Start Date</p>
+            <div className="flex flex-row gap-1 items-center">
+              <div className="border p-1 rounded flex flex-row gap-1">
+                <DatePicker
+                  selected={startNewDate}
+                  onSelect={(date) => {
+                    if (date) onTaskUpdate();
+                  }}
+                  onChange={(date) => setStartDate(date?.toISOString() ?? "")}
+                  customInput={
+                    <CustomDateInput value={"Not Set"} onClick={() => {}} />
+                  }
+                />
+              </div>
             </div>
             <Divider />
           </div>

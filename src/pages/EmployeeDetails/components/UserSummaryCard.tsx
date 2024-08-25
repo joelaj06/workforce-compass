@@ -31,7 +31,7 @@ const UserSummaryCard = ({ user }: UserSummaryCardProps) => {
           </div>
         </div>
         <div className="self-center">
-          <Avatar src={user.image} sx={{ width: "100px", height: "100px" }} />
+          <Avatar src={user?.imgUrl} sx={{ width: "100px", height: "100px" }} />
         </div>
         <div className="text-sm self-center text-black font-bold">{`${user.first_name} ${user.last_name}`}</div>
         <p className="text-xs self-center">{user.job_title || "Job Not Set"}</p>

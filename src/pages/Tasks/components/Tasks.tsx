@@ -28,7 +28,7 @@ const Tasks = () => {
 
   const fetchTasks = async () => {
     const res = await getTasks({ query: searchQuery });
-    console.log(res);
+
     if (res && res.data) {
       setTasks(res.data);
     } else {

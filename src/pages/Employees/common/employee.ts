@@ -7,13 +7,14 @@ export interface IUser {
   first_name: string;
   last_name: string;
   image?: string;
-  role: string;
+  role?: string;
   status: string;
   job_title: string;
   phone: string;
   location: string;
   email: string;
   address?: string;
+  imgUrl?: string;
   token?: string;
 }
 

@@ -89,7 +89,7 @@ const Header = () => {
           <div className="flex gap-1 items-center">
             {currentUser?.image ? (
               <Avatar
-                src={currentUser?.image}
+                src={currentUser?.imgUrl}
                 sx={{ width: "30px", height: "30px" }}
               />
             ) : (

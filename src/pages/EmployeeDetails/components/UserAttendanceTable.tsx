@@ -35,7 +35,7 @@ const UserAttendanceTable = ({ attendanceData }: UserAttendanceTableProps) => {
         cell: ({ row }) => (
           <Tooltip title={row.original.location}>
             <span className="text-sm cursor-default">
-              {row.original.check_out}
+              {row.original.check_out || "Not Checked Out"}
             </span>
           </Tooltip>
         ),
@@ -45,7 +45,8 @@ const UserAttendanceTable = ({ attendanceData }: UserAttendanceTableProps) => {
         accessorKey: "",
         cell: ({ row }) => (
           <span className="text-sm text-black font-bold">
-            {getWorkingHours(row.original.check_in, row.original.check_out)}
+            {row.original.check_out &&
+              getWorkingHours(row.original.check_in, row.original.check_out)}
           </span>
         ),
       },

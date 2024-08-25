@@ -13,7 +13,7 @@ import LoadingBox from "../../../components/LoadingBox";
 
 const UserDetails = () => {
   const defaultUser: IUser = {
-    _id: 0,
+    _id: "0",
     first_name: "",
     last_name: "",
     email: "",

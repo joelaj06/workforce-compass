@@ -91,6 +91,16 @@ export const usersApi = createApi({
       },
       providesTags: ["ILeaves"],
     }),
+
+    updateUser: builder.mutation<IUser, IUser>({
+      query: (payload) => ({
+        url: `/users/${payload._id}`,
+        method: "PUT",
+        headers: getApiHeaders(),
+        body: payload,
+      }),
+      invalidatesTags: ["IUser"],
+    }),
   }),
   tagTypes: ["IUser", "IAttendanceDate", "IUserAttendanceSummary", "ILeaves"],
 });
@@ -106,4 +116,5 @@ export const {
   useLazyGetUserDetailsQuery,
   useLazyGetUserAttendanceDateQuery,
   useLazyGetUserAttendanceSummaryQuery,
+  useUpdateUserMutation,
 } = usersApi;

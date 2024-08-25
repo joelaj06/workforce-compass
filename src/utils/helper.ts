@@ -11,8 +11,8 @@ export const cn = (...inputs: ClassValue[]) => {
 };
 
 export const getWorkingHours = (checkIn: string, checkOut: string) => {
-  const checkInSecs = changeToSeconds(checkIn);
-  const checkOutSecs = changeToSeconds(checkOut);
+  const checkInSecs = changeToSeconds(checkIn || "");
+  const checkOutSecs = changeToSeconds(checkOut || "");
   const workHrs = checkOutSecs - checkInSecs;
   const workHrsTime = convertToHMInString(workHrs.toString());
   return workHrsTime;

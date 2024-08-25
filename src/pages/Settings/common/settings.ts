@@ -41,6 +41,7 @@ export interface ILocation {
   long: number;
   lat: number;
   address: string;
+  radius?: number;
 }
 
 export interface Radius {

@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { CustomInputField, ButtonComponent } from "../../../components";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import ImageIcon from "@mui/icons-material/Image";
@@ -31,14 +31,41 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
     reader.readAsDataURL(file[0]);
   };
 
+  const validatePayload = (
+    payload: IOrganizationRequestPayload
+  ): string | null => {
+    if (!payload._id) {
+      return "Organization ID is required.";
+    }
+    if (!payload.name || payload.name.trim() === "") {
+      return "Office name is required.";
+    }
+    if (!payload.logo || payload.logo.trim() === "") {
+      return "Logo is required.";
+    }
+
+    return null;
+  };
   const onOfficeUpdate = async () => {
+    const base64String = selectedImage.replace(
+      /^data:image\/[a-zA-Z]+;base64,/,
+      ""
+    );
     const payload: IOrganizationRequestPayload = {
       _id: data?._id ?? "",
       name: officeName,
-      logo: selectedImage,
+      logo: base64String,
       note: note,
     };
 
+    // Validate the payload
+    const validationError = validatePayload(payload);
+
+    if (validationError) {
+      // Handle validation error (e.g., show a message to the user)
+      showToast({ message: validationError, type: "error" });
+      return;
+    }
     try {
       const res = await updateOrganization(payload);
       if (res && res.data) {
@@ -54,6 +81,14 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
       console.error("Error updating organization:", error);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setSelectedImage(data.logo ?? "");
+      setOfficeName(data.name ?? "");
+      setNote(data.note ?? "");
+    }
+  }, [data]);
 
   return (
     <div className="bg-white rounded-sm shadow-sm px-3 py-4">
@@ -155,7 +190,7 @@ const OfficeInfo = ({ data }: OfficeInfoProps) => {
             minWidth="fit-content"
             btnWidth="105px"
             variantType="outlined"
-            disabled={officeName == "" || isLoading}
+            disabled={isLoading}
             onClick={() => onOfficeUpdate()}
           >
             <span className="capitalize text-xs">Save</span>

@@ -4,6 +4,9 @@ import { IUser } from "../../Employees/common/employee";
 import { ChangeEvent, useState } from "react";
 import { Avatar } from "@mui/material";
 import PhotoCameraOutlinedIcon from "@mui/icons-material/PhotoCameraOutlined";
+import { useUpdateUserMutation } from "../../Employees/common/users-api";
+import { IErrorData } from "../../../components/login/common/auth";
+import { showToast } from "../../../utils/ui/notifications";
 
 interface UserInfoProps {
   user: IUser;
@@ -26,11 +29,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
     defaultValues: user,
   });
 
-  const onSubmit: SubmitHandler<UpdateUserFormFileds> = async (data) => {
-    //set a timeout for a promise
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
-  };
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const [selectedImage, setSelectedImage] = useState<string>("");
 
@@ -45,6 +44,41 @@ const UserInfo = ({ user }: UserInfoProps) => {
     };
 
     reader.readAsDataURL(file[0]);
+  };
+
+  const handleUserUpdate = async (payload: IUser) => {
+    try {
+      const res = await updateUser(payload);
+      if (res && res.data) {
+        showToast({ message: "User updated successfully", type: "success" });
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  const onSubmit: SubmitHandler<UpdateUserFormFileds> = async (data) => {
+    const base64String = selectedImage.replace(
+      /^data:image\/[a-zA-Z]+;base64,/,
+      ""
+    );
+    const payload: IUser = {
+      id: user._id,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      address: data.address,
+      job_title: data.job_title,
+      _id: user._id,
+      phone: data.phone,
+      location: data.address,
+      status: user.status,
+      image: base64String,
+    };
+    handleUserUpdate(payload);
   };
 
   return (
@@ -158,7 +192,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
 
           <div className="py-4 flex flex-row justify-end">
             <ButtonComponent
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               type="submit"
               btnHeight="small"
               bgColor="primary"

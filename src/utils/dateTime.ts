@@ -18,6 +18,7 @@ function convertToHMInString(seconds: string): string {
 
 function changeToSeconds(time: string): number {
   /// time should be in the format 00:00
+  if (time == "") return 0;
   const [hours, minutes] = time.split(":").map(Number);
   return hours * 3600 + minutes * 60;
 }

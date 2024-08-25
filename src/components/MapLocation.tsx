@@ -90,6 +90,7 @@ const MapLocation = ({
 
   const onPlaceChanged = () => {
     console.log(autocomplete);
+
     try {
       if (autocomplete !== null && autocomplete.getPlace()) {
         const place = autocomplete.getPlace();
@@ -211,6 +212,7 @@ const MapLocation = ({
             label="Search location..."
           />
         </Autocomplete>
+
         <ButtonComponent
           btnHeight="small"
           minWidth="fit-content"

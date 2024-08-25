@@ -1,6 +1,5 @@
 import { Avatar } from "@mui/material";
 import { ICurrentCheckIn } from "../common/dashboard";
-import { convertToHM } from "../../../utils";
 
 export interface DashboardPresentUserCardProps {
   currentCheckIn: ICurrentCheckIn;
@@ -12,9 +11,9 @@ const DashboardPresentUserCard = (props: DashboardPresentUserCardProps) => {
       <div>
         <div className="flex gap-1 py-1">
           <div>
-            <Avatar sx={{ height: "30px", width: "30px", fontSize: "12px" }}>
-              AM
-            </Avatar>
+            <Avatar
+              sx={{ height: "30px", width: "30px", fontSize: "12px" }}
+            ></Avatar>
           </div>
           <div className="">
             <div className="font-bold text-sm">
@@ -22,10 +21,10 @@ const DashboardPresentUserCard = (props: DashboardPresentUserCardProps) => {
             </div>
             <div className="text-xs">{props.currentCheckIn.user.role}</div>
             <div className="text-xs">
-              Checked in: {convertToHM(props.currentCheckIn.check_in)}
+              Checked in: {props.currentCheckIn.check_in}
             </div>
             <div className="text-xs">
-              Checked out: {convertToHM(props.currentCheckIn.check_out)}
+              Checked out: {props.currentCheckIn.check_out || "N/A"}
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ const EmployeesTable = ({
           <div className="capitalize  flex items-center gap-1">
             <Avatar
               sx={{ height: "30px", width: "30px" }}
-              src={row.original.image}
+              src={row.original?.imgUrl}
             />{" "}
             <span className="text-sm">
               {row.original.first_name} {row.original.last_name}
