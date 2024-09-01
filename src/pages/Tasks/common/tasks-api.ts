@@ -49,7 +49,7 @@ export const taskApi = createApi({
         const patchResult = dispatch(
           taskApi.util.updateQueryData(
             "getTasksWithoutPaging",
-            {} as IRequestParams,
+            { query: undefined },
             (draft) => {
               draft.push(newTeam);
             }
@@ -90,8 +90,8 @@ export const taskApi = createApi({
       },
     }),
     deleteTask: builder.mutation<ITask, ITask>({
-      query: (id) => ({
-        url: `/tasks/${id}`,
+      query: (payload) => ({
+        url: `/tasks/${payload._id}`,
         method: "DELETE",
         headers: getApiHeaders(),
       }),
@@ -100,9 +100,9 @@ export const taskApi = createApi({
         const patchResult = dispatch(
           taskApi.util.updateQueryData(
             "getTasksWithoutPaging",
-            {} as IRequestParams,
+            { query: undefined } as IRequestParams,
             (draft) => {
-              draft.filter((task: ITask) => task._id !== args._id);
+              return draft.filter((task: ITask) => task._id !== args._id);
             }
           )
         );

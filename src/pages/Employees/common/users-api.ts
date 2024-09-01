@@ -31,6 +31,7 @@ export const usersApi = createApi({
         pagination: getPaginationMetaData(meta) as XPagination,
         contents: response as IUser[],
       }),
+      providesTags: ["IUser"],
     }),
     getUserDetails: builder.query<IUser, string>({
       query: (id) => ({
@@ -101,7 +102,53 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["IUser"],
     }),
+
+    deleteUser: builder.mutation<IUser, string>({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "DELETE",
+        headers: getApiHeaders(),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        if (args) console.log(args);
+        const { data: deletedUser } = await queryFulfilled;
+        // dispatch(
+        //   usersApi.endpoints.getUsers.initiate(
+        //     { pageIndex: 1, pageSize: 10 },
+        //     { forceRefetch: true }
+        //   )
+        // );
+
+        dispatch(
+          usersApi.util.updateQueryData(
+            "getUsers",
+            { pageIndex: 1, pageSize: 10 } as IRequestParams,
+            (draft) => {
+              console.log(JSON.stringify(draft.contents));
+              console.log("someh");
+              const paginatedRes: PaginatedResponse<IUser[]> = {
+                contents: (draft.contents = draft?.contents.filter(
+                  (user) => user._id !== deletedUser._id
+                )),
+                pagination: {
+                  totalPages: 0,
+                  pageCount: 0,
+                },
+              };
+              return paginatedRes;
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          //  patchResult.undo();
+        }
+      },
+      // invalidatesTags: ["IUser"],
+    }),
   }),
+
   tagTypes: ["IUser", "IAttendanceDate", "IUserAttendanceSummary", "ILeaves"],
 });
 
@@ -117,4 +164,5 @@ export const {
   useLazyGetUserAttendanceDateQuery,
   useLazyGetUserAttendanceSummaryQuery,
   useUpdateUserMutation,
+  useDeleteUserMutation,
 } = usersApi;

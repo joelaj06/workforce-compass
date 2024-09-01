@@ -8,7 +8,7 @@ import { IconButton } from "@mui/material";
 import { useState } from "react";
 import { useLoginMutation } from "../common/authentication-api";
 import { storeAccessToken } from "../../../utils/api/auth";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { showToast } from "../../../utils/ui/notifications";
 import { IErrorData } from "../common/auth";
 
@@ -21,7 +21,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   //hooks
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -36,7 +36,10 @@ const Login = () => {
       if (response && response.data) {
         storeAccessToken(response.data);
         showToast({ message: "Login Successful", type: "success" });
-        navigate("/dashboard");
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 500);
+        //window.location.href = "/dashboard";
       } else {
         const error = response.error as IErrorData;
         showToast({ message: error.data.message, type: "error" });

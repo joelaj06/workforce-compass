@@ -30,9 +30,14 @@ interface TaskDetailsProps {
   isSubmitted: (value: boolean) => void;
   task: ITask;
   updateTitle: (val: string) => void;
+  onTaskDeleted: () => void;
 }
 
-const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
+const TaskDetails = ({
+  task,
+  updateTitle,
+  onTaskDeleted,
+}: TaskDetailsProps) => {
   const [createComment, { isLoading }] = useAddCommentMutation();
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
   const [taskData, setTaskData] = useState<ITask>();
@@ -284,10 +289,11 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
             <div className="flex flex-row gap-1 items-center">
               <Avatar
                 sx={{ height: "28px", width: "28px" }}
-                src={task.reviewer.image}
+                src={task.reviewer && task.reviewer.image}
               />
               <p className="text-sm">
-                {task.reviewer.first_name + " " + task.reviewer.last_name}
+                {task.reviewer &&
+                  task.reviewer.first_name + " " + task.reviewer.last_name}
               </p>
             </div>
             <Divider />
@@ -297,10 +303,11 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
             <div className="flex flex-row gap-1 items-center">
               <Avatar
                 sx={{ height: "28px", width: "28px" }}
-                src={task.assignee.image}
+                src={task.assignee && task.assignee.image}
               />
               <p className="text-sm">
-                {task.assignee.first_name + " " + task.assignee.last_name}
+                {task.assignee &&
+                  task.assignee.first_name + " " + task.assignee.last_name}
               </p>
             </div>
             <Divider />
@@ -357,16 +364,32 @@ const TaskDetails = ({ task, updateTitle }: TaskDetailsProps) => {
           <div className="flex flex-col gap-1 ">
             <p className="text-sm font-semibold">Created</p>
             <div className="flex flex-row gap-1 items-center">
-              <p className="text-sm">{convertDateToString(task.createdAt)}</p>
+              <p className="text-sm">
+                {task.createdAt && convertDateToString(task.createdAt)}
+              </p>
             </div>
             <Divider />
           </div>
           <div className="flex flex-col gap-1 ">
             <p className="text-sm font-semibold">Updated</p>
             <div className="flex flex-row gap-1 items-center">
-              <p className="text-sm">{convertDateToString(task.updatedAt)}</p>
+              <p className="text-sm">
+                {task.updatedAt && convertDateToString(task.updatedAt)}
+              </p>
             </div>
             <Divider />
+          </div>
+          <div className="flex flex-row gap-1 items-center">
+            <ButtonComponent
+              btnHeight="small"
+              // minWidth="fit-content"
+              btnWidth="80px"
+              bgColor="red"
+              hoverBgColor="red"
+              onClick={onTaskDeleted}
+            >
+              Delete Task
+            </ButtonComponent>
           </div>
         </>
       </div>

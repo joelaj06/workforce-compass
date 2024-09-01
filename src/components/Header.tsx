@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import { getInitials, stringToColor } from "../utils/getInitials";
 import { useLazyGetUserQuery } from "./login/common/authentication-api";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,8 @@ import { useLazyGetOrganizationsQuery } from "../pages/Settings/common/settings-
 import { IErrorData } from "./login/common/auth";
 import { showToast } from "../utils/ui/notifications";
 import { setOrganization } from "../pages/Settings/common/settings-slice";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AlertDialogComponent from "./AlertDialogComponent";
 
 const notificationIcon = <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>;
 
@@ -37,6 +39,14 @@ const Header = () => {
   }
   const handleNotification = () => {
     console.log("Notification");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("persist:root");
+
+    // Redirect to login page
+    window.location.href = "/login";
   };
 
   const fetchUser = async () => {
@@ -104,6 +114,34 @@ const Header = () => {
               <div className="text-sm">{currentUser?.email ?? ""}</div>
             </div>
           </div>
+          <AlertDialogComponent
+            title={"Logout"}
+            content={
+              <p className="text-center">Are you sure you want to logout?</p>
+            }
+            onRightButtonClicked={handleLogout}
+          >
+            <IconButton>
+              {" "}
+              <div
+                //onClick={}
+                className="flex flex-row gap-1 items-center cursor-pointer"
+              >
+                <Avatar
+                  sx={{
+                    height: "30px",
+                    width: "30px",
+                    fontSize: "12px",
+                    backgroundColor: "#dc2626",
+                    color: "#dc2626",
+                  }}
+                >
+                  <LogoutIcon sx={{ fontSize: "16px", color: "white" }} />
+                </Avatar>
+                <span className="text-sm">Logout</span>
+              </div>
+            </IconButton>
+          </AlertDialogComponent>
         </div>
       </div>
     </>

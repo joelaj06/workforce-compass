@@ -2,12 +2,20 @@ function convertSecToHM(seconds: string | number): string {
   if (typeof seconds === "string") {
     seconds = parseInt(seconds, 10);
   }
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-    2,
-    "0"
-  )}`;
+
+  const dateTime = new Date(seconds * 1000);
+  const time = new Date(dateTime).toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return time;
+  // console.log(dateTime);
+  // const hours = Math.floor(seconds / 3600);
+  // const minutes = Math.floor((seconds % 3600) / 60);
+  // return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+  //   2,
+  //   "0"
+  // )}`;
 }
 
 function convertToHMInString(seconds: string): string {

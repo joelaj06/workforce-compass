@@ -13,6 +13,8 @@ import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import { useNavigate } from "react-router-dom";
 import { AppPages } from "../../../routes/appPages";
 import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
+import { useDeleteUserMutation } from "../common/users-api";
+import { showToast } from "../../../utils/ui/notifications";
 
 interface EmployeesTableProps {
   usersData: IUser[];
@@ -27,7 +29,44 @@ const EmployeesTable = ({
   getUser,
 }: EmployeesTableProps) => {
   // const data = useMemo<IUser[]>(() => dummyUsers, []);
+
+  const [deleteUser] = useDeleteUserMutation();
+
   const navigate = useNavigate();
+  // const dispatch: AppDispatch = useDispatch();
+
+  const handleDeleteUser = (userId: string) => {
+    // const patchCollection = dispatch(
+    //   usersApi.util.updateQueryData(
+    //     "getUsers",
+    //     { pageIndex: 1, pageSize: 10 } as IRequestParams,
+    //     (draft) => {
+    //       // Log the IDs of the users before and after filtering
+    //       console.log(
+    //         "Before:",
+    //         draft.contents.map((user) => user._id)
+    //       );
+    //       draft.contents = draft?.contents.filter(
+    //         (user) => user._id !== userId
+    //       );
+    //       // Log the result after filtering
+    //       console.log(
+    //         "After:",
+    //         draft.contents.map((user) => user._id)
+    //       );
+    //     }
+    //   )
+    // );
+
+    // console.log(patchCollection);
+    deleteUser(userId).then((res) => {
+      if (res && res.data) {
+        showToast({ message: "User deleted successfully", type: "success" });
+      } else {
+        showToast({ message: "Failed to delete user", type: "error" });
+      }
+    });
+  };
   const columns = useMemo<ColumnDef<IUser>[]>(
     () => [
       {
@@ -81,13 +120,14 @@ const EmployeesTable = ({
           <div className="flex flex-row gap-1">
             <AlertDialogComponent
               title={"Delete User"}
+              onRightButtonClicked={() => handleDeleteUser(row.original._id)}
               content={
                 <p className="text-center">
                   Are you sure you want to delete this account?
                 </p>
               }
             >
-              <IconButton>
+              <IconButton sx={{ borderRadius: "4px", padding: "4px" }}>
                 {" "}
                 <DeleteOutlineRoundedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
@@ -108,6 +148,7 @@ const EmployeesTable = ({
     ],
     [navigate]
   );
+
   return (
     <>
       <div className="bg-white rounded-xl shadow-sm flex-grow">

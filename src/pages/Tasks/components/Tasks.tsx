@@ -9,7 +9,10 @@ import AddTaskForm from "./AddTaskForm";
 import { ITask } from "../common/task";
 import TaskCard from "./TaskCard";
 import TaskDetails from "./TaskDetails";
-import { useLazyGetTasksWithoutPagingQuery } from "../common/tasks-api";
+import {
+  useDeleteTaskMutation,
+  useLazyGetTasksWithoutPagingQuery,
+} from "../common/tasks-api";
 import { IErrorData } from "../../../components/login/common/auth";
 import { showToast } from "../../../utils/ui/notifications";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -20,6 +23,8 @@ import NoResultsFound from "../../Auth/ErrorHandler/NoResultFound";
 const Tasks = () => {
   const [getTasks, { isLoading, isFetching }] =
     useLazyGetTasksWithoutPagingQuery();
+
+  const [deleteTask] = useDeleteTaskMutation();
 
   const [closeDialog, setCloseDialog] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
@@ -34,6 +39,21 @@ const Tasks = () => {
     } else {
       const error = res.error as IErrorData;
       showToast({ message: error.data.message, type: "error" });
+    }
+  };
+
+  const handleTaskDelete = async (task: ITask) => {
+    try {
+      const res = await deleteTask(task);
+      if (res && res.data) {
+        showToast({ message: "Task deleted successfully", type: "success" });
+        fetchTasks();
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
+    } catch (e) {
+      showToast({ message: "Sorry an error occurred", type: "error" });
     }
   };
 
@@ -107,11 +127,16 @@ const Tasks = () => {
                     updateTitle={setTitle}
                     task={task}
                     isSubmitted={handleCloseDialog}
+                    onTaskDeleted={() => handleTaskDelete(task)}
                   />
                 }
                 closeDialog={closeDialog}
               >
-                <TaskCard key={task._id} task={task} />
+                <TaskCard
+                  key={task._id}
+                  task={task}
+                  onTaskDeleted={() => handleTaskDelete(task)}
+                />
               </DialogComponent>
             ))}
           </div>

@@ -45,7 +45,7 @@ const Messages = ({ user }: MessagesProps) => {
   const [userStatus, setUserStatus] = useState<string>("offline");
   const [chatId, setChatId] = useState<string>("");
 
-  const date = new Date();
+  //const date = new Date();
 
   const sortedMessages = [...messages].sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -131,7 +131,7 @@ const Messages = ({ user }: MessagesProps) => {
         recipient: user,
         chat: chatId,
         sender: currentUser,
-        createdAt: date.toISOString(),
+        createdAt: new Date().toISOString(),
       };
       setMessages((prevMessages) => [...prevMessages, message]);
       //send message to server
@@ -171,10 +171,10 @@ const Messages = ({ user }: MessagesProps) => {
       const newMessage: IMessage = {
         content: data.message,
         _id: Date.now().toLocaleString(),
-        recipient: data.sender,
+        recipient: currentUser,
         chat: data.chat_room_id,
-        sender: currentUser,
-        createdAt: date.toISOString(),
+        sender: data.sender,
+        createdAt: new Date().toISOString(),
       };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
