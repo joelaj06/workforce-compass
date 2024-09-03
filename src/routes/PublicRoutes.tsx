@@ -14,6 +14,7 @@ import Settings from "../pages/Settings/components/Settings";
 const PublicRoutes = () => {
   return (
     <Routes>
+      <Route path={AppPages.index} element={<Dashboard />} />
       <Route path={AppPages.dashboard} element={<Dashboard />} />
       <Route path={AppPages.employees} element={<Employees />} />
       <Route path={AppPages.employeeDetails(":id")} element={<UserDetails />} />

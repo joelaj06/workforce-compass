@@ -8,12 +8,16 @@ import {
   faShareFromSquare,
   faHouse,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 //import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 import { AppPages } from "../routes/appPages";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IOrganization } from "../pages/Settings/common/settings";
+import { useLazyGetOrganizationsQuery } from "../pages/Settings/common/settings-api";
+import { IErrorData } from "./login/common/auth";
+import { showToast } from "../utils/ui/notifications";
 
 const dashboardIcon = <FontAwesomeIcon icon={faHouse}></FontAwesomeIcon>;
 const reportsIcon = <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>;
@@ -75,19 +79,36 @@ const SideBar = () => {
   //states
   // const logout = async () => {};
 
+  const [getOrganization] = useLazyGetOrganizationsQuery();
   const location = useLocation();
+
+  const [organization, setOrganization] = useState<IOrganization>();
   const [selectedMenu, setSelectedMenu] = useState(() => {
     if (location && location.pathname) {
-      return location.pathname;
+      return location.pathname == "/" ? AppPages.dashboard : location.pathname;
     }
   });
 
+  const fetchOrganization = async () => {
+    const res = await getOrganization();
+    if (res && res.data) {
+      setOrganization(res.data);
+    } else {
+      const error = res.error as IErrorData;
+      showToast({ message: error.data.message, type: "error" });
+    }
+  };
+
+  useEffect(() => {
+    fetchOrganization();
+  }, []);
+
   return (
-    <div className="w-full h-full bg-white  text-primary shadow-md">
-      <div className=" transition ease-in duration-400 ">
+    <div className="w-full h-full bg-white  text-primary shadow-md flex flex-col justify-between">
+      <div className=" transition ease-in duration-400 flex flex-col justify-between">
         <div>
           <div className="h-14 content-center p-3">
-            <p>Work Compass</p>
+            <p className="font-bold text-primary-color">Work Compass</p>
           </div>
 
           <div className="">
@@ -101,7 +122,7 @@ const SideBar = () => {
                     "bg-primary-color font-semibold text-white shadow-custom"
                   } ${isActive ? " hover:bg-[#086d6d]" : " hover:bg-gray-300"}`}
                 >
-                  <Link
+                  <NavLink
                     to={link}
                     key={id}
                     className="flex"
@@ -109,17 +130,21 @@ const SideBar = () => {
                   >
                     <span className="px-3">{icon}</span>
                     <p className="">{title}</p>
-                  </Link>
+                  </NavLink>
                 </div>
               );
             })}
           </div>
         </div>
-        {/* <div className="">
-          <span onClick={logout} className="">
-            {logoutIcon}
-          </span>
-        </div> */}
+      </div>
+      {/* app logo and version */}
+      <div className="flex flex-col justify-between items-center">
+        <img
+          src={organization?.logo}
+          className="w-36"
+          alt="Organization logo"
+        />
+        <p className="text-xs font-bold text-center">Version 1.0.0</p>
       </div>
     </div>
   );
