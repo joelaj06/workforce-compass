@@ -41,7 +41,9 @@
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.7.5",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "use-places-autocomplete": "^4.0.1",
+    "@reach/combobox": "^0.16.5"
   },
   "devDependencies": {
     "@types/autosuggest-highlight": "^3.2.3",

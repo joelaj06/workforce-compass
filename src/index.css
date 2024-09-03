@@ -42,7 +42,7 @@
 *{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: medium;
+    /* font-size: medium; */
 }
 
 body{
@@ -50,3 +50,4 @@ body{
     background-color: var(--background-color);
     
 }
+

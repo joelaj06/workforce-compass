@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Autocomplete,
   Circle,
@@ -12,6 +19,18 @@ import ButtonComponent from "./ButtonComponent";
 import { showToast } from "../utils/ui/notifications";
 import { ILocation } from "../pages/Settings/common/settings";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 const defaultContainerStyle: React.CSSProperties = {
   width: "100%",
@@ -27,6 +46,7 @@ interface MapLocationProps {
   center?: google.maps.LatLngLiteral;
   markerPos?: google.maps.LatLngLiteral;
   radius?: number;
+  usePlaceAutocomplete?: boolean;
   onMarkerClick?: (location: ILocation) => void;
 }
 
@@ -44,6 +64,7 @@ const MapLocation = ({
   containerStyle,
   radius,
   markerPos,
+  usePlaceAutocomplete,
   onMarkerClick,
 }: MapLocationProps) => {
   const { isLoaded } = useJsApiLoader({
@@ -89,8 +110,6 @@ const MapLocation = ({
   };
 
   const onPlaceChanged = () => {
-    console.log(autocomplete);
-
     try {
       if (autocomplete !== null && autocomplete.getPlace()) {
         const place = autocomplete.getPlace();
@@ -193,25 +212,29 @@ const MapLocation = ({
     }, 500); // Adjust the delay as needed
 
     return () => clearTimeout(delayRender);
-  }, []);
+  }, [markerPosition]);
 
   return isLoaded ? (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row gap-3 items-end">
-        <Autocomplete
-          onLoad={onAutocompleteLoad}
-          onPlaceChanged={onPlaceChanged}
-        >
-          <CustomInputField
-            customClass="min-w-[250px]"
-            name="address"
-            width="100%"
-            type="text"
-            ref={inputRef}
-            placeholder="⚲ Street, city, country"
-            label="Search location..."
-          />
-        </Autocomplete>
+        {usePlaceAutocomplete ? (
+          <PlacesAutocomplete setSelected={setMarkerPosition} map={map} />
+        ) : (
+          <Autocomplete
+            onLoad={onAutocompleteLoad}
+            onPlaceChanged={onPlaceChanged}
+          >
+            <CustomInputField
+              customClass="min-w-[250px]"
+              name="address"
+              width="100%"
+              type="text"
+              ref={inputRef}
+              placeholder="⚲ Street, city, country"
+              label="Search location..."
+            />
+          </Autocomplete>
+        )}
 
         <ButtonComponent
           btnHeight="small"
@@ -259,3 +282,53 @@ const MapLocation = ({
 };
 
 export default MapLocation;
+
+const PlacesAutocomplete = ({
+  setSelected,
+  map,
+}: {
+  setSelected: Dispatch<SetStateAction<google.maps.LatLngLiteral | null>>;
+  map: google.maps.Map | null;
+}) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  const handleSelect = async (address: string) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    const results = await getGeocode({ address });
+    map?.panTo(results[0].geometry.location);
+    const { lat, lng } = await getLatLng(results[0]);
+    setSelected({ lat, lng });
+  };
+
+  return (
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!ready}
+        className="border border-gray-200 rounded-md px-2 py-1 text-sm w-80"
+        placeholder="Search an address"
+      />
+      <ComboboxPopover className="z-[6000]">
+        <ComboboxList>
+          {status === "OK" &&
+            data.map(({ place_id, description }) => (
+              <ComboboxOption
+                key={place_id}
+                value={description}
+                className="text-sm"
+              />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>
+  );
+};

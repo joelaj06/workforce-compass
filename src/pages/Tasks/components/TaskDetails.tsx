@@ -217,6 +217,7 @@ const TaskDetails = ({
 
           <div className="h-96 border rounded-xl overflow-hidden p-2">
             <MapLocation
+              usePlaceAutocomplete={true}
               containerStyle={{
                 height: "300px",
                 borderRadius: "12px",
