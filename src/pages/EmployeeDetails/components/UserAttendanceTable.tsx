@@ -2,7 +2,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import CustomTableComponent from "../../../components/CustomTableComponent";
 import { IAttendanceDate } from "../common/employee_details";
-import { getWorkingHours } from "../../../utils/helper";
 import { convertDateToString } from "../../../utils/dateTime";
 import { Tooltip } from "@mui/material";
 
@@ -44,9 +43,13 @@ const UserAttendanceTable = ({ attendanceData }: UserAttendanceTableProps) => {
         header: "Working Hrs",
         accessorKey: "",
         cell: ({ row }) => (
+          // <span className="text-sm text-black font-bold">
+          //   {row.original.check_out &&
+          //     getWorkingHours(row.original.check_in, row.original.check_out)
+          //     }
+          // </span>
           <span className="text-sm text-black font-bold">
-            {row.original.check_out &&
-              getWorkingHours(row.original.check_in, row.original.check_out)}
+            {row.original.workingHrs}
           </span>
         ),
       },

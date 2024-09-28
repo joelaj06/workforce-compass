@@ -125,7 +125,14 @@ const AddEmployeeForm = ({ isSubmitted }: AddEmployeeFormProps) => {
           />
         </div>
 
-        <div className="py-4 flex flex-row justify-end">
+        <div className="py-4 flex flex-row justify-between gap-1 items-end">
+          <div>
+            <p className="text-gray-600 text-xs italic bg-emerald-400 p-2 rounded">
+              Note: New Users will be assigned this password{" "}
+              <span className="font-bold">defaultUser</span> by default. They
+              can change this when they sign in..
+            </p>
+          </div>
           <ButtonComponent
             disabled={isSubmitting || isLoading}
             type="submit"
