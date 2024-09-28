@@ -6,6 +6,7 @@ import PublicRoutes from "./PublicRoutes";
 // Redirect to dashboard if user is authenticated and token is not expired
 
 const PrivateRoutes = () => {
+  console.log("private route");
   return (
     <Routes>
       {isAuthenticated() && !isAccessTokenExpired() ? (
@@ -13,12 +14,11 @@ const PrivateRoutes = () => {
           <Route path="/*" element={<PublicRoutes />} />
           <Route
             //path={AppPages.index}
-            index
-            element={<Navigate to={"/dashboard"} replace />}
+            element={<Navigate to={"/dashboard"} />}
           />
         </Route>
       ) : (
-        <Route path="*" element={<Navigate to={"/login"} />} />
+        <Route path="/login" element={<Navigate to={"/login"} />} />
       )}
     </Routes>
   );

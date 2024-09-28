@@ -12,6 +12,7 @@ import Notifications from "../pages/Notification/Notifications";
 import Settings from "../pages/Settings/components/Settings";
 
 const PublicRoutes = () => {
+  console.log("public route");
   return (
     <Routes>
       <Route path={AppPages.index} element={<Dashboard />} />

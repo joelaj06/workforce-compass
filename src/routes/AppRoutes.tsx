@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import { isAuthenticated, isAccessTokenExpired } from "../utils/api/auth";
+import Login from "../components/login/components/Login";
 
 const AppRoutes = () => {
   return (
@@ -8,7 +9,7 @@ const AppRoutes = () => {
       {isAuthenticated() && !isAccessTokenExpired() ? (
         <Route path="/*" element={<PrivateRoutes />}></Route>
       ) : (
-        <Route path="*" element={<Navigate to={"/login"} />} />
+        <Route path="/*" element={<Login />} />
       )}
     </Routes>
   );
