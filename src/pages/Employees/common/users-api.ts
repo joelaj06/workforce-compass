@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { getApiHeaders } from "../../../utils/api/auth";
 import {
+  AddUserReqeustPayload,
   IRequestParams,
   IUser,
   PaginatedResponse,
@@ -147,6 +148,16 @@ export const usersApi = createApi({
       },
       // invalidatesTags: ["IUser"],
     }),
+
+    addUser: builder.mutation<IUser, AddUserReqeustPayload>({
+      query: (payload) => ({
+        url: `/users`,
+        method: "POST",
+        headers: getApiHeaders(),
+        body: payload,
+      }),
+      invalidatesTags: ["IUser"],
+    }),
   }),
 
   tagTypes: ["IUser", "IAttendanceDate", "IUserAttendanceSummary", "ILeaves"],
@@ -165,4 +176,5 @@ export const {
   useLazyGetUserAttendanceSummaryQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useAddUserMutation,
 } = usersApi;

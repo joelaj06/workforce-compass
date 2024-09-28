@@ -1,5 +1,9 @@
 import { ButtonComponent, CustomInputField } from "../../../components";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAddUserMutation } from "../common/users-api";
+import { AddUserReqeustPayload } from "../common/employee";
+import { IErrorData } from "../../../components/login/common/auth";
+import { showToast } from "../../../utils/ui/notifications";
 
 type AddUserFormFileds = {
   first_name: string;
@@ -21,11 +25,37 @@ const AddEmployeeForm = ({ isSubmitted }: AddEmployeeFormProps) => {
     formState: { errors, isSubmitting },
   } = useForm<AddUserFormFileds>();
 
+  const [addUser, { isLoading }] = useAddUserMutation();
+
+  const addNewUser = async (payload: AddUserReqeustPayload) => {
+    try {
+      const res = await addUser(payload);
+      if (res && res.data) {
+        showToast({ message: "User created successfully", type: "success" });
+        isSubmitted(true);
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
+    } catch (error) {
+      showToast({ message: "Sorry an error occurred", type: "error" });
+    }
+  };
+
   const onSubmit: SubmitHandler<AddUserFormFileds> = async (data) => {
-    //set a timeout for a promise
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
-    isSubmitted(true);
+    const payload: AddUserReqeustPayload = {
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      address: data.address,
+      job_title: data.job_title,
+      phone: data.phone,
+      password: "defaultUser",
+      role: "63332c630f6ba9ca7fdea4e5",
+      status: "active",
+      confirmPassword: "defaultUser",
+    };
+    await addNewUser(payload);
   };
 
   return (
@@ -97,7 +127,7 @@ const AddEmployeeForm = ({ isSubmitted }: AddEmployeeFormProps) => {
 
         <div className="py-4 flex flex-row justify-end">
           <ButtonComponent
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             type="submit"
             btnHeight="small"
             bgColor="primary"

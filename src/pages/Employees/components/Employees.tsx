@@ -102,7 +102,7 @@ const Employees = () => {
                   )
                 }
               />
-              <div className="hidden">
+              <div className="block">
                 <DialogComponent
                   title="Add Employee"
                   content={<AddEmployeeForm isSubmitted={handleCloseDialog} />}

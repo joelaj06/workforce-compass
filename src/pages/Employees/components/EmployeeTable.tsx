@@ -36,29 +36,7 @@ const EmployeesTable = ({
   // const dispatch: AppDispatch = useDispatch();
 
   const handleDeleteUser = (userId: string) => {
-    // const patchCollection = dispatch(
-    //   usersApi.util.updateQueryData(
-    //     "getUsers",
-    //     { pageIndex: 1, pageSize: 10 } as IRequestParams,
-    //     (draft) => {
-    //       // Log the IDs of the users before and after filtering
-    //       console.log(
-    //         "Before:",
-    //         draft.contents.map((user) => user._id)
-    //       );
-    //       draft.contents = draft?.contents.filter(
-    //         (user) => user._id !== userId
-    //       );
-    //       // Log the result after filtering
-    //       console.log(
-    //         "After:",
-    //         draft.contents.map((user) => user._id)
-    //       );
-    //     }
-    //   )
-    // );
-
-    // console.log(patchCollection);
+   
     deleteUser(userId).then((res) => {
       if (res && res.data) {
         showToast({ message: "User deleted successfully", type: "success" });

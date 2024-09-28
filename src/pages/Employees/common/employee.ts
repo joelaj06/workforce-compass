@@ -1,3 +1,17 @@
+export interface AddUserReqeustPayload {
+  first_name: string;
+  last_name: string;
+  email: string;
+  address: string;
+  job_title: string;
+  phone: string;
+  password: string;
+  role: string;
+  imgUrl?: string;
+  status: string;
+  confirmPassword: string;
+}
+
 export interface ILoggedInUser {
   user: IUser;
 }
