@@ -1,12 +1,16 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CustomInputField, ButtonComponent } from "../../../components";
-import { IUser } from "../../Employees/common/employee";
-import { ChangeEvent, useState } from "react";
+import { IRole, IUser } from "../../Employees/common/employee";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import PhotoCameraOutlinedIcon from "@mui/icons-material/PhotoCameraOutlined";
-import { useUpdateUserMutation } from "../../Employees/common/users-api";
+import {
+  useLazyGetRolesQuery,
+  useUpdateUserMutation,
+} from "../../Employees/common/users-api";
 import { IErrorData } from "../../../components/login/common/auth";
 import { showToast } from "../../../utils/ui/notifications";
+import DropDownComponent from "../../../components/DropDownComponent";
 
 interface UserInfoProps {
   user: IUser;
@@ -29,9 +33,18 @@ const UserInfo = ({ user }: UserInfoProps) => {
     defaultValues: user,
   });
 
+  const [getRoles] = useLazyGetRolesQuery();
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [roles, setRoles] = useState<IRole[]>([]);
+  const [selectedRole, setSeletedRole] = useState<IRole>(
+    user.role ? user.role : ({} as IRole)
+  );
+
+  const roleOptions = roles.map((role) => {
+    return { value: role._id, label: role.name };
+  });
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files as FileList;
@@ -44,6 +57,21 @@ const UserInfo = ({ user }: UserInfoProps) => {
     };
 
     reader.readAsDataURL(file[0]);
+  };
+
+  const fetchRoles = async () => {
+    try {
+      const res = await getRoles();
+      if (res && res.data) {
+        setRoles(res.data);
+      } else {
+        const error = res.error as IErrorData;
+        showToast({ message: error.data.message, type: "error" });
+      }
+    } catch (error) {
+      if (error)
+        showToast({ message: "Sorry an error occurred", type: "error" });
+    }
   };
 
   const handleUserUpdate = async (payload: IUser) => {
@@ -77,9 +105,14 @@ const UserInfo = ({ user }: UserInfoProps) => {
       location: data.address,
       status: user.status,
       image: base64String,
+      role: selectedRole,
     };
     handleUserUpdate(payload);
   };
+
+  useEffect(() => {
+    fetchRoles();
+  }, []);
 
   return (
     <>
@@ -189,6 +222,17 @@ const UserInfo = ({ user }: UserInfoProps) => {
               errors={errors}
             />
           </div>
+          <div>
+            <label className="block text-sm ">Role</label>
+            <DropDownComponent
+              label={user.role?.name || "Role"}
+              options={roleOptions}
+              onChanged={(val) => {
+                const role = roles.find((r) => r._id == val?.value);
+                setSeletedRole(role!);
+              }}
+            />
+          </div>
 
           <div className="py-4 flex flex-row justify-end">
             <ButtonComponent
@@ -197,7 +241,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
               btnHeight="small"
               bgColor="primary"
             >
-              <span className="capitalize text-sm">Save User</span>
+              <span className="capitalize text-sm">Update User</span>
             </ButtonComponent>
           </div>
         </form>

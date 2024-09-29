@@ -18,7 +18,7 @@ const UserDetails = () => {
     last_name: "",
     email: "",
     phone: "",
-    role: "",
+    role: { _id: "", name: "", permissions: [] },
     status: "",
     job_title: "",
     location: "",

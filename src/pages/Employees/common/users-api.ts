@@ -4,6 +4,7 @@ import { getApiHeaders } from "../../../utils/api/auth";
 import {
   AddUserReqeustPayload,
   IRequestParams,
+  IRole,
   IUser,
   PaginatedResponse,
   XPagination,
@@ -158,9 +159,23 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["IUser"],
     }),
+
+    getRoles: builder.query<IRole[], void>({
+      query: () => ({
+        url: `/roles`,
+        headers: getApiHeaders(),
+      }),
+      providesTags: ["IRole"],
+    }),
   }),
 
-  tagTypes: ["IUser", "IAttendanceDate", "IUserAttendanceSummary", "ILeaves"],
+  tagTypes: [
+    "IUser",
+    "IAttendanceDate",
+    "IUserAttendanceSummary",
+    "ILeaves",
+    "IRole",
+  ],
 });
 
 export const {
@@ -177,4 +192,6 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useAddUserMutation,
+  useGetRolesQuery,
+  useLazyGetRolesQuery,
 } = usersApi;

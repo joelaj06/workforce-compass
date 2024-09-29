@@ -7,7 +7,6 @@ import CustomTableComponent, {
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Avatar, IconButton, Tooltip } from "@mui/material";
 import AlertDialogComponent from "../../../components/AlertDialogComponent";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import { AppPages } from "../../../routes/appPages";
 import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
 import { useDeleteUserMutation } from "../common/users-api";
 import { showToast } from "../../../utils/ui/notifications";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 interface EmployeesTableProps {
   usersData: IUser[];
@@ -28,15 +28,11 @@ const EmployeesTable = ({
   pagination,
   getUser,
 }: EmployeesTableProps) => {
-  // const data = useMemo<IUser[]>(() => dummyUsers, []);
-
   const [deleteUser] = useDeleteUserMutation();
 
   const navigate = useNavigate();
-  // const dispatch: AppDispatch = useDispatch();
 
   const handleDeleteUser = (userId: string) => {
-   
     deleteUser(userId).then((res) => {
       if (res && res.data) {
         showToast({ message: "User deleted successfully", type: "success" });
@@ -71,10 +67,19 @@ const EmployeesTable = ({
         ),
       },
       {
+        header: "Role",
+        accessorKey: "role",
+        cell: ({ row }) => (
+          <span className="text-sm capitalize">{row.original.role?.name}</span>
+        ),
+      },
+      {
         header: "Status",
         accessorKey: "status",
         cell: (row) => (
-          <span className="text-sm">{row.renderValue() as string}</span>
+          <span className="text-sm capitalize">
+            {row.renderValue() as string}
+          </span>
         ),
       },
       {
@@ -95,7 +100,7 @@ const EmployeesTable = ({
         header: "Actions",
         accessorKey: "",
         cell: ({ row }) => (
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row gap-1 items-center">
             <AlertDialogComponent
               title={"Delete User"}
               onRightButtonClicked={() => handleDeleteUser(row.original._id)}
@@ -115,7 +120,7 @@ const EmployeesTable = ({
                 navigate(AppPages.employeeDetails(row.original._id.toString()))
               }
             >
-              <MoreVertIcon sx={{ fontSize: "16px" }} />
+              <ManageAccountsIcon sx={{ fontSize: "16px" }} />
             </IconButton>
             <IconButton onClick={() => getUser(row.original)}>
               <ChatRoundedIcon sx={{ fontSize: "16px" }} />

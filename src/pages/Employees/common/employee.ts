@@ -12,6 +12,12 @@ export interface AddUserReqeustPayload {
   confirmPassword: string;
 }
 
+export interface IRole {
+  _id: string;
+  permissions: string[];
+  name: string;
+}
+
 export interface ILoggedInUser {
   user: IUser;
 }
@@ -21,7 +27,7 @@ export interface IUser {
   first_name: string;
   last_name: string;
   image?: string;
-  role?: string;
+  role?: IRole;
   status: string;
   job_title: string;
   phone: string;
