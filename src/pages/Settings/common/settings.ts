@@ -52,11 +52,26 @@ export interface Radius {
 export const locationRadiusLimit = [
   {
     id: 1,
+    radius: 10,
+    label: "10M",
+  },
+  {
+    id: 2,
+    radius: 20,
+    label: "20M",
+  },
+  {
+    id: 3,
+    radius: 30,
+    label: "30M",
+  },
+  {
+    id: 4,
     radius: 50,
     label: "50M",
   },
   {
-    id: 2,
+    id: 5,
     radius: 100,
     label: "100M",
   },

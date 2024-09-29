@@ -166,7 +166,11 @@ const MapLocation = ({
               address,
             };
             onMarkerClick?.(radius);
-            showToast({ message: "Location set", type: "success" }); // Tooltip notification
+            showToast({
+              message: "Location set",
+              type: "success",
+              toastId: "location",
+            }); // Tooltip notification
           } else {
             console.error("Geocoder failed due to:", status);
           }

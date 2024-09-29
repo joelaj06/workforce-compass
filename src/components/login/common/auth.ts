@@ -1,3 +1,5 @@
+import { IRole } from "../../../pages/Employees/common/employee";
+
 export interface ILoginRequestPayload {
   email: string;
   password: string;
@@ -8,7 +10,7 @@ export interface ILoginResponse {
   first_name: string;
   last_name: string;
   image?: string;
-  role: string;
+  role: IRole;
   status: string;
   job_title: string;
   phone: string;

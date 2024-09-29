@@ -3,9 +3,11 @@ import { Bounce, toast } from "react-toastify";
 export const showToast = ({
   message,
   type,
+  toastId,
 }: {
   message: string;
   type: "success" | "error" | "info";
+  toastId?: string;
 }) =>
   type === "success"
     ? toast.success(message, {
@@ -17,6 +19,7 @@ export const showToast = ({
         draggable: true,
         progress: undefined,
         theme: "colored",
+        toastId: toastId,
         transition: Bounce,
       })
     : type === "error"

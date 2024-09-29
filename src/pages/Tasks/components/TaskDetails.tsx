@@ -85,35 +85,41 @@ const TaskDetails = ({
     setComments([]);
   };
 
-  const updateTaskLocation = async () => {
+  // const updateTaskLocation = async () => {
+  //   const newLocation: ILocation = {
+  //     ...location,
+  //     radius: organization.radius.radius,
+  //   };
+
+  //   const payload: ITaskRequestPayload = {
+  //     id: task._id,
+  //     title: title,
+  //     description: description,
+  //     due_date: dueDate,
+  //     location: newLocation,
+  //   };
+
+  //   const res = await updateTask(payload);
+  //   if (res && res.data) {
+  //     // showToast({ message: "Task updated successfully", type: "success" });
+  //   } else {
+  //     const error = res.error as IErrorData;
+  //     showToast({ message: error.data.message, type: "error" });
+  //   }
+  // };
+  const onTaskUpdate = async () => {
     const newLocation: ILocation = {
       ...location,
       radius: organization.radius.radius,
     };
-
-    const payload: ITaskRequestPayload = {
-      id: task._id,
-      title: title,
-      description: description,
-      due_date: dueDate,
-      location: newLocation,
-    };
-
-    const res = await updateTask(payload);
-    if (res && res.data) {
-      // showToast({ message: "Task updated successfully", type: "success" });
-    } else {
-      const error = res.error as IErrorData;
-      showToast({ message: error.data.message, type: "error" });
-    }
-  };
-  const onTaskUpdate = async () => {
+    console.log("new location", newLocation);
     const payload: ITaskRequestPayload = {
       id: task._id,
       title: title,
       description: description,
       due_date: dueDate,
       start_date: startDate,
+      location: newLocation,
     };
 
     const res = await updateTask(payload);
@@ -152,9 +158,9 @@ const TaskDetails = ({
     setLocation(task.location);
   }, []);
 
-  useEffect(() => {
-    onTaskUpdate();
-  }, [dueDate]);
+  // useEffect(() => {
+  //   onTaskUpdate();
+  // }, [dueDate]);
 
   const now = Date.now();
   const date = dueDate ? new Date(dueDate ?? now) : null;
@@ -165,7 +171,7 @@ const TaskDetails = ({
     setLocation(location);
     setAddress(location.address);
     console.log(location, address);
-    updateTaskLocation(); // Update the address
+    // updateTaskLocation(); // Update the address
   };
 
   const CustomDateInput = forwardRef(
@@ -192,9 +198,9 @@ const TaskDetails = ({
             hideBorder={true}
             // label="Title"
             onChange={onTitleChanged}
-            onBlur={() => {
-              if (task.title !== title) onTaskUpdate();
-            }}
+            // onBlur={() => {
+            //   if (task.title !== title) onTaskUpdate();
+            // }}
           />
 
           <CustomInputField
@@ -207,9 +213,9 @@ const TaskDetails = ({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setDescription(e.target.value)
             }
-            onBlur={() => {
-              if (task.description !== description) onTaskUpdate();
-            }}
+            // onBlur={() => {
+            //   if (task.description !== description) onTaskUpdate();
+            // }}
           />
         </div>
         <div>
@@ -319,9 +325,9 @@ const TaskDetails = ({
               <div className="border p-1 rounded flex flex-row gap-1">
                 <DatePicker
                   selected={startNewDate}
-                  onSelect={(date) => {
-                    if (date) onTaskUpdate();
-                  }}
+                  // onSelect={(date) => {
+                  //   if (date) onTaskUpdate();
+                  // }}
                   onChange={(date) => setStartDate(date?.toISOString() ?? "")}
                   customInput={
                     <CustomDateInput value={"Not Set"} onClick={() => {}} />
@@ -337,9 +343,9 @@ const TaskDetails = ({
               <div className="border p-1 rounded flex flex-row gap-1">
                 <DatePicker
                   selected={date}
-                  onSelect={(date) => {
-                    if (date) onTaskUpdate();
-                  }}
+                  // onSelect={(date) => {
+                  //   if (date) onTaskUpdate();
+                  // }}
                   onChange={(date) => setDuedate(date?.toISOString() ?? "")}
                   customInput={
                     <CustomDateInput value={"Not Set"} onClick={() => {}} />
@@ -385,11 +391,21 @@ const TaskDetails = ({
               btnHeight="small"
               // minWidth="fit-content"
               btnWidth="80px"
+              // bgColor="red"
+              // hoverBgColor="red"
+              onClick={onTaskUpdate}
+            >
+              <span className="capitalize">Update Task</span>
+            </ButtonComponent>
+            <ButtonComponent
+              btnHeight="small"
+              minWidth="fit-content"
+              btnWidth="80px"
               bgColor="red"
               hoverBgColor="red"
               onClick={onTaskDeleted}
             >
-              Delete Task
+              <span className="capitalize">Delete Task</span>
             </ButtonComponent>
           </div>
         </>

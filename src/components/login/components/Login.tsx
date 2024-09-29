@@ -34,6 +34,14 @@ const Login = () => {
     try {
       const response = await login(data);
       if (response && response.data) {
+        if (response.data.role.name.toLowerCase() !== "system administrator") {
+          showToast({
+            message:
+              "You are not authorized to access this page. Please contanct the adminstrator..",
+            type: "error",
+          });
+          return;
+        }
         storeAccessToken(response.data);
         showToast({ message: "Login Successful", type: "success" });
         setTimeout(() => {
